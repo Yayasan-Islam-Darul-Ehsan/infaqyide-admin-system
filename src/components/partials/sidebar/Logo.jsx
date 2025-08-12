@@ -5,6 +5,7 @@ import useDarkMode from "@/hooks/useDarkMode";
 import useSidebar from "@/hooks/useSidebar";
 import useSemiDark from "@/hooks/useSemiDark";
 import useSkin from "@/hooks/useSkin";
+import { useSelector } from "react-redux";
 
 const SidebarLogo = ({ menuHover }) => {
   
@@ -12,6 +13,8 @@ const SidebarLogo = ({ menuHover }) => {
   	const [collapsed, setMenuCollapsed] = useSidebar();
   	const [isSemiDark] 					= useSemiDark();
   	const [skin] 						= useSkin();
+
+	const { user } = useSelector((user) => user.auth)
 	
 	return (
 		<div className={` logo-segment flex justify-between items-center bg-white dark:bg-slate-800 z-[9] py-6 px-4${menuHover ? "" : ""}
@@ -27,7 +30,7 @@ const SidebarLogo = ({ menuHover }) => {
 
 			{(!collapsed || menuHover) && (
 				<div>
-					<h1 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Pengurusan</h1>
+					<h1 className="text-sm font-semibold text-slate-900 dark:text-slate-100">{user.role}</h1>
 				</div>
 			)}
 			</div>
