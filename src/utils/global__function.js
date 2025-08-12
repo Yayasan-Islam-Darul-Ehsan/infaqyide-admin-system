@@ -15,7 +15,7 @@ let bad_respnse = {
 
 const GET__ENV = () => {
     if(process.env.NODE_ENV === "development") {
-        return "http://127.0.0.1:2245/admin/"
+        return "http://localhost:30001/admin/"
     }
     else if(process.env.NODE_ENV === "demo") {
         return "https://cp-api-demo.al-jariyah.com/admin/"
@@ -24,7 +24,7 @@ const GET__ENV = () => {
         return "https://cp-api.al-jariyah.com/admin/"
     }
     else {
-        return "http://127.0.0.1:1122/admin/"
+        return "http://localhost:30001/admin/"
     }
 }
 

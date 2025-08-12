@@ -28,15 +28,7 @@ const CalenderPage 			= lazy(() => import("./pages/app/calendar"));
 import Layout from "./layout/Layout";
 import AuthLayout from "./layout/AuthLayout";
 import Loading from "@/components/Loading";
-import InfoMaklumatKariah from "./pages/maklumat-kariah/Info";
-import RegistrationAhliKariah from "./pages/maklumat-kariah/Registration";
-import InfoBerjaya from "./pages/maklumat-kariah/InfoBerjaya";
-import InfoMaklumatKeluargaKariah from "./pages/maklumat-keluarga/Info";
-import InfoMembershipKariah from "./pages/membership-kariah/Info";
-import PaymentMembershipkariah from "./pages/membership-kariah/Payment";
-import ReceiptPaymentMembershipKariah from "./pages/membership-kariah/Receipt";
-import ListTransaksiBayaran from "./pages/transaksi/List";
-import TransactionDetail from "./pages/transaksi/Detail";
+
 import Login from "./pages/auth/login";
 import Register from "./pages/auth/register";
 import SenaraiKariah from "./pages/Pengurusan/Kariah/SenaraiKariah";
@@ -49,15 +41,13 @@ import MaklumatTransaksi from "./pages/Pengurusan/TransaksiBayaranKeahlian/Maklu
 import MaklumatBayaranKhairatKematian from "./pages/Pengurusan/BayaranKhairatKematian/MaklumatBayaranKhairatKematian";
 import BayarKhairatKematian from "./pages/Pengurusan/BayaranKhairatKematian/BayarKhairatKematian";
 import PendaftaranAsset from "./pages/asset/PendaftaranAsset";
-import SenaraiAsset from "./pages/asset/SenaraiAsset";
 import PermohonanPelupusanAsset from "./pages/asset/PermintaanPelupusanAsset";
 import PermohonanPemerolehanAsset from "./pages/asset/PermohonanPemerolehanAsset";
 import InventoriAsset from "./pages/asset/InventoriAsset";
 import SenaraiYuran from "./pages/Pengurusan/Yuran/SenaraiYuran";
 import MaklumatYuran from "./pages/Pengurusan/Yuran/MaklumatYuran";
 import CreateYuran from "./pages/Pengurusan/Yuran/CreateYuran";
-import BakiBank from "./pages/Pengurusan/Kewangan/BakiBankTerkini/BakiBank/BakiBankSemasa";
-import BakiSimpananTetap from "./pages/Pengurusan/Kewangan/BakiBankTerkini/BakiSimpananTetap/BakiSimpananTetap";
+
 import KemaskiniBakiBank from "./pages/Pengurusan/Kewangan/BakiBankTerkini/KemaskiniBakiBank/KemaskiniBakiBank";
 import KemaskiniBakiTetap from "./pages/Pengurusan/Kewangan/BakiBankTerkini/KemaskiniBakiTetap/KemaskiniBakiTetap";
 import SettingBank from "./pages/Pengurusan/Kewangan/BakiBankTerkini/SettingBank/SettingBank";
@@ -103,24 +93,6 @@ import PengeluaranKredit from "./pages/pengeluaran/index";
 import TransaksiInstitusi from "./pages/TransaksiInstitusi/senarai-transaksi";
 import TransaksiDetailsInstitusi from "./pages/TransaksiInstitusi/DetailsTransaksi";
 
-
-
-// import MaklumatInstitusi from "./pages/maklumat-institusi/MaklumatInstitusi";
-// import MaklumatBankInstitusi from "./pages/maklumat-bank-institusi/MaklumatBankInstitusi";
-// import TambahMaklumatPerbankan from "./pages/maklumat-bank-institusi/TambahMaklumatPerbankan";
-// import SenaraiTabung from "./pages/maklumat-tabung/SenaraiTabung";
-// import TambahBankSimpananTetap from "./pages/Pengurusan/Kewangan/BakiBankTerkini/BakiSimpananTetap/TambahBankSimpananTetap";
-// import MaklumatBankSimpananTetap from "./pages/Pengurusan/Kewangan/BakiBankTerkini/BakiSimpananTetap/MaklumatBankSimpananTetap";
-// import TambahTransaksi from "./pages/Pengurusan/Kewangan/BakiBankTerkini/BakiSimpananTetap/TambahTransaksi";
-// import TambahBankSemasa from "./pages/Pengurusan/Kewangan/BakiBankTerkini/BakiBank/TambahBankSemasa";
-// import MaklumatBankSemasa from "./pages/Pengurusan/Kewangan/BakiBankTerkini/BakiBank/MaklumatBankSemasa";
-// import TambahTransaksiBankSemasa from "./pages/Pengurusan/Kewangan/BakiBankTerkini/BakiBank/TambahTransaksiBankSemasa";
-// import SenaraiBankSemasa from "./pages/Pengurusan/Kewangan/BakiBankTerkini/BakiBank/SenaraiBankSemasa";
-// import SenaraiBankSimpananTetap from "./pages/Pengurusan/Kewangan/BakiBankTerkini/BakiSimpananTetap/SenaraiBankSimpananTetap";
-// import SenaraiTransaksiPenerimaan from "./pages/Pengurusan/Kewangan/Penerimaan/SenaraiTransaksiPenerimaan";
-// import InformasiAsset from "./pages/asset/InformasiAsset";
-// import BorangPenyelenggaraanAsset from "./pages/asset/BorangPenyelenggaraanAsset";
-// import SenaraiLokasi from "./pages/asset/SenaraiLokasi";
 import TambahTabung from "./pages/maklumat-tabung/TambahTabung";
 import MaklumatTabung from "./pages/maklumat-tabung/MaklumatTabung";
 import SenaraiAJK from "./pages/maklumat-ajk/SenaraiAJK";
@@ -129,9 +101,7 @@ import MaklumatAJK from "./pages/maklumat-ajk/MaklumatAJK";
 import SenaraiKempen from "./pages/maklumat-kempen/SenaraiKempen";
 import TambahKempen from "./pages/maklumat-kempen/TambahKempen";
 import Maklumatkempen from "./pages/maklumat-kempen/Maklumatkempen";
-// import SenaraiTransaksiPerbelanjaan from "./pages/Pengurusan/Kewangan/Perbelanjaan/SenaraiTransaksiPerbelanjaan";
-// import MaklumatPanjarWangRuncit from "./pages/panjar-wang-runcit/MaklumatPanjarWangRuncit";
-// import TambahTransaksiPanjarWangRuncit from "./pages/panjar-wang-runcit/TambahTransaksiPanjarWangRuncit";
+
 import MaklumatAset from "./pages/asset/MaklumatAset";
 import RekodPemerolehanAset from "./pages/asset/RekodPemerolehanAset";
 import MaklumatPemerolehanAset from "./pages/asset/MaklumatPemerolehanAset";
@@ -153,8 +123,16 @@ import TambahRekodPerbelanjaan from "./pages/Pengurusan/Kewangan/Perbelanjaan/Ta
 import MaklumatTransaksiPenerimaan from "./pages/Pengurusan/Kewangan/Penerimaan/MaklumatTransaksiPenerimaan";
 import MaklumatTransaksiPerbelanjaan from "./pages/Pengurusan/Kewangan/Perbelanjaan/MaklumatTransaksiPerbelanjaan";
 
+import SenaraiPengguna from "./pages/superadmin/pengurusan-pengguna/SenaraiPengguna";
+import { useAuth } from "./context/AuthContext";
+import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
+
 
 function App() {
+
+	let { user } = useSelector((user) => user.auth)
+
 	return (
 		<main className="App relative">
 		<ModalProvider>
@@ -172,6 +150,16 @@ function App() {
 			<Route path="/resit" element={<TopupResit />} />
 
 			<Route path="/*" element={<Layout />}>
+
+				{
+					user && user.role === "Super Admin" && (
+						<Route path="pengurusan">
+							<Route path="pengurusan-pengguna" element={<SenaraiPengguna />} />
+							<Route path="pengurusan-transaksi" element={<SenaraiTransaksi />} />
+						</Route>
+					)
+				}
+
 				<Route path="dashboard" element={<CrmPage />} />
 
 				{/* * * * * * * * * * * Maklumat Institusi * * * * * * * * * * */}

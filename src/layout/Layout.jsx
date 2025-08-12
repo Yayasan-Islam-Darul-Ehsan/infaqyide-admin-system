@@ -43,25 +43,36 @@ const Layout = () => {
 			sessionStorage.clear()
 			sessionStorage.removeItem("_aT")
 			sessionStorage.removeItem("user")
+			sessionStorage.removeItem("token")
+
+			localStorage.clear()
+			localStorage.removeItem("_aT")
+			localStorage.removeItem("user")
+			localStorage.removeItem("token")
 			window.location.href = "/"
 		}
 		else {
-			auht__token()
+			auth()
 		}
 	}, [user, navigate]);
 
-	const auht__token = async () => {
+	const auth = async () => {
 		let api = await API("auth-token", {}, "GET", true)
 		if(api.status_code === 200) {
-
 			sessionStorage.setItem("user", JSON.stringify(api.data))
+			localStorage.setItem("user", JSON.stringify(api.data))
 			useDispatch(setUser(api.data))
-
 		} else {
 
 			sessionStorage.clear()
 			sessionStorage.removeItem("_aT")
 			sessionStorage.removeItem("user")
+			sessionStorage.removeItem("token")
+
+			localStorage.clear()
+			localStorage.removeItem("_aT")
+			localStorage.removeItem("user")
+			localStorage.removeItem("token")
 
 			sessionStorage.setItem("previous_menu", window.location.pathname)
 

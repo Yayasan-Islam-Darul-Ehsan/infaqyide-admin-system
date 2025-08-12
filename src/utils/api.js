@@ -15,7 +15,7 @@ let bad_respnse = {
 
 const GET__ENV = () => {
     if(process.env.NODE_ENV === "development") {
-        return "http://127.0.0.1:2245/admin/"
+        return "http://localhost:30001/admin/"
     }
     else if(process.env.NODE_ENV === "demo") {
         return "https://cp-api-demo.al-jariyah.com/admin/"
@@ -24,7 +24,7 @@ const GET__ENV = () => {
         return "https://cp-api.al-jariyah.com/admin/"
     }
     else {
-        return "http://127.0.0.1:1122/admin/"
+        return "http://localhost:30001/admin/"
     }
 }
 
@@ -35,7 +35,7 @@ export const API = async (name = "", body = null, method = "POST", auth = true )
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     if(auth === true) {
-        let token = sessionStorage.getItem("_aT")
+        let token = sessionStorage.getItem("token")
         myHeaders.append("token", token)
     }
 
@@ -68,6 +68,7 @@ export const API = async (name = "", body = null, method = "POST", auth = true )
 
             if(a.status_code === 401) {
                 sessionStorage.clear()
+                localStorage.clear()
                 window.location.href = "/"
             }
         })

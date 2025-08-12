@@ -44,3 +44,8 @@ README.txt
 
 # typescript
 *.tsbuildinfo
+
+# env files
+.env.development
+.env.production
+.env.staging

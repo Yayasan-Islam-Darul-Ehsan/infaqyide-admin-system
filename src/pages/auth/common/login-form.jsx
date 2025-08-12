@@ -67,6 +67,7 @@ const LoginForm = () => {
 				sessionStorage.clear()
 
 				window.sessionStorage.setItem("_aT", api.data.token)
+				window.sessionStorage.setItem("token", api.data.token)
 				window.sessionStorage.setItem("user", JSON.stringify(api.data.user))
 				dispatch(setUser(api.data.user))
 

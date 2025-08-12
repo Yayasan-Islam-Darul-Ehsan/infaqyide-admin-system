@@ -6,7 +6,7 @@ import Loading from "@/components/Loading";
 const AuthLayout = () => {
 
   	const navigate 		= useNavigate();
-	const token 		= window.sessionStorage.getItem("_aT")
+	const token 		= window.sessionStorage.getItem("token")
 
 	useEffect(() => {
     	if (token) {
