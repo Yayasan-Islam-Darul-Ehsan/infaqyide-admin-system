@@ -21,13 +21,13 @@ const SidebarLogo = ({ menuHover }) => {
 			<div className="flex items-center">
 			<div className="logo-icon">
 				{!isDark && !isSemiDark ? (
-				<img src={"https://play-lh.googleusercontent.com/Eg3F9LWGFQPK2EQAyVzbpunhM24FXLGpFgzlqkA-SnwD65l4pX5MKrqDAFwuFsTXdws"} 	alt="" className="w-[70px] h-[70px]"/> ) : 
-				(<img src={"https://play-lh.googleusercontent.com/Eg3F9LWGFQPK2EQAyVzbpunhM24FXLGpFgzlqkA-SnwD65l4pX5MKrqDAFwuFsTXdws"}	alt="" className="w-[70px] h-[70px]"/>)}
+				<img src={"https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/89/80/fe/8980fe8a-9e65-d611-b7b9-9be5d186d4b3/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/230x0w.webp"} 	alt="" className="w-[70px] h-[70px]"/> ) : 
+				(<img src={"https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/89/80/fe/8980fe8a-9e65-d611-b7b9-9be5d186d4b3/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/230x0w.webp"}	alt="" className="w-[70px] h-[70px]"/>)}
 			</div>
 
 			{(!collapsed || menuHover) && (
 				<div>
-					<h1 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Pengurusan Institusi</h1>
+					<h1 className="text-sm font-semibold text-slate-900 dark:text-slate-100">Pengurusan</h1>
 				</div>
 			)}
 			</div>
