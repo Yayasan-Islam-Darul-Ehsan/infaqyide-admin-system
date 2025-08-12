@@ -28,9 +28,81 @@ const GET__ENV = () => {
     }
 }
 
+const GET__ENV2 = () => {
+    if(process.env.NODE_ENV === "development") {
+        return "http://localhost:30001/sysadmin/"
+    }
+    else if(process.env.NODE_ENV === "demo") {
+        return "https://cpdemo.infaqyide.xyz/sysadmin/"
+    }
+    else if(process.env.NODE_ENV === "production") {
+        return "https://cp.infaqyide.com.my/sysadmin/"
+    }
+    else {
+        return "http://localhost:30001/sysadmin/"
+    }
+}
+
 export const API = async (name = "", body = null, method = "POST", auth = true ) => {
 
     let base_url = GET__ENV()
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    if(auth === true) {
+        let token = sessionStorage.getItem("token")
+        myHeaders.append("token", token)
+    }
+
+    let response    = bad_respnse
+    let config      = {}
+
+    if(method === "POST") {
+        config = {
+            method: method,
+            headers: myHeaders,
+            body: JSON.stringify(body),
+            redirect: 'follow',
+            //mode: 'no-cors'
+        }
+    }
+    else if(method === "GET") {
+        config = {
+            method: method,
+            headers: myHeaders,
+            //mode: 'no-cors'
+        }
+    }
+
+    try {
+
+        await fetch(base_url + name, config)
+        .then(res => res.json())
+        .then(a => {
+            response = a
+
+            if(a.status_code === 401) {
+                sessionStorage.clear()
+                localStorage.clear()
+                window.location.href = "/"
+            }
+        })
+        .catch(e => {
+            response = e
+        })
+        
+    } catch (e) {
+        console.log("Syntax error while executing API : ", e)
+        response = bad_respnse
+    }
+
+    return response
+
+}
+
+export const SYSADMIN_API = async (name = "", body = null, method = "POST", auth = true ) => {
+
+    let base_url = GET__ENV2()
 
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
