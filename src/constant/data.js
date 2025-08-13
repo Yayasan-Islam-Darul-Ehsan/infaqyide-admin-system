@@ -14,6 +14,11 @@ export const SuperAdminMenu = [
         link: "pengurusan/pengurusan-pengguna",
     },
 	{
+        title: "Pengurusan Institusi",
+        icon: "heroicons-outline:building-library",
+        link: "pengurusan/pengurusan-institusi",
+    },
+	{
         title: "Pengurusan Transaksi",
         icon: "heroicons-outline:document-text",
         link: "pengurusan/pengurusan-transaksi",

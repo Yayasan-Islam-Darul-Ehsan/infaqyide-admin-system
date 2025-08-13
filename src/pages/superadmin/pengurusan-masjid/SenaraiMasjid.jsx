@@ -13,7 +13,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-function SenaraiPengguna() {
+function SenaraiMasjid() {
 
     const [data, set_data] = useState({
         row: [],
@@ -59,7 +59,7 @@ function SenaraiPengguna() {
 
     return (
         <div>
-            <HomeBredCurbs title={"Senarai Pengguna Berdaftar InfaqYIDE"} />
+            <HomeBredCurbs title={"Senarai Institusi Berdaftar InfaqYIDE"} />
 
             <section className='mt-6'>
                 <Card title={"Senarai Pengguna"} subtitle={"Klik pada senarai pengguna di bawah untuk melihat maklumat terperinci."}>
@@ -169,4 +169,4 @@ function SenaraiPengguna() {
     )
 }
 
-export default SenaraiPengguna
+export default SenaraiMasjid

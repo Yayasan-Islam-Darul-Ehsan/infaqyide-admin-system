@@ -100,8 +100,9 @@ function MaklumatTransaksiSumbangan() {
                                 <Textinput 
                                 label={"Jenis Transaksi"}
                                 placeholder='Contoh: Infaq'
-                                defaultValue={maklumat_transaksi.billpayment_type}
+                                defaultValue={maklumat_transaksi.billpayment_type.replace("-", " ")}
                                 disabled={true}
+                                className='capitalize'
                                 />
                                 <Textinput 
                                 label={"Jumlah Transaksi (RM)"}
@@ -147,7 +148,11 @@ function MaklumatTransaksiSumbangan() {
                                         <>
                                         <div className='flex flex-col justify-center items-center space-y-3'>
                                             <div>
-                                                <img src={maklumat_transaksi.organizationImage} alt="" srcset="" className='w-[100px] h-[100px] rounded-full shadow-lg' />
+                                                <img 
+                                                    src={maklumat_transaksi.organizationImage} 
+                                                    className='w-[100px] h-[100px] rounded-full shadow-lg' 
+                                                    onError={e => e.target.src = "https://cdn-icons-png.flaticon.com/128/2849/2849779.png"}
+                                                />
                                             </div>
                                             <div className='mt-3'>
                                                 <p className='font-semibold text-lg text-black-500 text-center'>{maklumat_transaksi.organizationName}</p>
@@ -169,19 +174,19 @@ function MaklumatTransaksiSumbangan() {
                                 <Textinput 
                                 label={"Nama Pembayar"}
                                 placeholder='Contoh: Zahari Azar'
-                                defaultValue={maklumat_transaksi.account_fullname || maklumat_transaksi.account_username}
+                                defaultValue={maklumat_transaksi.account_fullname || maklumat_transaksi.account_username || maklumat_transaksi.billpayment_payorName}
                                 disabled={true}
                                 />
                                 <Textinput 
                                 label={"E-mel Pembayar"}
                                 placeholder='Contoh: zahari18988293@email.com'
-                                defaultValue={maklumat_transaksi.account_email || '-- tiada maklumat --'}
+                                defaultValue={maklumat_transaksi.account_email || maklumat_transaksi.billpayment_payorEmail || '-- tiada maklumat --'}
                                 disabled={true}
                                 />
                                 <Textinput 
                                 label={"No. Telefon Pembayar"}
                                 placeholder='Contoh: 0123456789'
-                                defaultValue={maklumat_transaksi.account_phone || '-- tiada maklumat --'}
+                                defaultValue={maklumat_transaksi.account_phone || maklumat_transaksi.billpayment_payorPhone || '-- tiada maklumat --'}
                                 disabled={true}
                                 />
                             </div>    
