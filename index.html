@@ -1,46 +1,42 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/89/80/fe/8980fe8a-9e65-d611-b7b9-9be5d186d4b3/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/230x0w.webp" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" href="https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/89/80/fe/8980fe8a-9e65-d611-b7b9-9be5d186d4b3/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/230x0w.webp" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
-      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
-      crossorigin=""
-    />
-    <title>Aplikasi InfaqYIDE - Selamat datang ke sistem pengurusan aplikasi InfaqYIDE</title>
-  </head>
-  <style>
-    /* Chrome, Safari, Edge, Opera */
-    input[type="number"]::-webkit-inner-spin-button,
-    input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" type="image/svg+xml" href="https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/89/80/fe/8980fe8a-9e65-d611-b7b9-9be5d186d4b3/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/230x0w.webp"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" href="https://is1-ssl.mzstatic.com/image/thumb/Purple112/v4/89/80/fe/8980fe8a-9e65-d611-b7b9-9be5d186d4b3/AppIcon-0-0-1x_U007emarketing-0-0-0-7-0-0-sRGB-0-0-0-GLES2_U002c0-512MB-85-220-0-0.png/230x0w.webp"/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+		<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Manrope:wght@200..800&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin=""/>
+		<title>Aplikasi InfaqYIDE - Selamat datang ke sistem pengurusan aplikasi InfaqYIDE</title>
+	</head>
+	<style>
+		/* Chrome, Safari, Edge, Opera */
+		input[type="number"]::-webkit-inner-spin-button,
+		input[type="number"]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		margin: 0;
+		}
 
-    /* Firefox */
-    input[type="number"] {
-        -moz-appearance: textfield;
-    }
+		/* Firefox */
+		input[type="number"] {
+		-moz-appearance: textfield;
+		}
 
-    /* Optional: Make input look consistent across browsers */
-    .no-spinner {
-        width: 200px;
-        padding: 5px;
-        font-size: 16px;
-    }
-  </style>
-  <body class="font-inter bg-[#EEF1F9] custom-tippy dashcode-app">
-    <div id="root" class="h-full"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+		/* Optional: Make input look consistent across browsers */
+		.no-spinner {
+		width: 200px;
+		padding: 5px;
+		font-size: 16px;
+		}
+	</style>
+	<body class="font-inter bg-[#EEF1F9] custom-tippy dashcode-app">
+		<div id="root" class="h-full"></div>
+		<script type="module" src="/src/main.jsx"></script>
+	</body>
 </html>

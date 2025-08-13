@@ -28,7 +28,7 @@ const Header = ({ className = "custom-class" }) => {
 		case "floating":
 			return "floating  has-sticky-header";
 		case "sticky":
-			return "sticky top-0 z-[999]";
+			return "sticky top-0 z-[0]";
 		case "static":
 			return "static";
 		case "hidden":
@@ -55,7 +55,7 @@ const Header = ({ className = "custom-class" }) => {
 	return (
 		<header className={className + " " + navbarTypeClass()}>
 		<div
-			className={` app-header md:px-6 px-[15px]  dark:bg-slate-800 shadow-base dark:shadow-base3 bg-white
+			className={` app-header md:px-6 px-[15px]dark:bg-slate-800 shadow-base dark:shadow-base3 bg-white
 			${borderSwicthClass()}
 			${menuType === "horizontal" && width > breakpoints.xl ? "py-1" : "md:py-6 py-3"}`}
 		>

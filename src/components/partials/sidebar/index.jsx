@@ -1,17 +1,19 @@
 import React, { useRef, useEffect, useState } from "react";
 import SidebarLogo from "./Logo";
 import Navmenu from "./Navmenu";
-import { menuItems } from "@/constant/data";
+import { menuItems, SuperAdminMenu } from "@/constant/data";
 import SimpleBar from "simplebar-react";
 import useSidebar from "@/hooks/useSidebar";
 import useSemiDark from "@/hooks/useSemiDark";
 import useSkin from "@/hooks/useSkin";
 import svgRabitImage from "@/assets/images/svg/rabit.svg";
+import { useSelector } from "react-redux";
 
 const Sidebar = () => {
   
 	const scrollableNodeRef 	= useRef();
 	const [scroll, setScroll] 	= useState(false);
+	const { user } = useSelector(user => user.auth)
 
 	useEffect(() => {
 		const handleScroll = () => {
@@ -43,10 +45,10 @@ const Sidebar = () => {
 			onMouseLeave={() => { setMenuHover(false)}}
 		>
 			<SidebarLogo menuHover={menuHover} />
-			<div className={`h-[60px] absolute top-[80px] nav-shadow z-[1] w-full transition-all duration-200 pointer-events-none ${ scroll ? " opacity-100" : " opacity-0"}`}></div>
+			<div className={`h-[60px] absolute top-[80px] nav-shadow z-[0] w-full transition-all duration-200 pointer-events-none ${ scroll ? " opacity-100" : " opacity-0"}`}></div>
 
 			<SimpleBar className="sidebar-menu px-4 h-[calc(100%-150px)]" scrollableNodeProps={{ ref: scrollableNodeRef }}>
-				<Navmenu menus={menuItems} />
+				<Navmenu menus={user.role === "Super Admin" ? SuperAdminMenu : menuItems} />
 			</SimpleBar>
 
 			{/* <div className="my-12"></div> */}

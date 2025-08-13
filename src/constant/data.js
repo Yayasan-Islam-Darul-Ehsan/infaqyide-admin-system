@@ -1,3 +1,25 @@
+export const SuperAdminMenu = [
+	{
+        isHeadr: true,
+        title: "Paparan Utama",
+    },
+    {
+        title: "Paparan Utama",
+        icon: "heroicons-outline:home",
+        link: "dashboard",
+    },
+	{
+        title: "Pengurusan Pengguna",
+        icon: "heroicons-outline:users",
+        link: "pengurusan/pengurusan-pengguna",
+    },
+	{
+        title: "Pengurusan Transaksi",
+        icon: "heroicons-outline:document-text",
+        link: "pengurusan/pengurusan-transaksi",
+    },
+]
+
 export const menuItems = [
     {
         isHeadr: true,
@@ -7,6 +29,11 @@ export const menuItems = [
         title: "Paparan Utama",
         icon: "heroicons-outline:home",
         link: "dashboard",
+    },
+	{
+        title: "Pengurusan Pengguna",
+        icon: "heroicons-outline:users",
+        link: "pengurusan/pengurusan-pengguna",
     },
     {
         isHeadr: true,

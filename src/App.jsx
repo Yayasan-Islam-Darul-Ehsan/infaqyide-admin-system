@@ -36,7 +36,9 @@ import MaklumatKariah from "./pages/Pengurusan/Kariah/MaklumatKariah";
 import SenaraiPengesahanKariah from "./pages/Pengurusan/PengesahanKariah/SenaraiPengesahanKariah";
 import { ModalProvider } from "./components/ui/SuperModal";
 import SenaraiBayaranKhairatKematian from "./pages/Pengurusan/BayaranKhairatKematian/SenaraiBayaranKhairatKematian";
+
 import SenaraiTransaksi from "./pages/Pengurusan/TransaksiBayaranKeahlian/SenaraiTransaksi";
+
 import MaklumatTransaksi from "./pages/Pengurusan/TransaksiBayaranKeahlian/MaklumatTransaksi";
 import MaklumatBayaranKhairatKematian from "./pages/Pengurusan/BayaranKhairatKematian/MaklumatBayaranKhairatKematian";
 import BayarKhairatKematian from "./pages/Pengurusan/BayaranKhairatKematian/BayarKhairatKematian";
@@ -127,6 +129,9 @@ import SenaraiPengguna from "./pages/superadmin/pengurusan-pengguna/SenaraiPengg
 import { useAuth } from "./context/AuthContext";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
+import MaklumatPengguna from "./pages/superadmin/pengurusan-pengguna/MaklumatPengguna";
+import SenaraiTransaksiKeseluruhan from "./pages/superadmin/pengurusan-transaksi/SenaraiTransaksi";
+import MaklumatTransaksiSumbangan from "./pages/superadmin/pengurusan-transaksi/MaklumatTransaksi";
 
 
 function App() {
@@ -155,7 +160,10 @@ function App() {
 					user && user.role === "Super Admin" && (
 						<Route path="pengurusan">
 							<Route path="pengurusan-pengguna" element={<SenaraiPengguna />} />
-							<Route path="pengurusan-transaksi" element={<SenaraiTransaksi />} />
+							<Route path="maklumat-pengguna" element={<MaklumatPengguna />} />
+
+							<Route path="pengurusan-transaksi" element={<SenaraiTransaksiKeseluruhan />} />
+							<Route path="maklumat-transaksi" element={<MaklumatTransaksiSumbangan />} />
 						</Route>
 					)
 				}

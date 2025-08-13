@@ -63,14 +63,20 @@ export const API = async (name = "", body = null, method = "POST", auth = true )
             headers: myHeaders,
             body: JSON.stringify(body),
             redirect: 'follow',
-            //mode: 'no-cors'
         }
     }
     else if(method === "GET") {
         config = {
             method: method,
             headers: myHeaders,
-            //mode: 'no-cors'
+        }
+    }
+    else {
+        config = {
+            method: method,
+            headers: myHeaders,
+            body: JSON.stringify(body),
+            redirect: 'follow',
         }
     }
 
@@ -120,14 +126,20 @@ export const SYSADMIN_API = async (name = "", body = null, method = "POST", auth
             headers: myHeaders,
             body: JSON.stringify(body),
             redirect: 'follow',
-            //mode: 'no-cors'
         }
     }
     else if(method === "GET") {
         config = {
             method: method,
             headers: myHeaders,
-            //mode: 'no-cors'
+        }
+    }
+    else {
+        config = {
+            method: method,
+            headers: myHeaders,
+            body: JSON.stringify(body),
+            redirect: 'follow',
         }
     }
 
