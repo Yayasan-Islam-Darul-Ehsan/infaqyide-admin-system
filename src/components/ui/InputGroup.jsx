@@ -47,10 +47,21 @@ const InputGroup = ({
         if (e.key === " ") {
             e.preventDefault();
         }
+
+        if(isNumberOnly) {
+            if(e.key != "Backspace" && e.key != "0" && e.key != "1" && e.key != "2" && e.key != "3" && e.key != "4" && e.key != "5" && e.key != "6" && e.key != "7" && e.key != "8" && e.key != "9") {
+                e.preventDefault()
+            }
+        }
     };
 
     const handleKeyDownAllowWhitespace = (e) => {
         // Prevent spacebar from being used
+        if(isNumberOnly) {
+            if(e.key != "Backspace" && e.key != "0" && e.key != "1" && e.key != "2" && e.key != "3" && e.key != "4" && e.key != "5" && e.key != "6" && e.key != "7" && e.key != "8" && e.key != "9") {
+                e.preventDefault()
+            }
+        }
     };
 
     return (
@@ -67,7 +78,7 @@ const InputGroup = ({
             {prepend && (
             <span className="flex-none input-group-addon">
                 <div className="input-group-text h-full bg-gray-200">
-                    <span className="form-label mb-0 lowercase">{prepend}</span>
+                    <span className="form-label mb-0">{prepend}</span>
                 </div>
             </span>
             )}

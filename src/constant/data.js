@@ -33,11 +33,11 @@ export const SuperAdminMenu = [
         child: [
 			{
 				childtitle: 'Pengguna',
-				childlink: 'pengurusan/kredit-pengguna'
+				childlink: 'pengurusan/akaun-kredit/pengguna'
 			},
 			{
 				childtitle: 'Institusi',
-				childlink: 'pengurusan/kredit-institusi'
+				childlink: 'pengurusan/akaun-kredit/institusi'
 			}
 		]
     },

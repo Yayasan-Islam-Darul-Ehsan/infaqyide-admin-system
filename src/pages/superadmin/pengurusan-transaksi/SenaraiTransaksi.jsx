@@ -140,7 +140,8 @@ function SenaraiTransaksiKeseluruhan() {
                                         <Table.Cell fontSize="small">
 											{item.billpayment_type === "Infaq" && <Badge className='bg-teal-50 border border-teal-100 text-teal-900'>Infaq Am</Badge>}
 											{item.billpayment_type === "Auto-infaq" && <Badge className='bg-blue-50 border border-blue-100 text-blue-900'>Auto Infaq</Badge>}
-											{item.billpayment_type === "Topup" && <Badge className='bg-purple-50 border border-purple-100 text-purple-900'>Infaq</Badge>}
+											{item.billpayment_type === "Topup" && <Badge className='bg-purple-50 border border-purple-100 text-purple-900'>Tambah Nilai</Badge>}
+                                            {item.billpayment_type === "Pay" && <Badge className='bg-purple-50 border border-purple-100 text-purple-900'>Bayaran Lain-lain</Badge>}
 										</Table.Cell>
 										<Table.Cell fontSize="small">{item.billpayment_invoiceNo}</Table.Cell>
 										<Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.billpayment_amount)}</Table.Cell>
