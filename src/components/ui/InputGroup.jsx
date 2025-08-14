@@ -4,37 +4,37 @@ import Cleave from "cleave.js/react";
 import "cleave.js/dist/addons/cleave-phone.us";
 
 const InputGroup = ({
-  type,
-  label,
-  placeholder,
-  classLabel = "form-label",
-  className = "",
-  classGroup = "",
-  register,
-  name,
-  readonly,
-  value,
-  error,
-  icon,
-  disabled,
-  id,
-  horizontal,
-  validate,
-  isMask,
-  msgTooltip,
-  description,
-  hasicon,
-  onChange,
-  merged,
-  append,
-  prepend,
-  options,
-  onFocus,
-  defaultValue,
-  required = false,
-  enableWhiteSpace = true,
-  isNumberOnly = false,
-  ...rest
+    type,
+    label,
+    placeholder,
+    classLabel = "form-label",
+    className = "",
+    classGroup = "",
+    register,
+    name,
+    readonly,
+    value,
+    error,
+    icon,
+    disabled,
+    id,
+    horizontal,
+    validate,
+    isMask,
+    msgTooltip,
+    description,
+    hasicon,
+    onChange,
+    merged,
+    append,
+    prepend,
+    options,
+    onFocus,
+    defaultValue,
+    required = false,
+    enableWhiteSpace = true,
+    isNumberOnly = false,
+    ...rest
 }) => {
 
     const [open, setOpen] = useState(false);
@@ -67,13 +67,13 @@ const InputGroup = ({
             {prepend && (
             <span className="flex-none input-group-addon">
                 <div className="input-group-text h-full bg-gray-200">
-                    <span className="form-label mb-0">{prepend}</span>
+                    <span className="form-label mb-0 lowercase">{prepend}</span>
                 </div>
             </span>
             )}
 
             <div className="flex-1">
-            <div className={`relative fromGroup2 ${error ? "has-error" : ""} ${validate ? "is-valid" : ""}`}>
+            <div className={`relative fromGroup2 ${error ? "has-error" : ""} ${validate ? "is-valid" : ""} lowercase`}>
                 {name && !isMask && (
                 <input
                     type={type === "password" && open === true ? "text" : type}

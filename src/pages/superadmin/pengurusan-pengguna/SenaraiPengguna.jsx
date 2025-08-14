@@ -70,8 +70,8 @@ function SenaraiPengguna() {
                             defaultValue={search}
                             placeholder='Carian pengguna infaqYIDE...'
                             onChange={e => {
-                                set_search(e)
-                                debouncedSearch(e)
+                                set_search(e.target.value)
+                                debouncedSearch(e.target.value)
                             }}
                             />
                             <Select 

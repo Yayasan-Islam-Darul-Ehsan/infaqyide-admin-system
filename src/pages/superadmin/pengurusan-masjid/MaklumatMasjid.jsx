@@ -1,0 +1,702 @@
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+import HomeBredCurbs from '@/pages/dashboard/HomeBredCurbs';
+import { useLocation, useNavigate } from 'react-router-dom';
+import Loading from '@/components/Loading';
+import { toast } from 'react-toastify';
+import { API, SYSADMIN_API } from '@/utils/api';
+import { NEGERI, POSTCODE } from '@/pages/asset/constant-senarai-negeri-dan-daerah';
+import Badge from '@/components/ui/Badge';
+import Modal from '@/components/ui/Modal';
+import Button from '@/components/ui/Button';
+import Select from '@/components/ui/Select';
+import Textinput from '@/components/ui/Textinput';
+import Card from '@/components/ui/Card';
+import { Spinner } from 'evergreen-ui';
+import Icons from '@/components/ui/Icon';
+import InputGroup from '@/components/ui/InputGroup';
+import moment from 'moment';
+import Textarea from '@/components/ui/Textarea';
+
+
+const MaklumatMasjid = () => {
+
+    const state                                         = useLocation().state
+    const navigate                                      = useNavigate()
+
+    const [masjid_id, set_masjid_id]                    = useState(state.organizationId)
+    const [masjid, set_masjid]                          = useState(null)
+    const [list_status_pengesahan, set_list_status_pengesahan] = useState([])
+
+    const [loading, set_loading]                        = useState(true)
+    const [loading_category, set_loading_category]      = useState(true)
+    const [loading_status, set_loading_status]          = useState([])
+
+    const [loading_address, set_loading_address]        = useState(false)
+    const [category_option, set_category_option]        = useState([])
+
+    const [opt_for_negeri, set_opt_for_negeri]          = useState(NEGERI)
+    const [opt_for_daerah, set_opt_for_daerah]          = useState([])
+    const [opt_for_postcode, set_opt_for_postcode]      = useState([])
+
+
+    const [modal, set_modal]    = useState(false)
+    const open_modal            = () => set_modal(true)
+    const close_modal           = () => set_modal(false)
+
+    const [addressLine1, setAddressLine1] = useState('');
+    const [addressLine2, setAddressLine2] = useState('');
+    const [addressLine3, setAddressLine3] = useState('');
+
+    const handleAddressChange = (value, line) => {
+        if (line === 1) setAddressLine1(value);
+        if (line === 2) setAddressLine2(value);
+        if (line === 3) setAddressLine3(value);
+
+        // Combine all address lines into one string, separated by commas
+        const combinedAddress = [addressLine1, addressLine2, addressLine3]
+            .map((lineValue, index) => (index + 1 === line ? value : lineValue))
+            .filter(lineValue => lineValue.trim() !== '') 
+            .join(', ');
+
+        set_masjid({...masjid, organizationAddress: combinedAddress});
+    };
+
+    const getData = async () => {
+        set_loading(true)
+        try {
+            let api = await SYSADMIN_API(`pengurusan/institusi/${masjid_id}`, {}, "GET", true)
+            if(api.status_code === 200) {
+                set_masjid(api.data)
+
+                let data = api.data
+                if(data.organizationCity) {
+                    //set_opt_for_daerah(POSTCODE[data.org_state].name)
+                    
+                    let array_city      = []
+                    let array_postcode  = []
+    
+                    let basic = POSTCODE.state.filter(item => item.name === data.organizationState)[0].city
+    
+                    for (let i = 0; i < basic.length; i++) {
+                        array_city.push({
+                            label: basic[i].name,
+                            values: basic[i].name,
+                        })
+    
+                        if(data.organizationCity === basic[i].name) {
+                            let default_arr = basic.filter(item => item.name === data.organizationCity)
+                            for (let j = 0; j < default_arr[0].postcode.length; j++) {
+                                array_postcode.push(default_arr[0].postcode[j])                        
+                            }
+                        }
+                    }
+    
+                    set_opt_for_daerah(array_city)
+                    set_opt_for_postcode(array_postcode)
+                }
+            } else {
+                toast.error(api.message)
+            }
+        } catch (e) {
+            toast.error("Harap maaf! Terdapat masalah pada pangkalan data.")
+            setTimeout(() => {
+                navigate(-1)
+            }, 3000);
+        } finally {
+            set_loading(false)
+        }
+    }
+
+    const update__institusi = async () => {
+
+        close_modal()
+
+        if(validateEmail(masjid.organizationEmail) === false) {
+            toast.error("Format e-mel untuk e-mel institusi anda tidak sah. Sila pastikan format e-mel anda betul.")
+            return false
+        }
+
+        if(masjid.organizationEmail && validateEmail(masjid.organizationEmail) === false) {
+            toast.error("Format e-mel untuk e-mel pegawai anda tidak sah. Sila pastikan format e-mel anda betul.")
+            return false
+        }
+
+        if(validateUrl(masjid.organizationCode)) {
+
+            set_loading(true)
+            let json = {...masjid, organizationCode: convertToHyphenString(masjid.organizationCode)}
+            console.log("Log Final JSON : ", json)
+    
+            let api = await SYSADMIN_API(`pengurusan/institusi/${masjid_id}`, json, "PATCH", true)
+            console.log("Log Api Update Maklumat Institusi : ", api)
+    
+            set_loading(false)
+
+            if(api.status_code === 200 || api.status === 200) {
+                toast.success("Maklumat institusi telah berjaya dikemasini.")
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000);
+            } else {
+                toast.error(api.message)
+            }
+        }
+    }
+
+    const fetch_organization_category = async () => {
+        set_loading_category(true)
+        let api = await API("reference?title=Organization+Type", {}, "GET", false)
+        if(api.status === 200) {
+            let array   = []
+            let data    = api.data
+            for (let i = 0; i < data.length; i++) {
+                array.push({
+                    label: data[i]["ref_name"],
+                    value: data[i]["ref_id"],
+                })
+            }
+            set_category_option(array)
+        }
+    }
+
+    const fetch_list_status_pengesahan = async () => {
+        set_loading_status(true)
+        let api = await API("getInstitusiStatus", { org_id: masjid_id }, "POST", true)
+
+        if(api.status === 200) {
+            set_list_status_pengesahan(api.data)
+        }
+
+        set_loading_status(false)
+    }
+
+    function convertToHyphenString(input) {
+        // Remove extra spaces and replace spaces with hyphens
+        return input.trim().replace(/\s+/g, '-').toUpperCase();
+    }
+
+    function validateUrl(url) {
+        const invalidPatterns = ["http://", "https://", "://", "//", "/", "?", "&", "."];
+        
+        // Check if the URL contains any invalid pattern
+        const hasInvalidPattern = invalidPatterns.some(pattern => url.includes(pattern));
+      
+        if (hasInvalidPattern) {
+            toast.error("Permalink tidak boleh mengandungi 'http://', 'https://', atau '://' atau perkataan yang tidak dibernarkan.")
+            return false
+        }
+        
+        return true
+    }
+
+    function validateEmail(email) {
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailPattern.test(email);
+    }
+
+    const addNewMaklumat = () => {
+        //setOrgData([...orgData, { title: '', data: '' }]);
+        set_masjid({
+            ...masjid,
+            organizationData: [...masjid.organizationData, { title: '', data: '' }]
+        })
+    };
+
+    const updateMaklumat = (index, field, value) => {
+        const updatedData = masjid.organizationData.map((item, idx) =>
+            idx === index ? { ...item, [field]: value } : item
+        );
+        set_masjid({
+            ...masjid,
+            organizationData: updatedData
+        })
+    };
+
+    const removeMaklumat = (indexToRemove) => {
+        const updatedData = masjid.organizationData.filter((_, idx) => idx !== indexToRemove);
+        set_masjid({
+            ...masjid,
+            organizationData: updatedData
+        })
+    };
+
+    const get__status__badge = (status) => {
+        if(status === "Lulus") {
+            return <Badge className='bg-emerald-600 text-white'>{status} Pengesahan</Badge>
+        }
+        else if(status === "Dalam Semakan") {
+            return <Badge className='bg-yellow-500 text-white'>{status}</Badge>
+        }
+        else {
+            return <Badge className='bg-red-600 text-white'>{status}</Badge>
+        }
+    }
+
+    useEffect(() => {
+        fetch_organization_category()
+        getData()
+        fetch_list_status_pengesahan()
+    }, [navigate, masjid_id])
+
+    if(loading || category_option.length === 0) return <Loading />
+
+    return (
+        <div>
+            <HomeBredCurbs title={"Kemaskini Maklumat Institusi"} />
+
+            <section>
+                <div>
+                    <Modal
+                    title='Pengesahan Mengemaskini Maklumat Institusi'
+                    themeClass='bg-teal-600 text-white'
+                    activeModal={modal}
+                    centered={true}
+                    onClose={close_modal}
+                    footerContent={(
+                        <>
+                        <div className='flex justify-end items-center gap-3'>
+                            <Button className='' onClick={close_modal}>Tidak</Button>
+                            <Button className='bg-teal-600 text-white' onClick={update__institusi}>Ya</Button>
+                        </div>
+                        </>
+                    )}
+                    >
+                        <p className='text-sm text-gray-500'>Anda pasti untuk mengemaskini maklumat institusi?</p>
+                    </Modal>
+                    
+                    <section className='mt-6'>
+                        <div className='bg-yellow-50 px-5 py-3 rounded-lg border border-yellow-600 shadow-md'>
+                            <div>
+                                <p className='font-semibold text-lg text-gray-600'>Peringatan!</p>
+                            </div>
+                            <div className='mt-3'>
+                                <ul className=''>
+                                    <li className='text-sm text-gray-600'>1. Semua medan dibawah adalah wajib diisi.</li>
+                                    <li className='text-sm text-gray-600'>2. Sila pastikan semua maklumat yang diisi adalah tepat dan benar.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className='mt-6'>
+                        <Card>
+                            <div>
+                                <p className='text-lg font-semibold text-gray-900'>Kategori Institusi</p>
+                                <p className='text-sm font-normal text-gray-600'>Sila pilih kategori institusi anda untuk dikemaskini.</p>
+                            </div>
+                            <div className='mt-3'>
+                                {
+                                    masjid.organizationType && (
+                                        <Select 
+                                        placeholder='Contoh: Masjid'
+                                        description={'Klik pada pilihan di atas untuk memilih jenis kategori institusi anda.'}
+                                        defaultValue={masjid.organizationType}
+                                        options={category_option}
+                                        onChange={e => set_masjid({...masjid, organizationType: e.target.value})}
+                                        />
+                                    )
+                                }
+                            </div>
+                        </Card>
+                    </section>
+
+                    <section className='mt-6'>
+                        <Card>
+                            <div>
+                                <p className='text-lg font-semibold text-gray-900'>Maklumat Akaun</p>
+                                <p className='text-sm font-normal text-gray-600'>Informasi tentang akaun yang akan disimpan.</p>
+                            </div>
+                            <div className='mt-3'>
+                                <div>
+                                    <Textinput 
+                                        label={'Nama Pengguna'}
+                                        placeholder='Contoh: Masjid Sungai Besi'
+                                        defaultValue={masjid.organizationUsername}
+                                        onChange={e => set_masjid({...masjid, organizationUsername: e.target.value})}
+                                    />
+                                </div>
+                                <div className='mt-3'>
+                                    <Textinput 
+                                        label={'E-mel'}
+                                        placeholder='Contoh: masjidsgbesi@email.com'
+                                        defaultValue={masjid.organizationEmail}
+                                        onChange={e => set_masjid({...masjid, organizationEmail: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+                        </Card>
+                    </section>
+
+                    <section className='mt-6'>
+                        <Card>
+                            <div>
+                                <p className='text-lg font-semibold text-gray-900'>Maklumat Terperinci Institusi</p>
+                                <p className='text-sm font-normal text-gray-600'>Informasi tentang maklumat institusi yang akan disimpan.</p>
+                            </div>
+                            <div className='mt-3'>
+                                <div>
+                                    <Textinput 
+                                        label={'No. Pendaftaran Institusi (ROC/ROB/ROS)'}
+                                        placeholder='Contoh: A612355D'
+                                        defaultValue={masjid.organizationRegistrationNo}
+                                        onChange={e => set_masjid({...masjid, organizationRegistrationNo: e.target.value })}
+                                    />
+                                </div>
+                                <div className='mt-3'>
+                                    <Textinput 
+                                        label={'Nama Institusi'}
+                                        placeholder='Contoh: MASJID SUNGAI BESI'
+                                        defaultValue={masjid.organizationName}
+                                        onChange={e => set_masjid({...masjid, organizationName: e.target.value })}
+                                    />
+                                </div>
+                                <div className='mt-3'>
+                                    <Textinput 
+                                        name={"No. Phone"}
+                                        isMask={true}
+                                        register={() => {}}
+                                        label={'No. Telefon'}
+                                        placeholder='Contoh: 60123456789'
+                                        defaultValue={masjid.organizationPhone}
+                                        onChange={e => set_masjid({...masjid, organizationPhone: e.target.value })}
+                                        type={"number"}
+                                        pattern="^[0-9]{1,12}$" 
+                                        inputMode="numeric" 
+                                        maxLength={12} 
+                                        max={12}
+                                        isNumberOnly
+                                    />
+                                </div>
+                                <div className='mt-3 grid grid-cols-1 md:grid-cols-1 gap-3'>
+                                    <Textinput
+                                        label={'Alamat 1'}
+                                        placeholder='Contoh: Jalan 11'
+                                        defaultValue={masjid.organizationAddress.split(',')[0] || ''}
+                                        onChange={e => handleAddressChange(e.target.value, 1)}
+                                    />
+                                    <Textinput
+                                        label={'Alamat 2'}
+                                        placeholder='Contoh: Datuk Panglima Garang'
+                                        defaultValue={masjid.organizationAddress.split(',')[1] || ''}
+                                        onChange={e => handleAddressChange(e.target.value, 2)}
+                                    />
+                                    <Textinput
+                                        label={'Alamat 3'}
+                                        placeholder='Contoh: Hulu Selangor, 12345 Selangor, Malaysia'
+                                        defaultValue={masjid.organizationAddress.split(',')[2] || ''}
+                                        onChange={e => handleAddressChange(e.target.value, 3)}
+                                    />
+                                </div>
+
+                                <div className='mt-3'>
+                                    
+                                </div>
+
+                                <div className='mt-3 grid grid-cols-1 md:grid-cols-3 gap-3'>
+
+                                    {
+                                        loading_address && (
+                                        <>
+                                            <div className='col-span-1 justify-center items-center'>
+                                                <Spinner />
+                                            </div>
+                                        </>
+                                        )
+                                    }
+
+                                    {
+                                        !loading_address && (
+                                            <>
+                                                <Select 
+                                                    label={'Poskod'}
+                                                    placeholder='-- Sila Pilih Poskod --'
+                                                    defaultValue={masjid.organizationPostcode}
+                                                    options={opt_for_postcode}
+                                                    onChange={e => set_masjid({...masjid, organizationPostcode: e.target.value })}
+                                                />
+                                                
+                                                <Select 
+                                                    label={'Daerah'}
+                                                    placeholder='-- Sila Pilih Daerah --'
+                                                    defaultValue={masjid.organizationCity}
+                                                    options={opt_for_daerah}
+                                                    onChange={e => {
+
+                                                        set_loading_address(true)
+
+                                                        let array_postcode  = []
+                                                        let city            = e.target.value
+
+                                                        set_masjid({
+                                                            ...masjid, 
+                                                            organizationCity: city,
+                                                            organizationPostcode: ""
+                                                        })
+                                                        
+                                                        
+                                                        let basic       = POSTCODE.state.filter(item => item.name === masjid.organizationState)[0].city
+                                                        let default_arr = basic.filter(item => item.name === city)
+                                                        console.log("Log Change City For Postcode : ", default_arr)
+                                                        
+                                                        array_postcode.push({
+                                                            label: "-- Sila Pilih --",
+                                                            value: ""
+                                                        })
+                                                        for (let j = 0; j < default_arr[0].postcode.length; j++) {
+                                                            array_postcode.push(default_arr[0].postcode[j])                        
+                                                        }
+
+                                                        set_opt_for_postcode(array_postcode)
+
+                                                        setTimeout(() => {
+                                                            set_loading_address(false)
+                                                        }, 500);
+                                                    }}
+                                                />
+
+                                                <Select 
+                                                    label={'Negeri'}
+                                                    placeholder='-- Sila Pilih Negeri --'
+                                                    defaultValue={masjid.organizationState}
+                                                    options={opt_for_negeri}
+                                                    onChange={e => {
+
+                                                        set_loading_address(true)
+
+                                                        setOrgState(e.target.value)
+                                                        setOrgCity("")
+                                                        setOrgPostcode("")
+
+                                                        let array = []
+                                                        let basic = POSTCODE.state.filter(item => item.name === e.target.value)[0]
+                                                        console.log("Log List Daerah : ", basic)
+
+                                                        array.push({
+                                                            label: "-- Sila Pilih --",
+                                                            value: ""
+                                                        })
+                                                        for (let i = 0; i < basic.city.length; i++) {
+                                                            array.push({
+                                                                label: basic.city[i].name,
+                                                                value: basic.city[i].name
+                                                            })
+                                                            
+                                                        }
+                                                        set_opt_for_daerah(array)
+
+                                                        setTimeout(() => {
+                                                            set_loading_address(false)
+                                                        }, 500);
+                                                    }}
+                                                />
+                                                
+                                            </>
+                                        )
+                                    }
+                                </div>
+                            </div>
+                        </Card>
+                    </section>
+
+                    <section className='mt-6'>
+                        <Card>
+                            <div>
+                                <p className='text-lg font-semibold text-gray-900'>Pegawai Untuk Dihubungi</p>
+                                <p className='text-sm font-normal text-gray-600'>Informasi tentang pengawai untuk dihubungi.</p>
+                            </div>
+                            <div className='mt-3'>
+                                <div>
+                                    <Textinput 
+                                        label={'Nama Pegawai'}
+                                        placeholder='Contoh: Ahmad Safiuddin Bin Shahrom'
+                                        defaultValue={masjid.organizationPICName}
+                                        onChange={e => set_masjid({...masjid, organizationPICName: e.target.value })}
+                                    />
+                                </div>
+                                <div className='mt-3'>
+                                    <Textinput 
+                                        label={'E-mel Pegawai'}
+                                        placeholder='Contoh: safiuddinshahroh@email.com'
+                                        defaultValue={masjid.organizationPICEmail}
+                                        onChange={e => set_masjid({...masjid, organizationPICEmail: e.target.value })}
+                                    />
+                                </div>
+                                <div className='mt-3'>
+                                    <Textinput 
+                                        name={"No. Phone"}
+                                        isMask={true}
+                                        register={() => {}}
+                                        label={'No. Telefon Pegawai'}
+                                        placeholder='Contoh: 0123456789'
+                                        defaultValue={masjid.organizationPICPhone}
+                                        onChange={e => set_masjid({...masjid, organizationPICPhone: e.target.value })}
+                                        type={"number"}
+                                        pattern="^[0-9]{1,12}$" 
+                                        inputMode="numeric" 
+                                        maxLength={12} 
+                                        max={12}
+                                        isNumberOnly
+                                    />
+                                </div>
+                            </div>
+                        </Card>
+                    </section>
+
+                    <section className='mt-6'>
+                    <Card>
+                        <div className='flex flex-row items-center justify-between'>
+                            <div>
+                                <p className='text-lg font-semibold text-gray-900'>Maklumat Tambahan Institusi</p>
+                                <p className='text-sm font-normal text-gray-600'>Informasi mengenai maklumat tambahan yang akan disimpan.</p>
+                            </div>
+                            {(
+                                <Button className='bg-teal-600 text-white' onClick={addNewMaklumat}>Tambah Maklumat</Button>
+                            )}
+                        </div>
+
+                        <div className='mt-3'>
+                            {masjid.organizationData && masjid.organizationData.length > 0 && masjid.organizationData.map((data, index) => (
+                                <div key={index}>
+                                    <div>
+                                        <Textinput
+                                            label={"Tajuk"}
+                                            placeholder='Contoh: Penubuhan Masjid'
+                                            defaultValue={data.title}
+                                            onChange={(e) => updateMaklumat(index, 'title', e.target.value)}
+                                        />
+                                    </div>
+                                    <div className='mt-3'>
+                                        <Textarea
+                                            label={"Keterangan"}
+                                            dvalue={data.data}
+                                            onChange={(e) => updateMaklumat(index, 'data', e.target.value)}
+                                        />
+                                    </div>
+                                    {(
+                                        <div className='flex justify-end items-center mt-3 mb-4'>
+                                            <div className='flex flex-direction gap-3'>
+                                                <Button 
+                                                    className=' text-white' 
+                                                    onClick={() => removeMaklumat(index)}
+                                                >
+                                                    <Icons className={"text-lg text-red-500"} icon={"heroicons:trash"} />
+                                                </Button>
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                    </Card>
+                </section>
+
+                    <section className='mt-6'>
+                        <Card>
+                            <div>
+                                <p className='text-lg font-semibold text-gray-900'>Maklumat Laman Sesawang</p>
+                                <p className='text-sm font-normal text-gray-600'>Informasi tentang laman sesawang yang akan disimpan.</p>
+                            </div>
+                            <div className='mt-3'>
+                                <div>
+                                    <Textinput 
+                                        label={'Pautan Laman Sesawang'}
+                                        placeholder='Contoh: https://masjidklanajaya.com.my'
+                                        defaultValue={masjid.organizationUrl}
+                                        onChange={e => set_masjid({...masjid, organizationUrl: e.target.value })}
+                                    />
+                                </div>
+                                <div className='mt-3'>
+                                    <InputGroup 
+                                    prepend={ process.env.NODE_ENV === "production" ? "https://infaqyide.com.my/" : "https://infaqyide.xyz/"}
+                                    label={"Permalink (Pautan Ke Halaman InfaqYIDE)"}
+                                    placeholder={"https://al-jariyah.com/institusi/masjid-klana-jaya"}
+                                    defaultValue={masjid.organizationCode}
+                                    onChange={e => set_masjid({...masjid, organizationCode: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+                        </Card>
+                    </section>
+
+                    {
+                        (
+                            <>
+                            <section className='mt-6'>
+                                <div className='flex justify-end items-center gap-3'>
+                                    {/* <Button className='btn btn-md bg-teal-600 text-white' onClick={update__draft__institusi}>Simpan Draf</Button> */}
+                                    <Button className='btn btn-md bg-teal-600 text-white' onClick={open_modal}>Hantar Kemaskini</Button>
+                                </div>
+                            </section>
+                            </>
+                        )
+                    }
+
+                    <section className='mt-6'>
+                        <Card>
+                            <div>
+                                <p className='text-lg font-semibold text-gray-900'>Maklumat Pengesahan Akaun Institusi</p>
+                                <p className='text-sm font-normal text-gray-600'>Informasi tentang status terkini institusi.</p>
+                            </div>
+                            <div className='mt-3'>
+                                {
+                                    list_status_pengesahan.length < 1 && (
+                                        <><p className='font-base text-sm text-gray-600'>Anda tidak mempunyai senarai pengesahan.</p></>
+                                    )
+                                }
+
+                                {
+                                    list_status_pengesahan.length > 0 && (
+                                        <>
+                                        <div>
+                                            <table className='min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700 rounded-md'>
+                                                <thead className="bg-slate-200 dark:bg-slate-700 p-3 rounded-md">
+                                                    <td width={'5%'} className='p-3 font-semibold text-sm'>No.</td>
+                                                    <td width={'20%'} className='p-3 font-semibold text-sm'>Tarikh</td>
+                                                    <td width={'20%'} className='p-3 font-semibold text-sm'>Status</td>
+                                                    <td width={'20%'} className='p-3 font-semibold text-sm'>Nota</td>
+                                                    <td width={'20%'} className='p-3 font-semibold text-sm'>Pengesah</td>
+                                                </thead>
+                                                <tbody className='text-sm p-3'>
+                                                    {
+                                                        list_status_pengesahan.length > 0 && list_status_pengesahan.map((data, index) => (
+                                                            <tr key={index} className='border border-gray-100 p-3'>
+                                                                <td width={'5%'} className='p-3 font-normal text-sm'>{index + 1}</td>
+                                                                <td width={'20%'} className='p-3 font-semibold text-sm'>{moment(data.org_status_date).format("DD MMM, YYYY hh:mm A")}</td>
+                                                                <td width={'20%'} className='p-3 font-normal text-sm'>{get__status__badge(data.org_status)}</td>
+                                                                <td width={'20%'} className='p-3 font-normal text-sm'>{data.org_status_reason}</td>
+                                                                <td width={'20%'} className='p-3 font-normal text-sm'>{data.user_approve}</td>
+                                                            </tr>
+                                                        ))
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        </>
+                                    )
+                                }
+                            </div>
+                        </Card>
+                    </section>
+
+                </div>
+            </section>
+
+            {/* <div>
+                <pre>
+                    <code>
+                        {JSON.stringify(masjid, undefined, 4)}
+                    </code>
+                </pre>
+            </div> */}
+        </div>
+    );
+};
+
+
+MaklumatMasjid.propTypes = {
+
+};
+
+
+export default MaklumatMasjid;

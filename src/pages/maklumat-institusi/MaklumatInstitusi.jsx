@@ -34,10 +34,7 @@ function MaklumatInstitusi(props) {
 
     
     const [disabled_forever, set_disable_forever]       = useState(true)
-
     const [disabled_editing, set_disable_editing]       = useState(true)
-
-    
 
     const [loading, set_loading]                        = useState(false)
     const [loading_category, set_loading_category]      = useState(true)
@@ -45,7 +42,6 @@ function MaklumatInstitusi(props) {
     const [loading_status, set_loading_status]          = useState([])
 
     const [loading_address, set_loading_address]        = useState(false)
- 
     const [category_option, set_category_option]        = useState([])
 
     const [orgAddress, setOrgAddress]                   = useState("");

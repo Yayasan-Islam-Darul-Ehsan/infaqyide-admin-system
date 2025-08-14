@@ -9,6 +9,10 @@ export const SuperAdminMenu = [
         link: "dashboard",
     },
 	{
+        isHeadr: true,
+        title: "Pengurusan Maklumat",
+    },
+	{
         title: "Pengurusan Pengguna",
         icon: "heroicons-outline:users",
         link: "pengurusan/pengurusan-pengguna",
@@ -22,6 +26,43 @@ export const SuperAdminMenu = [
         title: "Pengurusan Transaksi",
         icon: "heroicons-outline:document-text",
         link: "pengurusan/pengurusan-transaksi",
+    },
+	{
+        title: "Pengurusan Akaun Kredit",
+        icon: "heroicons:wallet",
+        child: [
+			{
+				childtitle: 'Pengguna',
+				childlink: 'pengurusan/kredit-pengguna'
+			},
+			{
+				childtitle: 'Institusi',
+				childlink: 'pengurusan/kredit-institusi'
+			}
+		]
+    },
+	{
+        title: "Pengurusan Tabung",
+        icon: "heroicons-outline:archive-box",
+        link: "tabung",
+    },
+	{
+        isHeadr: true,
+        title: "Kempen",
+    },
+	{
+        title: "Senarai Kempen",
+        icon: "heroicons-outline:clipboard-document-list",
+        link: "kempen",
+    },
+	{
+        isHeadr: true,
+        title: "Pengeluaran",
+    },
+	{
+        title: "Senarai Pengeluaran",
+        icon: "heroicons-outline:clipboard-document-list",
+        link: "pengeluaran",
     },
 ]
 

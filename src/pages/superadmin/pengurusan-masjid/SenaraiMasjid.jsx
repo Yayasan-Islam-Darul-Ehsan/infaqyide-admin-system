@@ -1,5 +1,6 @@
 import Loading from '@/components/Loading'
 import Badge from '@/components/ui/Badge'
+import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import Icons from '@/components/ui/Icon'
 import Select from '@/components/ui/Select'
@@ -30,7 +31,7 @@ function SenaraiMasjid() {
     const getData = async (_search = "") => {
         set_loading(true)
         try {
-            let api = await SYSADMIN_API(`pengurusan/pengguna?page=${page}&limit=${limit}&search=${_search}&status=${status}`, {}, "GET", true)
+            let api = await SYSADMIN_API(`pengurusan/institusi?page=${page}&limit=${limit}&search=${_search}&status=${status}`, {}, "GET", true)
             if(api.status_code === 200) {
                 let {data} = api
                 set_data({
@@ -59,7 +60,18 @@ function SenaraiMasjid() {
 
     return (
         <div>
-            <HomeBredCurbs title={"Senarai Institusi Berdaftar InfaqYIDE"} />
+            <div className="flex justify-between flex-wrap items-center mb-6">
+                <p className="font-medium lg:text-2xl text-xl capitalize text-slate-900 inline-block ltr:pr-4 rtl:pl-4">
+                    {`Senarai Maklumat Institusi Berdaftar`}
+                </p>
+                <div className='flex flex-row items-center gap-3'>
+                    <Button 
+                    icon={"heroicons:plus"} 
+                    text={"Daftar Institusi"}
+                    className='bg-teal-600 text-white'
+                    />
+                </div>
+            </div>
 
             <section className='mt-6'>
                 <Card title={"Senarai Pengguna"} subtitle={"Klik pada senarai pengguna di bawah untuk melihat maklumat terperinci."}>
@@ -70,8 +82,8 @@ function SenaraiMasjid() {
                             defaultValue={search}
                             placeholder='Carian pengguna infaqYIDE...'
                             onChange={e => {
-                                set_search(e)
-                                debouncedSearch(e)
+                                set_search(e.target.value)
+                                debouncedSearch(e.target.value)
                             }}
                             />
                             <Select 
@@ -102,21 +114,27 @@ function SenaraiMasjid() {
                     <Table className='mt-6'>
                         <Table.Head>
                             <Table.HeaderCell flexBasis={50} flexShrink={0} flexGrow={0}>Bil.</Table.HeaderCell>
-                            <Table.HeaderCell>Nama Pengguna</Table.HeaderCell>
-                            <Table.HeaderCell>Nama Penuh Pengguna</Table.HeaderCell>
-                            <Table.HeaderCell>E-mel Pengguna</Table.HeaderCell>
-                            <Table.HeaderCell>No. Telefon</Table.HeaderCell>
-                            <Table.HeaderCell>Status Pengecualian Cukai LHDN</Table.HeaderCell>
+                            <Table.HeaderCell>Logo Institusi</Table.HeaderCell>
+                            {/* <Table.HeaderCell>Nama Institusi</Table.HeaderCell> */}
+                            <Table.HeaderCell>Nama Penuh Institusi</Table.HeaderCell>
+                            <Table.HeaderCell>Kod Institusi</Table.HeaderCell>
+                            <Table.HeaderCell>E-mel Institusi</Table.HeaderCell>
+                            <Table.HeaderCell>No. Tel Institusi</Table.HeaderCell>
                             <Table.HeaderCell>Tarikh Daftar</Table.HeaderCell>
-                            <Table.HeaderCell flexBasis={150} flexShrink={0} flexGrow={0} textAlign="center">Status Akaun</Table.HeaderCell>
+                            <Table.HeaderCell flexBasis={150} flexShrink={0} flexGrow={0} textAlign="center">Status</Table.HeaderCell>
                             <Table.HeaderCell flexBasis={120} flexShrink={0} flexGrow={0}>Tindakan</Table.HeaderCell>
                         </Table.Head>
                         <Table.Body>
                             {
                                 (loading) && (
-                                    <Table.Cell>
-                                        <Spinner size={30} />
-                                    </Table.Cell>
+                                    // <Table.Cell> 
+                                    //     <Spinner size={30} />
+                                    // </Table.Cell>
+                                    <tr>
+                                        <td colSpan={9}>
+                                            <Spinner size={30} />
+                                        </td>
+                                    </tr>
                                 )
                             }
                             {
@@ -124,7 +142,7 @@ function SenaraiMasjid() {
                                     <Table.Row flex={1} textAlign="center">
                                         <Table.Cell flex={1} fontSize="small" colSpan={9}>
                                             <td colSpan={9} style={{ textAlign: 'center', padding: '16px' }}>
-                                                Tiada senarai maklumat pengguna.
+                                                Tiada senarai maklumat institusi buat masa ini.
                                             </td>
                                         </Table.Cell>
                                     </Table.Row>
@@ -132,23 +150,26 @@ function SenaraiMasjid() {
                             }
                             {
                                 (!loading && data.total > 0) && data.row.map((item, index) => (
-                                    <Table.Row key={index}>
+                                    <Table.Row key={index} className='p-3'>
                                         <Table.Cell flexBasis={50} flexShrink={0} flexGrow={0} fontSize="small">{index + 1}.</Table.Cell>
-                                        <Table.Cell fontSize="small">{item.account_username}</Table.Cell>
-                                        <Table.Cell fontSize="small">{item.account_fullname || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
-                                        <Table.Cell fontSize="small">{item.account_email || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
-                                        <Table.Cell fontSize="small">{item.account_phone || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
-                                        <Table.Cell fontSize="small">{
-                                            item.account_lhdn == "0" ? <Badge className='bg-slate-50 border border-slate-100 text-slate-900'>Tiada Pengecualian Cukai</Badge> : <Badge className='bg-blue-50 border border-blue-100 text-blue-900'>Pengecualian Cukai Aktif</Badge>
-                                        }</Table.Cell>
-                                        <Table.Cell fontSize="small">{moment(item.account_created_date).format("DD MMM YYYY, hh:mm A")}</Table.Cell>
+                                        <Table.Cell fontSize="small">
+                                            <img src={item.organizationImage} alt="" className='w-12 h-12 rounded-full shadow-lg'/>
+                                        </Table.Cell>
+                                        {/* <Table.Cell fontSize="small">{item.organizationUsername || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell> */}
+                                        <Table.Cell fontSize="small" className='line-clamp-1'>{item.organizationName || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
+                                        <Table.Cell fontSize="small" className='line-clamp-1'>{item.organizationCode || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
+                                        <Table.Cell fontSize="small">{item.organizationEmail || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
+                                        <Table.Cell fontSize="small">{item.organizationPhone || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
+                                        <Table.Cell fontSize="small">{item.organizationCreatedDate ? moment(item.organizationCreatedDate).format("DD MMM YYYY, hh:mm A") : "--"}</Table.Cell>
                                         <Table.Cell flexBasis={150} flexShrink={0} flexGrow={0} fontSize="small">{
-                                            item.account_verified == "2" ? <Badge className='bg-emerald-50 border border-emerald-100 text-emerald-900'>Akaun Aktif</Badge> : <Badge className='bg-red-50 border border-red-100 text-red-900'>Akaun Nyahaktif</Badge>
+                                            item.organizationStatus == "ACTIVE" ? 
+                                            <Badge className='bg-emerald-50 border border-emerald-100 text-emerald-900'>Akaun Aktif</Badge> : 
+                                            <Badge className='bg-red-50 border border-red-100 text-red-900'>Akaun Nyahaktif</Badge>
                                         }</Table.Cell>
                                         <Table.Cell flexBasis={120} flexShrink={0} flexGrow={0} fontSize="larger" textAlign="center" justifyItems="center" alignItems="center">
                                             <div className='flex flex-row justify-center items-center gap-1'>
-                                                <Link to={"/pengurusan/maklumat-pengguna"} state={item}><Icons icon={"heroicons-outline:pencil-square"} className={"text-yellow-500"} /></Link>
-                                                <Link to={"/pengurusan/maklumat-pengguna"} state={item}><Icons icon={"heroicons-outline:trash"} className={"text-red-600"} /></Link>
+                                                <Link to={"/pengurusan/maklumat-institusi"} state={item}><Icons icon={"heroicons-outline:pencil-square"} className={"text-yellow-500"} /></Link>
+                                                <Link to={"/pengurusan/maklumat-institusi"} state={item}><Icons icon={"heroicons-outline:trash"} className={"text-red-600"} /></Link>
                                             </div>
                                         </Table.Cell>
                                     </Table.Row>

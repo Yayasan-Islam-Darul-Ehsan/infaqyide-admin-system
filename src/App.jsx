@@ -133,6 +133,7 @@ import MaklumatPengguna from "./pages/superadmin/pengurusan-pengguna/MaklumatPen
 import SenaraiTransaksiKeseluruhan from "./pages/superadmin/pengurusan-transaksi/SenaraiTransaksi";
 import MaklumatTransaksiSumbangan from "./pages/superadmin/pengurusan-transaksi/MaklumatTransaksi";
 import SenaraiMasjid from "./pages/superadmin/pengurusan-masjid/SenaraiMasjid";
+import MaklumatMasjid from "./pages/superadmin/pengurusan-masjid/MaklumatMasjid";
 
 
 function App() {
@@ -164,7 +165,7 @@ function App() {
 							<Route path="maklumat-pengguna" element={<MaklumatPengguna />} />
 
 							<Route path="pengurusan-institusi" element={<SenaraiMasjid />} />
-							<Route path="maklumat-institusi" element={<MaklumatPengguna />} />
+							<Route path="maklumat-institusi" element={<MaklumatMasjid />} />
 
 							<Route path="pengurusan-transaksi" element={<SenaraiTransaksiKeseluruhan />} />
 							<Route path="maklumat-transaksi" element={<MaklumatTransaksiSumbangan />} />
