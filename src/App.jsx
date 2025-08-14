@@ -90,7 +90,7 @@ import SenaraiTabung from "./pages/maklumat-tabung/SenaraiTabung";
 import SenaraiHebahan from "./pages/Hebahan/senarai-hebahan";
 import TambahHebahan from "./pages/Hebahan/TambahHebahan";
 import MaklumatHebahan from "./pages/Hebahan/MaklumatHebahan";
-import KreditInstitusi from "./pages/KreditInstitusi/kredit";
+
 import PengeluaranKredit from "./pages/pengeluaran/index";
 import TransaksiInstitusi from "./pages/TransaksiInstitusi/senarai-transaksi";
 import TransaksiDetailsInstitusi from "./pages/TransaksiInstitusi/DetailsTransaksi";
@@ -136,6 +136,9 @@ import SenaraiMasjid from "./pages/superadmin/pengurusan-masjid/SenaraiMasjid";
 import MaklumatMasjid from "./pages/superadmin/pengurusan-masjid/MaklumatMasjid";
 import KreditPengguna from "./pages/superadmin/pengurusan-kredit/KreditPengguna";
 import MaklumatKreditPengguna from "./pages/superadmin/pengurusan-kredit/MaklumatKreditPengguna";
+import Kredit from "./pages/KreditInstitusi/kredit";
+import KreditInstitusi from "./pages/superadmin/pengurusan-kredit/KreditInstitusi";
+import MaklumatKreditInstitusi from "./pages/superadmin/pengurusan-kredit/MaklumatKreditInstitusi";
 
 
 function App() {
@@ -175,6 +178,9 @@ function App() {
 							<Route path="akaun-kredit">
 								<Route path="pengguna" element={<KreditPengguna />} />
 								<Route path="maklumat-kredit-pengguna" element={<MaklumatKreditPengguna />} />
+
+								<Route path="institusi" element={<KreditInstitusi />} />
+								<Route path="maklumat-kredit-institusi" element={<MaklumatKreditInstitusi />} />
 							</Route>
 						</Route>
 					)
@@ -219,7 +225,7 @@ function App() {
 				<Route path="hebahan/maklumat-hebahan" element={<MaklumatHebahan />} />
 
 				{/* * * * * * * * * * * Maklumat Kredit Institusi * * * * * * * * * * */}
-				<Route path="institusi/kredit" element={<KreditInstitusi />} />
+				<Route path="institusi/kredit" element={<Kredit />} />
 
 				{/* * * * * * * * * * * Maklumat Pengeluaran Kredit Institusi * * * * * * * * * * */}
 				<Route path="institusi/pengeluaran" element={<PengeluaranKredit />} />
