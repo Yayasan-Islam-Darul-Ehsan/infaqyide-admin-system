@@ -348,7 +348,6 @@ function Maklumatkempen(props) {
                             <div className='mt-6'>
                                 <div>
                                     <Select 
-                                    
                                     label={"Nama Tabung"}
                                     placeholder='-- Sila Pilih Tabung --'
                                     description={"Hanya tabung jenis kempen sahaja yang akan dipaparkan di sini."}

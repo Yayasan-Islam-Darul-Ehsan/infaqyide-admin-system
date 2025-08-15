@@ -14,7 +14,7 @@ import React, { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
-function SenaraiMasjid() {
+function SenaraiKempenMasjid() {
 
     const [data, set_data] = useState({
         row: [],
@@ -27,11 +27,12 @@ function SenaraiMasjid() {
     const [limit, set_limit]        = useState(10)
     const [search, set_search]      = useState("")
     const [status, set_status]      = useState("")
+    const [jenis, set_jenis]        = useState("")
 
     const getData = async (_search = "") => {
         set_loading(true)
         try {
-            let api = await SYSADMIN_API(`pengurusan/institusi?page=${page}&limit=${limit}&search=${_search}&status=${status}`, {}, "GET", true)
+            let api = await SYSADMIN_API(`pengurusan/kempen?page=${page}&limit=${limit}&search=${_search}&status=${status}&type=${jenis}`, {}, "GET", true)
             if(api.status_code === 200) {
                 let {data} = api
                 set_data({
@@ -54,7 +55,7 @@ function SenaraiMasjid() {
 
     useEffect(() => {
         getData()
-    }, [page, limit, status])
+    }, [page, limit, status, jenis])
 
     //if(loading) return <Loading />
 
@@ -62,25 +63,25 @@ function SenaraiMasjid() {
         <div>
             <div className="flex justify-between flex-wrap items-center mb-6">
                 <p className="font-medium lg:text-2xl text-xl capitalize text-slate-900 inline-block ltr:pr-4 rtl:pl-4">
-                    {`Senarai Maklumat Institusi Berdaftar`}
+                    {`Senarai Maklumat Kempen Institusi`}
                 </p>
                 <div className='flex flex-row items-center gap-3'>
                     <Button 
                     icon={"heroicons:plus"} 
-                    text={"Daftar Institusi"}
+                    text={"Daftar Kmepen"}
                     className='bg-teal-600 text-white'
                     />
                 </div>
             </div>
 
             <section className='mt-6'>
-                <Card title={"Senarai Pengguna"} subtitle={"Klik pada senarai pengguna di bawah untuk melihat maklumat terperinci."}>
+                <Card title={"Senarai Kempen"} subtitle={"Klik pada senarai kempen di bawah untuk melihat maklumat terperinci."}>
                     <div className='flex flex-row justify-between items-center'>
                         <div className='flex flex-row items-center gap-1'>
                             <Textinput 
                             className='w-[300px]'
                             defaultValue={search}
-                            placeholder='Carian pengguna infaqYIDE...'
+                            placeholder='Carian kempen masjid...'
                             onChange={e => {
                                 set_search(e.target.value)
                                 debouncedSearch(e.target.value)
@@ -88,16 +89,30 @@ function SenaraiMasjid() {
                             />
                             <Select 
                              className='w-[200px] text-center'
-                            placeholder='-- Status Akaun --'
+                            placeholder='-- Status Kempen --'
                             defaultValue={status}
                             onChange={e => set_status(e.target.value)}
                             options={[
                                 {label: "Semua", value: ""},
-                                {label: "Akaun Aktif", value: "ACTIVE"},
-                                {label: "Akaun Nyahaktif", value: "INACTIVE"},
-                                {label: "Pengesahan Ditolak", value: "REJECTED"}
+                                {label: "Aktif", value: "ACTIVE"},
+                                {label: "Nyahaktif", value: "INACTIVE"},
+                                {label: "Dalam Proses Pengesahan", value: "PENDING"},
+                                {label: "Kempen Khas", value: "PRIVATE"},
+                                {label: "Pengesahan Ditolak", value: "REJECTED"},
                             ]}
                             />
+                            {/* <Select 
+                             className='w-[200px] text-center'
+                            placeholder='-- Jenis Kempen --'
+                            defaultValue={jenis}
+                            onChange={e => set_jenis(e.target.value)}
+                            options={[
+                                {label: "Semua", value: ""},
+                                {label: "Infaq", value: "Infaq"},
+                                {label: "Wakaf", value: "Wakaf"},
+                                {label: "Kempen", value: "Kempen"},
+                            ]}
+                            /> */}
                         </div>
                         <Select 
                         placeholder='-- Had Rekod --'
@@ -115,12 +130,12 @@ function SenaraiMasjid() {
                     <Table className='mt-6'>
                         <Table.Head>
                             <Table.HeaderCell flexBasis={50} flexShrink={0} flexGrow={0}>Bil.</Table.HeaderCell>
-                            {/* <Table.HeaderCell>Logo Institusi</Table.HeaderCell> */}
-                            {/* <Table.HeaderCell>Nama Institusi</Table.HeaderCell> */}
-                            <Table.HeaderCell flexBasis={350} flexShrink={0} flexGrow={0}>Nama Penuh Institusi</Table.HeaderCell>
-                            <Table.HeaderCell>Kod Institusi</Table.HeaderCell>
-                            <Table.HeaderCell>E-mel Institusi</Table.HeaderCell>
-                            <Table.HeaderCell>No. Tel Institusi</Table.HeaderCell>
+                            {/* <Table.HeaderCell flexBasis={300} flexShrink={0} flexGrow={0}>Nama Institusi</Table.HeaderCell> */}
+                            <Table.HeaderCell flexBasis={350} flexShrink={0} flexGrow={0}>Nama Kempen</Table.HeaderCell>
+                            <Table.HeaderCell>Tarikh Mula</Table.HeaderCell>
+                            <Table.HeaderCell>Tarikh Tamat</Table.HeaderCell>
+                            <Table.HeaderCell>Jumlah Sasaran (RM)</Table.HeaderCell>
+                            <Table.HeaderCell>Jumlah Terkumpul (RM)</Table.HeaderCell>
                             <Table.HeaderCell>Tarikh Daftar</Table.HeaderCell>
                             <Table.HeaderCell flexBasis={150} flexShrink={0} flexGrow={0} textAlign="center">Status</Table.HeaderCell>
                             <Table.HeaderCell flexBasis={70} flexShrink={0} flexGrow={0}>Tindakan</Table.HeaderCell>
@@ -140,7 +155,7 @@ function SenaraiMasjid() {
                                     <Table.Row flex={1} textAlign="center">
                                         <Table.Cell flex={1} fontSize="small" colSpan={9}>
                                             <td className='w-full'>
-                                                Tiada senarai maklumat institusi buat masa ini.
+                                                Tiada senarai maklumat kempen buat masa ini.
                                             </td>
                                         </Table.Cell>
                                     </Table.Row>
@@ -150,24 +165,23 @@ function SenaraiMasjid() {
                                 (!loading && data.total > 0) && data.row.map((item, index) => (
                                     <Table.Row key={index} className='p-3 flex items-center'>
                                         <Table.Cell flexBasis={50} flexShrink={0} flexGrow={0} fontSize="small">{(page - 1) * limit + index + 1}.</Table.Cell>
-                                        {/* <Table.Cell fontSize="small">
-                                            <img src={item.organizationImage} alt="" className='w-12 h-12 rounded-full shadow-lg'/>
-                                        </Table.Cell> */}
-                                        {/* <Table.Cell fontSize="small">{item.organizationUsername || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell> */}
-                                        <Table.Cell flexBasis={350} flexShrink={0} flexGrow={0} fontSize="small" className='line-clamp-1'>{item.organizationName || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
-                                        <Table.Cell fontSize="small" className='line-clamp-1'>{item.organizationCode || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
-                                        <Table.Cell fontSize="small">{item.organizationEmail || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
-                                        <Table.Cell fontSize="small">{item.organizationPhone || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
-                                        <Table.Cell fontSize="small">{item.organizationCreatedDate ? moment(item.organizationCreatedDate).format("DD MMM YYYY, hh:mm A") : "--"}</Table.Cell>
-                                        <Table.Cell flexBasis={150} flexShrink={0} flexGrow={0} fontSize="small">{
-                                            item.organizationStatus == "ACTIVE" ? 
-                                            <Badge className='bg-emerald-50 border border-emerald-100 text-emerald-900'>Akaun Aktif</Badge> : 
-                                            <Badge className='bg-red-50 border border-red-100 text-red-900'>Akaun Nyahaktif</Badge>
-                                        }</Table.Cell>
+                                        {/* <Table.Cell flexBasis={300} flexShrink={0} flexGrow={0} fontSize="small" className='line-clamp-1'>{item.organizationName || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell> */}
+                                        <Table.Cell flexBasis={350} flexShrink={0} flexGrow={0} fontSize="small" className='line-clamp-1'>{item.campaignTitle || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
+                                        <Table.Cell fontSize="small">{item.campaignDateStart ? moment(item.campaignDateStart).format("DD MMM YYYY, hh:mm A") : "--"}</Table.Cell>
+                                        <Table.Cell fontSize="small">{item.campaignDeadline ? moment(item.campaignDeadline).format("DD MMM YYYY, hh:mm A") : "--"}</Table.Cell>
+                                        <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", {style:'currency', currency:'MYR'}).format(item.campaignTarget)}</Table.Cell>
+                                        <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", {style:'currency', currency:'MYR'}).format(item.campaignCollection)}</Table.Cell>
+                                        <Table.Cell fontSize="small">{item.campaignCreatedDate ? moment(item.campaignCreatedDate).format("DD MMM YYYY, hh:mm A") : "--"}</Table.Cell>
+                                        <Table.Cell flexBasis={150} flexShrink={0} flexGrow={0} fontSize="small">
+                                            {item.campaignStatus == "ACTIVE" && <Badge className='bg-emerald-50 border border-emerald-100 text-emerald-900'>Kempen Aktif</Badge>}
+                                            {item.campaignStatus == "INACTIVE" && <Badge className='bg-red-50 border border-red-100 text-red-900'>Kempen Nyahaktif</Badge>}
+                                            {item.campaignStatus == "PENDING" && <Badge className='bg-yellow-50 border border-yellow-100 text-yellow-900'>Dalam Pengesahan</Badge>}
+                                            {item.campaignStatus == "PRIVATE" && <Badge className='bg-purple-50 border border-purple-100 text-purple-900'>Kempen Khas</Badge>}
+                                        </Table.Cell>
                                         <Table.Cell flexBasis={70} flexShrink={0} flexGrow={0} fontSize="larger" textAlign="center" justifyItems="center" alignItems="center">
                                             <div className='flex flex-row justify-center items-center gap-1'>
-                                                <Link to={"/pengurusan/maklumat-institusi"} state={item}><Icons icon={"heroicons-outline:pencil-square"} className={"text-yellow-500"} /></Link>
-                                                <Link to={"/pengurusan/maklumat-institusi"} state={item}><Icons icon={"heroicons-outline:trash"} className={"text-red-600"} /></Link>
+                                                <Link to={"/pengurusan/maklumat-kempen"} state={item}><Icons icon={"heroicons-outline:pencil-square"} className={"text-yellow-500"} /></Link>
+                                                <Link to={"/pengurusan/maklumat-kempen"} state={item}><Icons icon={"heroicons-outline:trash"} className={"text-red-600"} /></Link>
                                             </div>
                                         </Table.Cell>
                                     </Table.Row>
@@ -188,4 +202,4 @@ function SenaraiMasjid() {
     )
 }
 
-export default SenaraiMasjid
+export default SenaraiKempenMasjid

@@ -53,7 +53,7 @@ export const SuperAdminMenu = [
 	{
         title: "Senarai Kempen",
         icon: "heroicons-outline:clipboard-document-list",
-        link: "kempen",
+        link: "pengurusan/pengurusan-kempen",
     },
 	{
         isHeadr: true,
@@ -62,7 +62,7 @@ export const SuperAdminMenu = [
 	{
         title: "Senarai Pengeluaran",
         icon: "heroicons-outline:clipboard-document-list",
-        link: "pengeluaran",
+        link: "pengurusan/pengurusan-pengeluaran",
     },
 ]
 
