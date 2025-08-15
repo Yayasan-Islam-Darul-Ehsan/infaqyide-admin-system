@@ -44,7 +44,7 @@ export const SuperAdminMenu = [
 	{
         title: "Pengurusan Tabung",
         icon: "heroicons-outline:archive-box",
-        link: "tabung",
+        link: "pengurusan/pengurusan-tabung",
     },
 	{
         isHeadr: true,

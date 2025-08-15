@@ -135,7 +135,7 @@ function SenaraiPengguna() {
                             {
                                 (!loading && data.total > 0) && data.row.map((item, index) => (
                                     <Table.Row key={index}>
-                                        <Table.Cell flexBasis={50} flexShrink={0} flexGrow={0} fontSize="small">{index + 1}.</Table.Cell>
+                                        <Table.Cell flexBasis={50} flexShrink={0} flexGrow={0} fontSize="small">{(page - 1) * limit + index + 1}.</Table.Cell>
                                         <Table.Cell fontSize="small">{item.account_username}</Table.Cell>
                                         <Table.Cell fontSize="small">{item.account_fullname || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
                                         <Table.Cell fontSize="small">{item.account_email || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>

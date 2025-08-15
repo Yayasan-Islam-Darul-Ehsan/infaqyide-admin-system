@@ -138,7 +138,7 @@ function SenaraiTransaksiKeseluruhan() {
                             {
                                 (!loading && data.total > 0) && data.row.map((item, index) => (
                                     <Table.Row key={index}>
-                                        <Table.Cell flexBasis={50} flexShrink={0} flexGrow={0} fontSize="small">{(page - 1) * limit + index + 1}  .</Table.Cell>
+                                        <Table.Cell flexBasis={50} flexShrink={0} flexGrow={0} fontSize="small">{(page - 1) * limit + index + 1}.</Table.Cell>
                                         <Table.Cell fontSize="small">
 											{item.billpayment_type === "Infaq" && <Badge className='bg-teal-50 border border-teal-100 text-teal-900'>Infaq Am</Badge>}
 											{item.billpayment_type === "Auto-infaq" && <Badge className='bg-blue-50 border border-blue-100 text-blue-900'>Auto Infaq</Badge>}

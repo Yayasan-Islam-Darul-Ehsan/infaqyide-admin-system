@@ -142,7 +142,7 @@ function KreditPengguna(props) {
                             {
                                 (!loading && data.total > 0) && data.row.map((item, index) => (
                                     <Table.Row key={index} className='p-3' alignItems="center">
-                                        <Table.Cell flexBasis={50} flexShrink={0} flexGrow={0} fontSize="small">{index + 1}.</Table.Cell>
+                                        <Table.Cell flexBasis={50} flexShrink={0} flexGrow={0} fontSize="small">{(page - 1) * limit + index + 1}.</Table.Cell>
                                         <Table.Cell fontSize="small">{item.account_username}</Table.Cell>
                                         <Table.Cell fontSize="small" className='line-clamp-1'>{item.account_fullname || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
                                         <Table.Cell fontSize="small" className='line-clamp-1'>{item.credit_account_no || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>

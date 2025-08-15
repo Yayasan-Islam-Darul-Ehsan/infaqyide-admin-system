@@ -139,6 +139,8 @@ import MaklumatKreditPengguna from "./pages/superadmin/pengurusan-kredit/Makluma
 import Kredit from "./pages/KreditInstitusi/kredit";
 import KreditInstitusi from "./pages/superadmin/pengurusan-kredit/KreditInstitusi";
 import MaklumatKreditInstitusi from "./pages/superadmin/pengurusan-kredit/MaklumatKreditInstitusi";
+import SenaraiTabungMasjid from "./pages/superadmin/pengurusan-tabung/SenaraiTabungMasjid";
+import MaklumatTabungMasjid from "./pages/superadmin/pengurusan-tabung/MaklumatTabungMasjid";
 
 
 function App() {
@@ -182,6 +184,9 @@ function App() {
 								<Route path="institusi" element={<KreditInstitusi />} />
 								<Route path="maklumat-kredit-institusi" element={<MaklumatKreditInstitusi />} />
 							</Route>
+
+							<Route path="pengurusan-tabung" element={<SenaraiTabungMasjid />} />
+							<Route path="maklumat-tabung" element={<MaklumatTabungMasjid />} />
 						</Route>
 					)
 				}
