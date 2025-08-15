@@ -114,16 +114,18 @@ function SenaraiPengguna() {
                         <Table.Body>
                             {
                                 (loading) && (
-                                    <Table.Cell>
-                                        <Spinner size={30} />
-                                    </Table.Cell>
+                                    <Table.Row flex={1} textAlign="center">
+                                        <td className='flex w-full justify-center items-center'>
+                                            <Spinner />
+                                        </td>
+                                    </Table.Row>
                                 )
                             }
                             {
                                 (!loading && data.total === 0) && (
                                     <Table.Row flex={1} textAlign="center">
                                         <Table.Cell flex={1} fontSize="small" colSpan={9}>
-                                            <td colSpan={9} style={{ textAlign: 'center', padding: '16px' }}>
+                                            <td className='w-full'>
                                                 Tiada senarai maklumat pengguna.
                                             </td>
                                         </Table.Cell>

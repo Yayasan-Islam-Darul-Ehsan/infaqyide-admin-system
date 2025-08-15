@@ -117,9 +117,11 @@ function SenaraiTransaksiKeseluruhan() {
                         <Table.Body>
                             {
                                 (loading) && (
-                                    <Table.Cell>
-                                        <Spinner size={30} />
-                                    </Table.Cell>
+                                    <Table.Row flex={1} textAlign="center">
+                                        <td className='flex w-full justify-center items-center'>
+                                            <Spinner />
+                                        </td>
+                                    </Table.Row>
                                 )
                             }
                             {

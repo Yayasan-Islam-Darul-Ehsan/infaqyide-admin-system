@@ -127,21 +127,18 @@ function SenaraiMasjid() {
                         <Table.Body>
                             {
                                 (loading) && (
-                                    // <Table.Cell> 
-                                    //     <Spinner size={30} />
-                                    // </Table.Cell>
-                                    <tr>
-                                        <td colSpan={9}>
-                                            <Spinner size={30} />
+                                    <Table.Row flex={1} textAlign="center">
+                                        <td className='flex w-full justify-center items-center'>
+                                            <Spinner />
                                         </td>
-                                    </tr>
+                                    </Table.Row>
                                 )
                             }
                             {
                                 (!loading && data.total === 0) && (
                                     <Table.Row flex={1} textAlign="center">
                                         <Table.Cell flex={1} fontSize="small" colSpan={9}>
-                                            <td colSpan={9} style={{ textAlign: 'center', padding: '16px' }}>
+                                            <td className='w-full'>
                                                 Tiada senarai maklumat institusi buat masa ini.
                                             </td>
                                         </Table.Cell>
