@@ -18,10 +18,10 @@ const GET__ENV = () => {
         return "http://localhost:30001/admin/"
     }
     else if(process.env.NODE_ENV === "demo") {
-        return "https://cp-api-demo.al-jariyah.com/admin/"
+        return "https://cp.infaqyide.xyz/admin/"
     }
     else if(process.env.NODE_ENV === "production") {
-        return "https://cp-api.al-jariyah.com/admin/"
+        return "https://cp.infaqyide.com.my/admin/"
     }
     else {
         return "http://localhost:30001/admin/"

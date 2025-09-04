@@ -18,10 +18,10 @@ const GET__ENV = () => {
         return "http://localhost:30001/admin/"
     }
     else if(process.env.NODE_ENV === "demo") {
-        return "https://cp-api-demo.al-jariyah.com/admin/"
+        return "https://cp.infaqyide.xyz/admin/"
     }
     else if(process.env.NODE_ENV === "production") {
-        return "https://cp-api.al-jariyah.com/admin/"
+        return "https://cp.infaqyide.com.my/admin/"
     }
     else {
         return "http://localhost:30001/admin/"
@@ -33,7 +33,7 @@ const GET__ENV2 = () => {
         return "http://localhost:30001/sysadmin/"
     }
     else if(process.env.NODE_ENV === "demo") {
-        return "https://cpdemo.infaqyide.xyz/sysadmin/"
+        return "https://cp.infaqyide.xyz/sysadmin/"
     }
     else if(process.env.NODE_ENV === "production") {
         return "https://cp.infaqyide.com.my/sysadmin/"
@@ -229,7 +229,7 @@ export async function API_FORM_DATA_STAGING(API_NAME = "", DATA = [], METHOD = "
         redirect: 'follow'
     };    
 
-    await fetch("https://cp-api-demo.al-jariyah.com/admin/file-uploader", requestOptions)
+    await fetch("https://cp.infaqyide.xyz/admin/file-uploader", requestOptions)
     .then(response => response.json())
     .then(res => {
         console.log("Log Upload Form Data : ", res)
