@@ -25,7 +25,7 @@ function SenaraiTransaksiKeseluruhan() {
 	const [limit, set_limit]        = useState(10)
 	const [search, set_search]      = useState("")
 	const [status, set_status]      = useState("")
-	const [year, set_year] 			= useState("2022")
+	const [year, set_year] 			= useState(new Date().getFullYear())
 
 	const getData = async (_search = "") => {
 		set_loading(true)
@@ -45,6 +45,22 @@ function SenaraiTransaksiKeseluruhan() {
 			set_loading(false)
 		}
 	}
+
+    const getListYear = () => {
+        const startYear     = 2022;
+        const currentYear   = moment().year();
+
+        const years = [];
+
+        for (let year = startYear; year <= currentYear; year++) {
+        years.push({
+            label: year.toString(),
+            value: year.toString()
+        });
+        }
+
+        return years
+    }
 
 	const debouncedSearch = useCallback(
 		debounce((val) => {
@@ -79,13 +95,14 @@ function SenaraiTransaksiKeseluruhan() {
                             placeholder='-- Tahun Rekod --'
                             defaultValue={year}
                             onChange={e => set_year(e.target.value)}
-                            options={[
-                                {label: "2022", value: "2022"},
-                                {label: "2023", value: "2023"},
-                                {label: "2024", value: "2024"},
-								{label: "2025", value: "2025"},
-								{label: "2026", value: "2026"},
-                            ]}
+                            // options={[
+                            //     {label: "2022", value: "2022"},
+                            //     {label: "2023", value: "2023"},
+                            //     {label: "2024", value: "2024"},
+							// 	{label: "2025", value: "2025"},
+							// 	{label: "2026", value: "2026"},
+                            // ]}
+                            options={getListYear()}
                             />
                         </div>
                         <Select 
@@ -128,7 +145,7 @@ function SenaraiTransaksiKeseluruhan() {
                                 (!loading && data.total === 0) && (
                                     <Table.Row flex={1} textAlign="center">
                                         <Table.Cell flex={1} fontSize="small" colSpan={9}>
-                                            <td colSpan={9} style={{ textAlign: 'center', padding: '16px' }}>
+                                            <td className='flex w-full justify-center items-center'>
                                                 Tiada senarai transaksi sumbangan infaq.
                                             </td>
                                         </Table.Cell>
@@ -141,9 +158,9 @@ function SenaraiTransaksiKeseluruhan() {
                                         <Table.Cell flexBasis={50} flexShrink={0} flexGrow={0} fontSize="small">{(page - 1) * limit + index + 1}.</Table.Cell>
                                         <Table.Cell fontSize="small">
 											{item.billpayment_type === "Infaq" && <Badge className='bg-teal-50 border border-teal-100 text-teal-900'>Infaq Am</Badge>}
-											{item.billpayment_type === "Auto-infaq" && <Badge className='bg-blue-50 border border-blue-100 text-blue-900'>Auto Infaq</Badge>}
+											{(item.billpayment_type === "Auto-infaq" || item.billpayment_type === "Auto-Infaq" ) && <Badge className='bg-blue-50 border border-blue-100 text-blue-900'>Auto Infaq</Badge>}
 											{item.billpayment_type === "Topup" && <Badge className='bg-purple-50 border border-purple-100 text-purple-900'>Tambah Nilai</Badge>}
-                                            {item.billpayment_type === "Pay" && <Badge className='bg-purple-50 border border-purple-100 text-purple-900'>Bayaran Lain-lain</Badge>}
+                                            {item.billpayment_type === "Kempen" && <Badge className='bg-orange-50 border border-orange-100 text-orange-900'>Kempen</Badge>}
 										</Table.Cell>
 										<Table.Cell fontSize="small">{item.billpayment_invoiceNo}</Table.Cell>
 										<Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.billpayment_amount)}</Table.Cell>

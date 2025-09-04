@@ -22,6 +22,7 @@ function MaklumatPengguna() {
     const [maklumat_pengguna, set_maklumat_pengguna]    = useState(null)
 
     const [dialog, set_dialog]                          = useState(false)
+    const [dialog2, set_dialog2]                        = useState(false)
 
     if(!pengguna || !pengguna_id) {
         navigate(-1)
@@ -61,6 +62,26 @@ function MaklumatPengguna() {
         } 
     }
 
+    const updateAccountPassword = async () => {
+        set_dialog2(false)
+        set_loading(true)
+        try {
+            let api = await SYSADMIN_API(`pengurusan/pengguna/${pengguna_id}/change-password`, maklumat_pengguna, "PATCH", true)
+            if(api.status_code === 200) {
+                toast.success(api.message)
+                setTimeout(() => {
+                    navigate(-1)
+                }, 1000);
+            } else {
+                toast.error(api.message)
+            }
+        } catch (e) {
+            toast.error("Harap maaf! Terdapat masalah pada pangkalan data. Sila hubungi pentadbir sistem anda.")
+        } finally {
+            set_loading(false)
+        } 
+    }
+
     useEffect(() => {
         getAccountInfo()
     }, [state])
@@ -74,12 +95,26 @@ function MaklumatPengguna() {
 
             <Dialog
             title="Pengesahan Mengemaskini Maklumat Pengguna"
-            intent='danger'
+            intent='success'
             isShown={dialog}
             cancelLabel='Tutup'
             confirmLabel='Ya, Teruskan'
             onCancel={() => set_dialog(!dialog)}
             onConfirm={updateAccountInfo}
+            >
+                <div>
+                    <p className='text-sm text-slate-600'>Anda pasti untuk mengemaskini maklumat akaun pengguna ini?</p>
+                </div>
+            </Dialog>
+
+            <Dialog
+            title="Pengesahan Mengemaskini Akses Pengguna"
+            intent='danger'
+            isShown={dialog2}
+            cancelLabel='Tutup'
+            confirmLabel='Ya, Teruskan'
+            onCancel={() => set_dialog2(!dialog2)}
+            onConfirm={updateAccountPassword}
             >
                 <div>
                     <p className='text-sm text-slate-600'>Anda pasti untuk mengemaskini maklumat akaun pengguna ini?</p>
@@ -154,9 +189,7 @@ function MaklumatPengguna() {
                             label={"Alamat Menetap"}
                             placeholder='Contoh: No 11, Jalan Bandar Tasik Selatan, 57000 Kuala Lumpur'
                             dvalue={maklumat_pengguna.account_address}
-                            onChange={e => set_maklumat_pengguna({...maklumat_pengguna, account_phone: e.target.address })}
-                            isNumberOnly
-                            enableWhiteSpace={false}
+                            onChange={e => set_maklumat_pengguna({...maklumat_pengguna, account_address: e.target.value })}
                             />
                         </div>
                     </div>
@@ -165,6 +198,34 @@ function MaklumatPengguna() {
             <section className='mt-6'>
                 <div className='flex justify-end items-center'>
                     <Button onClick={() => set_dialog(!dialog)} className='bg-teal-600 text-white'>Kemaskini Maklumat</Button>
+                </div>
+            </section>
+
+            <section className='mt-6'>
+                <Card 
+                    title={"Kemaskini Akaun Akses"} 
+                    subtitle={"Sila pasti semua maklumat pengguna lengkap dengan maklumat yang sah."}
+                >
+                    <div>
+                        <Textinput 
+                        name={"Password"}
+                        isMask={false}
+                        register={() => {}}
+                        hasicon={true}
+                        label={"Kata Laluan Baharu"}
+                        placeholder='••••••••'
+                        type={"password"}
+                        onChange={e => {
+                            set_maklumat_pengguna({...maklumat_pengguna, new_password: e.target.value })
+                        }}
+                        enableWhiteSpace={false}
+                        />
+                    </div>
+                </Card>
+            </section>
+            <section className='mt-6'>
+                <div className='flex justify-end items-center'>
+                    <Button onClick={() => set_dialog2(!dialog2)} className='bg-teal-600 text-white'>Kemaskini Akses</Button>
                 </div>
             </section>
         </div>

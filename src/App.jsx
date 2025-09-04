@@ -143,6 +143,8 @@ import SenaraiTabungMasjid from "./pages/superadmin/pengurusan-tabung/SenaraiTab
 import MaklumatTabungMasjid from "./pages/superadmin/pengurusan-tabung/MaklumatTabungMasjid";
 import SenaraiKempenMasjid from "./pages/superadmin/pengurusan-kempen/SenaraiKempenMasjid";
 import MaklumatKempen from "./pages/superadmin/pengurusan-kempen/MaklumatKempen";
+import DashboardSuperAdmin from "./pages/superadmin/DashboardSuperAdmin";
+import DaftarMasjid from "./pages/superadmin/pengurusan-masjid/DaftarMasjid";
 
 
 function App() {
@@ -169,30 +171,34 @@ function App() {
 
 				{
 					user && user.role === "Super Admin" && (
-						<Route path="pengurusan">
-							<Route path="pengurusan-pengguna" element={<SenaraiPengguna />} />
-							<Route path="maklumat-pengguna" element={<MaklumatPengguna />} />
+						<>
+							<Route path="dashboard" element={<DashboardSuperAdmin />} />
+							<Route path="pengurusan">
+								<Route path="pengurusan-pengguna" element={<SenaraiPengguna />} />
+								<Route path="maklumat-pengguna" element={<MaklumatPengguna />} />
 
-							<Route path="pengurusan-institusi" element={<SenaraiMasjid />} />
-							<Route path="maklumat-institusi" element={<MaklumatMasjid />} />
+								<Route path="pengurusan-institusi" element={<SenaraiMasjid />} />
+								<Route path="maklumat-institusi" element={<MaklumatMasjid />} />
+								<Route path="daftar-institusi" element={<DaftarMasjid />} />
 
-							<Route path="pengurusan-transaksi" element={<SenaraiTransaksiKeseluruhan />} />
-							<Route path="maklumat-transaksi" element={<MaklumatTransaksiSumbangan />} />
+								<Route path="pengurusan-transaksi" element={<SenaraiTransaksiKeseluruhan />} />
+								<Route path="maklumat-transaksi" element={<MaklumatTransaksiSumbangan />} />
 
-							<Route path="akaun-kredit">
-								<Route path="pengguna" element={<KreditPengguna />} />
-								<Route path="maklumat-kredit-pengguna" element={<MaklumatKreditPengguna />} />
+								<Route path="akaun-kredit">
+									<Route path="pengguna" element={<KreditPengguna />} />
+									<Route path="maklumat-kredit-pengguna" element={<MaklumatKreditPengguna />} />
 
-								<Route path="institusi" element={<KreditInstitusi />} />
-								<Route path="maklumat-kredit-institusi" element={<MaklumatKreditInstitusi />} />
+									<Route path="institusi" element={<KreditInstitusi />} />
+									<Route path="maklumat-kredit-institusi" element={<MaklumatKreditInstitusi />} />
+								</Route>
+
+								<Route path="pengurusan-tabung" element={<SenaraiTabungMasjid />} />
+								<Route path="maklumat-tabung" element={<MaklumatTabungMasjid />} />
+
+								<Route path="pengurusan-kempen" element={<SenaraiKempenMasjid />} />
+								<Route path="maklumat-kempen" element={<MaklumatKempen />} />
 							</Route>
-
-							<Route path="pengurusan-tabung" element={<SenaraiTabungMasjid />} />
-							<Route path="maklumat-tabung" element={<MaklumatTabungMasjid />} />
-
-							<Route path="pengurusan-kempen" element={<SenaraiKempenMasjid />} />
-							<Route path="maklumat-kempen" element={<MaklumatKempen />} />
-						</Route>
+						</>
 					)
 				}
 

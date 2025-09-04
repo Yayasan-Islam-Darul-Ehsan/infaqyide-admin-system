@@ -78,7 +78,7 @@ const InputGroup = ({
             {prepend && (
             <span className="flex-none input-group-addon">
                 <div className="input-group-text h-full bg-gray-200">
-                    <span className="form-label mb-0">{prepend}</span>
+                    <span className="form-label mb-0 lowercase">{prepend}</span>
                 </div>
             </span>
             )}
