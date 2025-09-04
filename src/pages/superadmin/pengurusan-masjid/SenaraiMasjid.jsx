@@ -11,17 +11,14 @@ import { Pagination, Pane, SearchInput, Spinner, Table } from 'evergreen-ui'
 import { debounce } from 'lodash'
 import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate, useNavigation } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 function SenaraiMasjid() {
 
-    const [data, set_data] = useState({
-        row: [],
-        total: 0,
-        totalPages: 0
-    })
+    const navigate = useNavigate()
 
+    const [data, set_data] = useState({ row: [], total: 0, totalPages: 0})
     const [loading, set_loading]    = useState(true)
     const [page, set_page]          = useState(1)
     const [limit, set_limit]        = useState(10)
@@ -69,6 +66,7 @@ function SenaraiMasjid() {
                     icon={"heroicons:plus"} 
                     text={"Daftar Institusi"}
                     className='bg-teal-600 text-white'
+                    onClick={() => navigate("/pengurusan/daftar-institusi")}
                     />
                 </div>
             </div>

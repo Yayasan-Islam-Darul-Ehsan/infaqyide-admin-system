@@ -19,14 +19,15 @@ import Loading from "@/components/Loading";
 import { motion, AnimatePresence } from "framer-motion";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/api/auth/authSlice";
-import { API } from "@/utils/api";
+import { API, SYSADMIN_API } from "@/utils/api";
+import { useAuth } from "@/context/AuthContext";
 const Layout = () => {
 
 	const dispatch 						= useDispatch()
   	const { width, breakpoints } 		= useWidth();
   	const [collapsed] 					= useSidebar();
   	const navigate	 					= useNavigate();
-  	const user 							= sessionStorage.getItem("user")
+  	//const user 							= sessionStorage.getItem("user")
 	const token 						= sessionStorage.getItem("_aT")
 
 	// content width	
@@ -37,6 +38,8 @@ const Layout = () => {
 	// mobile menu
 	const [mobileMenu, setMobileMenu] 	= useMobileMenu();
 	const nodeRef 						= useRef(null);
+
+	let { user } 						= useSelector((user) => user.auth)
 
 	useEffect(() => {
 		if (user === undefined || user === null || user === "" || token === undefined || token === null || token === "") {
@@ -57,7 +60,7 @@ const Layout = () => {
 	}, [user, navigate]);
 
 	const auth = async () => {
-		let api = await API("auth-token", {}, "GET", true)
+		let api = user.role === "Super Admin" ? await SYSADMIN_API("auth-token", {}, "GET", true) : await API("auth-token", {}, "GET", true)
 		if(api.status_code === 200) {
 			sessionStorage.setItem("user", JSON.stringify(api.data))
 			localStorage.setItem("user", JSON.stringify(api.data))

@@ -114,6 +114,7 @@ export const SYSADMIN_API = async (name = "", body = null, method = "POST", auth
     myHeaders.append("Content-Type", "application/json");
     if(auth === true) {
         let token = sessionStorage.getItem("token")
+        myHeaders.append("Authorization", "Bearer " + token)
         myHeaders.append("token", token)
     }
 
