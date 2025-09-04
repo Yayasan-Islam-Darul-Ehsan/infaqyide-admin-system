@@ -15,6 +15,10 @@ import Icons from '@/components/ui/Icon';
 import InputGroup from '@/components/ui/InputGroup';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import DropZone from '@/pages/forms/file-input/DropZone';
+import { useDropzone } from 'react-dropzone';
+
+import uploadSvgImage from "@/assets/images/svg/upload.svg";
 
 
 function DaftarMasjid(props) {
@@ -63,6 +67,8 @@ function DaftarMasjid(props) {
     const [addressLine1, setAddressLine1]               = useState('');
     const [addressLine2, setAddressLine2]               = useState('');
     const [addressLine3, setAddressLine3]               = useState('');
+
+    const [files, setFiles] = useState([])
 
     const fetch_organization_category = async () => {
         set_loading(true)
@@ -182,6 +188,52 @@ function DaftarMasjid(props) {
             }
         }
 
+    const { getRootProps, getInputProps, isDragAccept } = useDropzone({
+        accept: {
+            "image/*": [],
+        },
+        maxFiles: 1,
+        onDrop: async (acceptedFiles) => {
+            console.log("Log Accepted File : ", acceptedFiles)
+            setFiles(
+                acceptedFiles.map((file) =>
+                    Object.assign(file, { preview: URL.createObjectURL(file) })
+                )
+            );
+
+            await uploadFileToServer(acceptedFiles).then(res => {
+                console.log("Log Res Upload File : ", res)
+                set_file_url = res
+                set_masjid({...masjid, organizationImage: res })
+            })
+        },
+    });
+
+    const uploadFileToServer = async (fileInput) => {
+
+        console.log("Log Filter File Before Upload : ", fileInput)
+        let file_url 	= ""
+        const formdata 	= new FormData();
+        formdata.append("file", fileInput[0]);
+
+        const requestOptions = {
+            method: "POST",
+            body: formdata,
+            redirect: "follow"
+        };
+
+        await fetch("https://cp.infaqyide.xyz/admin/file-uploader", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+            console.log(result)
+            set_masjid({...masjid, organizationImage: result.data })
+        })
+        .catch((error) => {
+            console.error(error)
+        });
+
+        return file_url
+    }
     useEffect(() => {
         fetch_organization_category()
     }, [])
@@ -510,6 +562,52 @@ function DaftarMasjid(props) {
                     </section>
 
                     <section className='mt-6'>
+                        <Card title={"Gambar Institusi"} subtitle={"Klik pada ruangan di bawah untuk muatnaik gambar institusi."}>
+                            <div>
+                                <div className="w-full text-center border-dashed border border-secondary-500 rounded-md py-[52px] flex flex-col justify-center items-center">
+                                    {files.length === 0 && (
+                                        <div {...getRootProps({ className: "dropzone" })}>
+                                            <input className="hidden" {...getInputProps()} />
+                                            <img
+                                                src={uploadSvgImage}
+                                                alt=""
+                                                className="mx-auto mb-4"
+                                            />
+                                            {isDragAccept ? (
+                                                <p className="text-sm text-slate-500 dark:text-slate-300 ">
+                                                    Drop the files here ...
+                                                </p>
+                                            ) : (
+                                                <p className="text-sm text-slate-500 dark:text-slate-300 f">
+                                                    Drop files here or click to upload.
+                                                </p>
+                                            )}
+                                        </div>
+                                    )}
+                                    <div className="flex space-x-4">
+                                        {files.map((file, i) => (
+                                            <div key={i} className="mb-4 flex-none">
+                                                <div className="h-[300px] w-[300px] mx-auto mt-6 rounded-md">
+                                                    <img
+                                                        src={file.preview}
+                                                        className=" object-contain h-full w-full block rounded-md"
+                                                        onLoad={() => {
+                                                            URL.revokeObjectURL(file.preview);
+                                                        }}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <span className='text-xs text-slate-600 italic'>{masjid.organizationImage}</span>
+                            </div>
+                        </Card>
+                    </section>
+
+                    <section className='mt-6'>
                     <Card>
                         <div className='flex flex-row items-center justify-between'>
                             <div>
@@ -555,7 +653,7 @@ function DaftarMasjid(props) {
                             ))}
                         </div>
                     </Card>
-                </section>
+                    </section>
 
                     <section className='mt-6'>
                         <Card>
