@@ -6,10 +6,9 @@ import { API, SYSADMIN_API } from '@/utils/api';
 import { Dialog, Spinner } from 'evergreen-ui';
 import HomeBredCurbs from '@/pages/dashboard/HomeBredCurbs';
 import Card from '@/components/ui/Card';
-import Select from '@/components/ui/Select';
 import Textinput from '@/components/ui/Textinput';
 import InputGroup from '@/components/ui/InputGroup';
-
+import Select from "react-select";
 import Flatpicker from 'react-flatpickr'
 import Checkbox from '@/components/ui/Checkbox';
 
@@ -37,6 +36,13 @@ import Loading from '@/components/Loading';
 import { useDropzone } from 'react-dropzone';
 
 import uploadSvgImage from "@/assets/images/svg/upload.svg";
+
+const styles = {
+    option: (provided, state) => ({
+        ...provided,
+        fontSize: "14px",
+    }),
+};
 
 MaklumatKempen.propTypes = {
     
@@ -118,7 +124,9 @@ function MaklumatKempen(props) {
         } catch (error) {
             set_opt_for_tabung([])
         } finally {
-            set_loading2(false)
+            setTimeout(() => {
+                set_loading2(false)
+            }, 1000);
         }
     }
 
@@ -234,14 +242,22 @@ function MaklumatKempen(props) {
                                 <div>
                                     {
                                         !loading2 ? (
+                                            <>
+                                            <label htmlFor=" hh" className="form-label ">Tabung Kempen</label>
                                             <Select 
+                                            className='text-sm text-slate-600'
+                                            classNamePrefix='select'
                                             label={"Tabung Kempen"}
                                             placeholder='-- Sila Pilih Tabung --'
                                             description={"Hanya tabung jenis kempen sahaja yang akan dipaparkan di sini."}
-                                            defaultValue={maklumat_kempen.tabungId || ""}
+                                            defaultValue={() => {
+                                                return opt_for_tabung.find(a => a.value === maklumat_kempen.tabungId)
+                                            }}
                                             options={opt_for_tabung}
-                                            onChange={e => set_maklumat_kempen({...maklumat_kempen, tabungId: e.target.value})}
+                                            onChange={e => set_maklumat_kempen({...maklumat_kempen, tabungId: e.value})}
+                                            styles={styles}
                                             />
+                                            </>
                                         ) : (
                                             <div className='flex justify-center items-center'>
                                                 <Spinner />
@@ -326,17 +342,29 @@ function MaklumatKempen(props) {
                                 </div>
                             </div>
                             <div className='mt-6'>
+                                <label htmlFor="" className='form-label'>Status</label>
                                 <Select 
+                                className='text-sm text-slate-600 form-input'
+                                classNamePrefix='select'
                                 label={"Status"}
                                 placeholder='-- Pilih Status Kempen --'
                                 description={"* Kempen anda akan melalui suatu proses pengesahan oleh pihak admin YIDE. Sila pastikan semua maklumat telah lengkap dan benar."}
-                                defaultValue={maklumat_kempen.campaignStatus}
-                                onChange={e => set_maklumat_kempen({...maklumat_kempen, campaignStatus: e.target.value })}
+                                defaultValue={() => {
+                                    let opt = [
+                                        {label: 'Aktif', value: 'ACTIVE'},
+                                        {label: 'Nyahaktif', value: 'INACTIVE'},
+                                        {label: 'Dalam Proses', value: 'PENDING'},
+                                    ]
+                                    return opt.find(a => a.value === maklumat_kempen.campaignStatus)
+                                }}
+                                //defaultInputValue={maklumat_kempen.campaignStatus}
+                                onChange={e => set_maklumat_kempen({...maklumat_kempen, campaignStatus: e.value })}
                                 options={[
                                     {label: 'Aktif', value: 'ACTIVE'},
                                     {label: 'Nyahaktif', value: 'INACTIVE'},
                                     {label: 'Dalam Proses', value: 'PENDING'},
                                 ]}
+                                styles={styles}
                                 />
                             </div>
                         </div>

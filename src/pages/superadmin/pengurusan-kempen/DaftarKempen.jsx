@@ -37,6 +37,13 @@ import { useDropzone } from 'react-dropzone';
 
 import uploadSvgImage from "@/assets/images/svg/upload.svg";
 
+const styles = {
+    option: (provided, state) => ({
+        ...provided,
+        fontSize: "12px"
+    }),
+};
+
 function DaftarKempen(props) {
 
     let base_url = process.env.NODE_ENV === "production" ? "https://infaqyide.com.my/kempen/" : "https://dev.infaqyide.xyz/kempen/"
@@ -236,6 +243,7 @@ function DaftarKempen(props) {
                                             <label htmlFor=" hh" className="form-label ">Institusi Kempen</label>
                                             <Select 
                                             className='text-sm text-slate-600'
+                                            classNamePrefix='select'
                                             label={"Institusi Kempen"}
                                             placeholder='-- Sila Pilih Institusi --'
                                             description={"Sila pilih institusi yang diperlukan untuk daftar kempen."}
@@ -246,6 +254,7 @@ function DaftarKempen(props) {
                                                 await fetchTabung(value)
                                                 set_maklumat_kempen({...maklumat_kempen, organizationId: value})
                                             }}
+                                            styles={styles}
                                             />
                                         </div>
                                         <div>
@@ -255,6 +264,7 @@ function DaftarKempen(props) {
                                                     <label htmlFor=" hh" className="form-label ">Tabung Kempen</label>
                                                     <Select 
                                                     className='text-sm text-slate-600'
+                                                    classNamePrefix='select'
                                                     label={"Tabung Kempen"}
                                                     placeholder='-- Sila Pilih Tabung --'
                                                     description={"Hanya tabung jenis kempen sahaja yang akan dipaparkan di sini."}
@@ -264,6 +274,7 @@ function DaftarKempen(props) {
                                                         ...maklumat_kempen, 
                                                         tabungId: value
                                                     })}
+                                                    styles={styles}
                                                     />
                                                     </>
                                                 ) : (

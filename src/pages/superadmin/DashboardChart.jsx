@@ -90,7 +90,7 @@ const DashboardChart = ({ height = 400 }) => {
 			offsetY: 13,
 			floating: false,
 			style: {
-				fontSize: "20px",
+				fontSize: "18px",
 				fontWeight: "500",
 				fontFamily: "Inter",
 				color: isDark ? "#fff" : "#0f172a",
