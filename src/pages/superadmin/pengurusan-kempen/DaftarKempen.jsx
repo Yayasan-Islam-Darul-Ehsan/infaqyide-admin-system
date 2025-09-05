@@ -6,10 +6,9 @@ import { API, SYSADMIN_API } from '@/utils/api';
 import { Dialog, Spinner } from 'evergreen-ui';
 import HomeBredCurbs from '@/pages/dashboard/HomeBredCurbs';
 import Card from '@/components/ui/Card';
-import Select from '@/components/ui/Select';
 import Textinput from '@/components/ui/Textinput';
 import InputGroup from '@/components/ui/InputGroup';
-
+import Select from "react-select";
 import Flatpicker from 'react-flatpickr'
 import Checkbox from '@/components/ui/Checkbox';
 
@@ -234,29 +233,39 @@ function DaftarKempen(props) {
                                     </div>
                                     <div className='flex flex-col mt-6 gap-3'>
                                         <div>
+                                            <label htmlFor=" hh" className="form-label ">Institusi Kempen</label>
                                             <Select 
+                                            className='text-sm text-slate-600'
                                             label={"Institusi Kempen"}
                                             placeholder='-- Sila Pilih Institusi --'
                                             description={"Sila pilih institusi yang diperlukan untuk daftar kempen."}
                                             defaultValue={maklumat_kempen.organizationId || ""}
                                             options={opt_for_institusi}
-                                            onChange={async (e) => {
-                                                await fetchTabung(e.target.value)
-                                                set_maklumat_kempen({...maklumat_kempen, organizationId: e.target.value})
+                                            onChange={async ({label, value}) => {
+                                                console.log("Log Val : ", value)
+                                                await fetchTabung(value)
+                                                set_maklumat_kempen({...maklumat_kempen, organizationId: value})
                                             }}
                                             />
                                         </div>
                                         <div>
                                             {
                                                 !loading2 ? (
+                                                    <>
+                                                    <label htmlFor=" hh" className="form-label ">Tabung Kempen</label>
                                                     <Select 
+                                                    className='text-sm text-slate-600'
                                                     label={"Tabung Kempen"}
                                                     placeholder='-- Sila Pilih Tabung --'
                                                     description={"Hanya tabung jenis kempen sahaja yang akan dipaparkan di sini."}
                                                     defaultValue={maklumat_kempen.tabungId || ""}
                                                     options={opt_for_tabung}
-                                                    onChange={e => set_maklumat_kempen({...maklumat_kempen, tabungId: e.target.value})}
+                                                    onChange={({label, value}) => set_maklumat_kempen({
+                                                        ...maklumat_kempen, 
+                                                        tabungId: value
+                                                    })}
                                                     />
+                                                    </>
                                                 ) : (
                                                     <div className='flex justify-center items-center'>
                                                         <Spinner />
