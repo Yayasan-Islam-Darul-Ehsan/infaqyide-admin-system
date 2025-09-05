@@ -56,14 +56,28 @@ export const SuperAdminMenu = [
         link: "pengurusan/pengurusan-kempen",
     },
 	{
-        isHeadr: true,
-        title: "Pengeluaran",
+        title: "Daftar Kempen",
+        icon: "heroicons-outline:document-plus",
+        link: "pengurusan/daftar-kempen",
     },
 	{
-        title: "Senarai Pengeluaran",
-        icon: "heroicons-outline:clipboard-document-list",
-        link: "pengurusan/pengurusan-pengeluaran",
+        isHeadr: true,
+        title: "Pengesahan",
     },
+	{
+        title: "Senarai Kempen",
+        icon: "heroicons-outline:clipboard-document-check",
+        link: "pengesahan/kempen",
+    },
+	// {
+    //     isHeadr: true,
+    //     title: "Pengeluaran",
+    // },
+	// {
+    //     title: "Senarai Pengeluaran",
+    //     icon: "heroicons-outline:clipboard-document-list",
+    //     link: "pengurusan/pengurusan-pengeluaran",
+    // },
 ]
 
 export const menuItems = [

@@ -28,7 +28,8 @@ function MaklumatTransaksiSumbangan() {
     const getTransactionInfo = async () => {
         set_loading(true)
         try {
-            let api = await SYSADMIN_API(`pengurusan/transaksi/${transaksi_id}?year=${year}`, {}, "GET", true)
+            //let api = await SYSADMIN_API(`pengurusan/transaksi/${transaksi_id}?year=${year}`, {}, "GET", true)
+            let api = await SYSADMIN_API(`pengurusan/transaksi/${transaksi_id}`, {}, "GET", true)
             if(api.status_code === 200) {
                 set_maklumat_transaksi(api.data)
             }   

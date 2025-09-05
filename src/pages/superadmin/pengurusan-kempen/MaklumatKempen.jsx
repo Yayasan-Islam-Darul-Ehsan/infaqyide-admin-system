@@ -36,6 +36,8 @@ import Loading from '@/components/Loading';
 import { useDropzone } from 'react-dropzone';
 
 import uploadSvgImage from "@/assets/images/svg/upload.svg";
+import Modal from '@/components/ui/Modal';
+import Textarea from '@/components/ui/Textarea';
 
 const styles = {
     option: (provided, state) => ({
@@ -180,6 +182,61 @@ function MaklumatKempen(props) {
         return file_url
     }
 
+    const [modal_loading, set_modal_loading] = useState(true)
+    const [modal_comment, set_modal_comment] = useState(false)
+    const [comment, set_comment] = useState({
+        campaignId: "",
+        organizationId: "",
+        approvalTitle: "",
+        approvalDescription: "",
+        approvalStatus: ""
+    })
+    const createComment = async () => {
+        let json = comment
+        //close_modal()
+        set_modal_loading(true)
+        try {
+            let api = await SYSADMIN_API("pengesahan/kempen", comment, "POST")
+            close_modal()
+            if(api.status_code === 200) {
+                toast.success(api.message)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 2000);
+            } else {
+                toast.error(api.message)
+            }
+        } catch (error) {
+            toast.error("Harap maaf! Terdapat masalah teknikal untuk membuat komen pengesahan kempen anda.")
+        } finally {
+            set_modal_loading(false)
+        }
+    }
+
+    const open_modal = (item) => {
+        console.log("Log Item : ", item)
+        set_comment({
+            ...comment,
+            campaignId: item.campaignId,
+            organizationId: item.organizationId,
+        })
+        setTimeout(() => {
+            set_modal_comment(true)
+            set_modal_loading(false)
+        }, 0);
+    }
+
+    const close_modal = () => {
+        set_comment({
+            campaignId: "",
+            organizationId: "",
+            approvalTitle: "",
+            approvalDescription: "",
+            approvalStatus: ""
+        })
+        set_modal_comment(false)
+    }
+
     useEffect(() => {
         getKempen()
     }, [kempen_id])
@@ -188,6 +245,7 @@ function MaklumatKempen(props) {
 
     return (
         <div>
+
             <Dialog
             isShown={dialog}
             title="Pengesahan Mengemaskini Maklumat Kempen"
@@ -200,8 +258,122 @@ function MaklumatKempen(props) {
                 <p className='font-normal text-sm text-slate-600'>Anda pasti untuk mengemaskini maklumat kempen ini?</p>
             </Dialog>
 
+            <Modal
+                title='Komplen Pengesahan Kempen'
+                themeClass='bg-teal-600 text-white'
+                activeModal={modal_comment}
+                onClose={close_modal}
+                footerContent={(
+                    <>
+                    <div className='flex justify-end items-center gap-3'>
+                        <Button className='' onClick={close_modal}>Batal</Button>
+                        <Button className='bg-teal-600 text-white' onClick={createComment}>Komen Pengesahan</Button>
+                    </div>
+                    </>
+                )}
+                >
+                    <div>
+                        {
+                            modal_loading ? 
+                            (
+                                <>
+                                <div className='flex justify-center items-center'>
+                                    <Spinner />
+                                </div>
+                                </>
+                            ) :
+                            (
+                                <>
+                                <div className='p-0'>
+                                    <Card 
+                                        title={`Komplen Pengesahan Kempen`} 
+                                        subtitle={`Sila isi ruangan komplen pengesahan kempen anda di bawah.`}
+                                    >
+                                        <div className='grid grid-col-1 md:grid-cols-2 gap-3'>
+                                            <Textinput 
+                                            label={"ID Kempen"}
+                                            placeholder='Contoh: 1234'
+                                            defaultValue={comment.campaignId}
+                                            disabled={true}
+                                            />
+                                            <Textinput 
+                                            label={"ID Institusi"}
+                                            placeholder='Contoh: 12'
+                                            defaultValue={comment.organizationId}
+                                            disabled={true}
+                                            />
+                                        </div>
+    
+                                        <div className='mt-3 space-y-3'>
+                                            <div>
+                                            <label htmlFor="" className='form-label'>Jenis Komen</label>
+                                            <Select 
+                                            className='text-sm text-slate-600'
+                                            classNamePrefix='select'
+                                            styles={styles}
+                                            label={"Jenis Komen"}
+                                            placeholder='Contoh: Maklumat kempen tidak lengkap'
+                                            defaultValue={comment.approvalTitle}
+                                            options={[
+                                                { label: 'Kempen Sah', value: 'Kempen Sah' },
+                                                { label: 'Maklumat Tidak Lengkap', value: 'Maklumat Tidak Lengkap' },
+                                                { label: 'Tiada Gambar Kempen', value: 'Tiada Gambar Kempen' },
+                                                { label: 'Tidak Patuh Shariah', value: 'Tidak Patuh Shariah' },
+                                                { label: 'Melebihi Had Dana Dikumpul', value: 'Melebihi Had Dana Dikumpul' },
+                                                { label: 'Tidak Patuh Syarat Kempen', value: 'Tidak Patuh Syarat Kempen' },
+                                                { label: 'Institusi Tidak Sah', value: 'Institusi Tidak Sah' },
+                                                { label: 'Kempen Tidak Sah', value: 'Kempen Tidak Sah' },
+                                                { label: 'Lain-lain', value: 'Lain-lain' },
+                                            ]}
+                                            onChange={e => set_comment({...comment, approvalTitle: e.value})}
+                                            />
+                                            </div>
+    
+                                            <Textarea 
+                                            label={"Keterangan Komen"}
+                                            placeholder={"Contoh: Kempen ini tidak mematuhi syarat yang telah ditetapkan oleh pihak pengurusan Yayasan Islam Darul Ehsan."}
+                                            dvalue={comment.approvalDescription}
+                                            onChange={e => set_comment({...comment, approvalDescription: e.target.value})}
+                                            />
+    
+                                            <div>
+                                            <label htmlFor="" className='form-label'>Status Kempen</label>
+                                            <Select 
+                                            className='text-sm text-slate-600'
+                                            classNamePrefix='select'
+                                            styles={styles}
+                                            label={"Status Pengesahan"}
+                                            placeholder='Contoh: Ditolak'
+                                            defaultValue={comment.approvalStatus}
+                                            options={[
+                                                { label: 'Lulus Pengesahan', value: 'Approved' },
+                                                { label: 'Pengesahan Ditolak', value: 'Rejected' },
+                                                { label: 'Lain-lain', value: 'Others' },
+                                            ]}
+                                            onChange={e => set_comment({...comment, approvalStatus: e.value})}
+                                            />
+                                            </div>
+    
+                                        </div>
+                                    </Card>
+                                </div>
+                                </>
+                            )
+                        }
+                    </div>
+            </Modal>
+
             <section>
-                <HomeBredCurbs title={`Maklumat Kempen - ${state.campaignTitle}`} />
+                {/* <HomeBredCurbs title={`Maklumat Kempen - ${state.campaignTitle}`} /> */}
+                <div className="flex justify-between flex-wrap items-center mb-6">
+                    <p className="font-medium lg:text-2xl text-xl capitalize text-slate-900 inline-block ltr:pr-4 rtl:pl-4">
+                        {`Maklumat Kempen - ${state.campaignTitle}`}
+                    </p>
+                    <Button 
+                    text={"Kemaskini Status"}
+                    onClick={() => open_modal({organizationId: maklumat_kempen.organizationId, campaignId: state.campaignId})}
+                    />
+                </div>
 
                 <section className='mt-6'>
                     <div className='bg-yellow-50 px-5 py-3 rounded-lg border border-yellow-600 shadow-md'>
