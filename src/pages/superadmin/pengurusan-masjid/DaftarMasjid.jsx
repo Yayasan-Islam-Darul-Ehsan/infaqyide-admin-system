@@ -234,6 +234,7 @@ function DaftarMasjid(props) {
 
         return file_url
     }
+    
     useEffect(() => {
         fetch_organization_category()
     }, [])

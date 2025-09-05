@@ -38,56 +38,44 @@ import { useDropzone } from 'react-dropzone';
 
 import uploadSvgImage from "@/assets/images/svg/upload.svg";
 
-MaklumatKempen.propTypes = {
-    
-};
-
-function MaklumatKempen(props) {
+function DaftarKempen(props) {
 
     let base_url = process.env.NODE_ENV === "production" ? "https://infaqyide.com.my/kempen/" : "https://dev.infaqyide.xyz/kempen/"
 
     let navigate    = useNavigate()
-    let { state }   = useLocation()
 
-    const [loading, set_loading]                            = useState(true)
-    const [loading2, set_loading2]                          = useState(true)
+    const [loading, set_loading]                            = useState(false)
+    const [loading2, set_loading2]                          = useState(false)
 
-    const [kempen_id, set_kempen_id]                        = useState(state.campaignId || null)
-    const [maklumat_kempen, set_maklumat_kempen]            = useState({})
+    const [maklumat_kempen, set_maklumat_kempen]            = useState({
+        campaignTitle: "",
+        campaignCode: "",
+        campaignDateStart: moment().format("YYYY-MM-DD"),
+        campaignDeadline: moment().add(1, 'year').format("YYYY-MM-DD"),
+        campaignFeatured: false,
+        campaignDisplayDonor: true,
+        campaignContent: "",
+        campaignTarget: "",
+        campaignStatus: "ACTIVE",
+        campaignImage: "",
+        organizationId: "",
+        tabungId: ""
+    })
 
     const [dialog, set_dialog]                              = useState(false)
     const open_dialog                                       = () => set_dialog(true)
     const close_dialog                                      = () => set_dialog(false)
 
+    const [opt_for_institusi, set_opt_for_institusi]        = useState([])
     const [opt_for_tabung, set_opt_for_tabung]              = useState([])
+
     const [files, setFiles]                                 = useState([])
 
-    const getKempen = async () => {
-        set_loading(true)
-        try {
-            let api = await SYSADMIN_API(`pengurusan/kempen/${kempen_id}`, {}, "GET", true)
-            if(api.status_code === 200) {
-                set_maklumat_kempen({
-                    ...api.data,
-                    campaignDisplayDonor: api.data.campaignDisplayDonor == 1 ? true : false,
-                    campaignFeatured: api.data.campaignFeatured == 1 ? true : false
-                })
-                GET__LIST__TABUNG__KEMPEN(api.data.organizationId)
-            } else {
-                toast.error(api.message)
-            }
-        } catch (e) {
-            toast.error("Harap maaf! Terdapat masalah pada pangkalan data untuk melihat maklumat kempen.")
-        } finally {
-            set_loading(false)
-        }
-    }
-
-    const updateKempen = async () => {
+    const createKempen = async () => {
         close_dialog()
         set_loading(true)
         try {
-            let api = await SYSADMIN_API(`pengurusan/kempen/${kempen_id}`, maklumat_kempen, "PATCH", true)
+            let api = await SYSADMIN_API(`pengurusan/kempen`, maklumat_kempen, "POST", true)
             if(api.status_code === 200) {
                 toast.success(api.message)
                 setTimeout(() => {
@@ -103,7 +91,31 @@ function MaklumatKempen(props) {
         }
     }
 
-    const GET__LIST__TABUNG__KEMPEN = async (o_id) => {
+    const fetchInstitusi = async () => {
+        set_loading(true)
+        try {
+            let ngo = await SYSADMIN_API("pengurusan/institusi?limit=1000", {}, "GET")
+            if(ngo.status_code === 200) {
+                if(ngo.data.row.length > 0) {
+                    let data    = ngo.data.row
+                    let arr     = []
+                    for (let i = 0; i < data.length; i++) {
+                        arr.push({
+                            label: data[i]["organizationName"],
+                            value: data[i]["organizationId"]
+                        })
+                    }
+                    set_opt_for_institusi(arr)
+                }
+            }
+        } catch (e) {
+            toast.error("Harap maaf! Terdapat masalah pada pangkalan data. Sila hubungi sistem pentadbir anda.")
+        } finally {
+            set_loading(false)
+        }
+    }
+
+    const fetchTabung = async (o_id) => {
         set_loading2(true)
         try {
             let api = await API("getTabungInstitusi/kempen", { org_id: o_id })
@@ -173,8 +185,8 @@ function MaklumatKempen(props) {
     }
 
     useEffect(() => {
-        getKempen()
-    }, [kempen_id])
+        fetchInstitusi()
+    }, [])
 
     if(loading) return <Loading />
 
@@ -182,18 +194,19 @@ function MaklumatKempen(props) {
         <div>
             <Dialog
             isShown={dialog}
+            intent='success'
             title="Pengesahan Mengemaskini Maklumat Kempen"
             cancelLabel='Tutup'
             confirmLabel='Ya, Teruskan'
             onCloseComplete={close_dialog}
             onCancel={close_dialog}
-            onConfirm={updateKempen}
+            onConfirm={createKempen}
             >
-                <p className='font-normal text-sm text-slate-600'>Anda pasti untuk mengemaskini maklumat kempen ini?</p>
+                <p className='font-normal text-sm text-slate-600'>Anda pasti untuk daftar kempen ini?</p>
             </Dialog>
 
             <section>
-                <HomeBredCurbs title={`Maklumat Kempen - ${state.campaignTitle}`} />
+                <HomeBredCurbs title={`Daftar Kempen Baru`} />
 
                 <section className='mt-6'>
                     <div className='bg-yellow-50 px-5 py-3 rounded-lg border border-yellow-600 shadow-md'>
@@ -211,47 +224,51 @@ function MaklumatKempen(props) {
                 </section>
 
                 <section>
-                    <section className='mt-6'>
-                        <Card>
-                            <div>
-                                <p className='font-semibold text-gray-900 text-lg'>Maklumat Institusi & Tabung Kempen</p>
-                                <p className='font-normal text-gray-500 text-sm'>Sila pilih institusi & tabung yang diperlukan untuk daftar kempen baharu.</p>
-                            </div>
-                            <div className='flex flex-col mt-6 gap-3'>
-                                {/* <div>
-                                    <Select 
-                                    label={"Institusi Kempen"}
-                                    placeholder='-- Sila Pilih Institusi --'
-                                    description={"Sila pilih institusi yang diperlukan untuk daftar kempen."}
-                                    defaultValue={maklumat_kempen.organizationId || ""}
-                                    options={opt_for_institusi}
-                                    onChange={async (e) => {
-                                        await fetchTabung(e.target.value)
-                                        set_maklumat_kempen({...maklumat_kempen, organizationId: e.target.value})
-                                    }}
-                                    />
-                                </div> */}
-                                <div>
-                                    {
-                                        !loading2 ? (
+                    {
+                        (
+                            <section className='mt-6'>
+                                <Card>
+                                    <div>
+                                        <p className='font-semibold text-gray-900 text-lg'>Maklumat Institusi & Tabung Kempen</p>
+                                        <p className='font-normal text-gray-500 text-sm'>Sila pilih institusi & tabung yang diperlukan untuk daftar kempen baharu.</p>
+                                    </div>
+                                    <div className='flex flex-col mt-6 gap-3'>
+                                        <div>
                                             <Select 
-                                            label={"Tabung Kempen"}
-                                            placeholder='-- Sila Pilih Tabung --'
-                                            description={"Hanya tabung jenis kempen sahaja yang akan dipaparkan di sini."}
-                                            defaultValue={maklumat_kempen.tabungId || ""}
-                                            options={opt_for_tabung}
-                                            onChange={e => set_maklumat_kempen({...maklumat_kempen, tabungId: e.target.value})}
+                                            label={"Institusi Kempen"}
+                                            placeholder='-- Sila Pilih Institusi --'
+                                            description={"Sila pilih institusi yang diperlukan untuk daftar kempen."}
+                                            defaultValue={maklumat_kempen.organizationId || ""}
+                                            options={opt_for_institusi}
+                                            onChange={async (e) => {
+                                                await fetchTabung(e.target.value)
+                                                set_maklumat_kempen({...maklumat_kempen, organizationId: e.target.value})
+                                            }}
                                             />
-                                        ) : (
-                                            <div className='flex justify-center items-center'>
-                                                <Spinner />
-                                            </div>
-                                        )
-                                    }
-                                </div>
-                            </div>
-                        </Card>
-                    </section>
+                                        </div>
+                                        <div>
+                                            {
+                                                !loading2 ? (
+                                                    <Select 
+                                                    label={"Tabung Kempen"}
+                                                    placeholder='-- Sila Pilih Tabung --'
+                                                    description={"Hanya tabung jenis kempen sahaja yang akan dipaparkan di sini."}
+                                                    defaultValue={maklumat_kempen.tabungId || ""}
+                                                    options={opt_for_tabung}
+                                                    onChange={e => set_maklumat_kempen({...maklumat_kempen, tabungId: e.target.value})}
+                                                    />
+                                                ) : (
+                                                    <div className='flex justify-center items-center'>
+                                                        <Spinner />
+                                                    </div>
+                                                )
+                                            }
+                                        </div>
+                                    </div>
+                                </Card>
+                            </section>
+                        )
+                    }
                 </section>
 
                 <section className='mt-6'>
@@ -266,15 +283,26 @@ function MaklumatKempen(props) {
                                 label={"Nama Kempen"}
                                 placeholder='Contoh: Kempen Tabung Pembinaan Rumah Anak Yatim Widad 2025'
                                 defaultValue={maklumat_kempen.campaignTitle}
-                                onChange={e => set_maklumat_kempen({...maklumat_kempen, campaignTitle: e.target.value })}
+                                onChange={e => {
+                                    set_maklumat_kempen({
+                                        ...maklumat_kempen, 
+                                        campaignTitle: e.target.value,
+                                        campaignCode: e.target.value.replaceAll(" ", "-")
+                                    })
+                                }}
+                                disabled={(!maklumat_kempen.organizationId || !maklumat_kempen.tabungId)}
+                                description={(!maklumat_kempen.organizationId || !maklumat_kempen.tabungId) && "Sila buat pemilihan intitusi dan tabung untuk kempen ini."}
                                 />
                             </div>
                             <div className='mt-6'>
                                 <InputGroup 
                                 label={"Permalink Kempen"}
                                 prepend={`${base_url}`}
-                                defaultValue={maklumat_kempen.campaignCode ? maklumat_kempen.campaignCode : maklumat_kempen.campaignTitle.replaceAll(" ", "-").toLowerCase()}
-                                onChange={e => set_maklumat_kempen({...maklumat_kempen, campaignCode: e.target.value })}
+                                defaultValue={maklumat_kempen.campaignCode}
+                                onChange={e => set_maklumat_kempen({
+                                    ...maklumat_kempen, 
+                                    campaignCode: e.target.value.replaceAll(" ", "-")
+                                })}
                                 />
                             </div>
                             <div className='mt-6'>
@@ -351,7 +379,7 @@ function MaklumatKempen(props) {
                                     <div {...getRootProps({ className: "dropzone" })}>
                                         <input className="hidden" {...getInputProps()} />
                                         <img
-                                            src={maklumat_kempen.campaignImage || uploadSvgImage}
+                                            src={uploadSvgImage}
                                             alt=""
                                             className="mx-auto mb-4"
                                         />
@@ -434,7 +462,7 @@ function MaklumatKempen(props) {
                 <section className='mt-3'>
                     <div className='flex justify-end items-center'>
                         <Button 
-                        text={"Kemaskini Kempen"}
+                        text={"Daftar Kempen"}
                         icon={"heroicons:inbox-arrow-down"}
                         onClick={open_dialog}
                         className='bg-teal-600 text-white'
@@ -446,4 +474,4 @@ function MaklumatKempen(props) {
     );
 }
 
-export default MaklumatKempen;
+export default DaftarKempen;

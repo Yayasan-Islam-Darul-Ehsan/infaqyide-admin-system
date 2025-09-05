@@ -11,11 +11,12 @@ import { Pagination, Pane, SearchInput, Spinner, Table } from 'evergreen-ui'
 import { debounce } from 'lodash'
 import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
 function SenaraiKempenMasjid() {
 
+    const navigate = useNavigate()
     const [data, set_data] = useState({
         row: [],
         total: 0,
@@ -70,6 +71,7 @@ function SenaraiKempenMasjid() {
                     icon={"heroicons:plus"} 
                     text={"Daftar Kmepen"}
                     className='bg-teal-600 text-white'
+                    onClick={() => navigate("/pengurusan/daftar-kempen")}
                     />
                 </div>
             </div>
