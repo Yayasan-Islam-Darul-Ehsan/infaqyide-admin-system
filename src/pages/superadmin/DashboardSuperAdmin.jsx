@@ -41,7 +41,7 @@ function DashboardSuperAdmin(props) {
     const GetLatestTransaction = async () => {
         set_loading_transaction(true)
         try {
-            let api = await SYSADMIN_API("pengurusan/transaksi?page=1&limit=10", {}, "GET")
+            let api = await SYSADMIN_API(`pengurusan/transaksi?page=1&limit=10&year=${new Date().getFullYear()}`, {}, "GET")
             if(api.status_code === 200) {
                 set_data_transaction(api.data.row)
             }
@@ -134,7 +134,8 @@ function DashboardSuperAdmin(props) {
                                 <Table className='mt-6'>
                                     <Table.Head>
                                         <Table.HeaderCell flexBasis={50} flexShrink={0} flexGrow={0}>Bil.</Table.HeaderCell>
-                                        <Table.HeaderCell flexBasis={300} flexShrink={0} flexGrow={0}>Maklumat Transaksi</Table.HeaderCell>
+                                        <Table.HeaderCell>No. Transaksi</Table.HeaderCell>
+                                        <Table.HeaderCell>Jenis</Table.HeaderCell>
                                         <Table.HeaderCell>Amaun (RM)</Table.HeaderCell>
                                         <Table.HeaderCell>Nama Pembayar</Table.HeaderCell>
                                         <Table.HeaderCell>Status Transaksi</Table.HeaderCell>
@@ -144,8 +145,11 @@ function DashboardSuperAdmin(props) {
                                             data_transaction.map((item, index) => (
                                                 <Table.Row key={index}>
                                                     <Table.Cell flexBasis={50} flexShrink={0} flexGrow={0} fontSize="small">{index + 1}.</Table.Cell>
-                                                    <Table.Cell flexBasis={300} flexShrink={0} flexGrow={0} fontSize="small">
-                                                        <p>{item.billpayment_invoiceNo} - <span className='font-semibold'>{item.billpayment_type}</span></p>
+                                                    <Table.Cell>
+                                                        <p className='text-xs text-slate-600'>{item.billpayment_invoiceNo}</p>
+                                                    </Table.Cell>
+                                                    <Table.Cell>
+                                                        <p className='text-xs text-slate-600'><span className='font-semibold'>{item.billpayment_type}</span></p>
                                                     </Table.Cell>
                                                     <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.billpayment_amount)}</Table.Cell>
                                                     <Table.Cell fontSize="small">{item.billpayment_payorName || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>

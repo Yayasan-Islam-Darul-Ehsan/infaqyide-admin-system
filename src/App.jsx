@@ -147,6 +147,7 @@ import DashboardSuperAdmin from "./pages/superadmin/DashboardSuperAdmin";
 import DaftarMasjid from "./pages/superadmin/pengurusan-masjid/DaftarMasjid";
 import DaftarKempen from "./pages/superadmin/pengurusan-kempen/DaftarKempen";
 import SenaraiPengesahanKempen from "./pages/superadmin/pengurusan-pengesahan/Kempen/SenaraiPengesahanKempen";
+import SenaraiPengesahanInstitusi from "./pages/superadmin/pengurusan-pengesahan/Institusi/SenaraiPengesahanInstitusi";
 
 
 function App() {
@@ -202,6 +203,7 @@ function App() {
 								<Route path="daftar-kempen" element={<DaftarKempen />} />
 							</Route>
 							<Route path="pengesahan">
+								<Route path="institusi" element={<SenaraiPengesahanInstitusi />} />
 								<Route path="kempen" element={<SenaraiPengesahanKempen />} />
 							</Route>
 						</>

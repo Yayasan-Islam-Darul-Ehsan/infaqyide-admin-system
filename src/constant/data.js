@@ -65,6 +65,11 @@ export const SuperAdminMenu = [
         title: "Pengesahan",
     },
 	{
+        title: "Senarai Institusi",
+        icon: "heroicons-outline:clipboard-document-check",
+        link: "pengesahan/institusi",
+    },
+	{
         title: "Senarai Kempen",
         icon: "heroicons-outline:clipboard-document-check",
         link: "pengesahan/kempen",

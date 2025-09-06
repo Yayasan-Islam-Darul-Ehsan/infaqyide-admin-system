@@ -100,6 +100,14 @@ const MaklumatMasjid = () => {
                     set_opt_for_daerah(array_city)
                     set_opt_for_postcode(array_postcode)
                 }
+
+                let organizationData = data.organizationData
+                if(!organizationData || organizationData == null || organizationData == "" || organizationData == undefined) {
+                    set_masjid({
+                        ...api.data,
+                        organizationData: []
+                    })
+                }
             } else {
                 toast.error(api.message)
             }
@@ -566,7 +574,7 @@ const MaklumatMasjid = () => {
                                         <div {...getRootProps({ className: "dropzone" })}>
                                             <input className="hidden" {...getInputProps()} />
                                             <img
-                                                src={uploadSvgImage}
+                                                src={masjid.organizationImage || uploadSvgImage}
                                                 alt=""
                                                 className="mx-auto mb-4"
                                             />
