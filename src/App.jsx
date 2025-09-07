@@ -1,5 +1,5 @@
-import React, { lazy, Suspense } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
+import React, { lazy, Suspense, useEffect, useRef, useState } from "react";
+import { Routes, Route, Navigate, useNavigate, useNavigation, useLocation } from "react-router-dom";
 
 // home pages  & dashboard
 //import Dashboard from "./pages/dashboard";
@@ -149,10 +149,14 @@ import DaftarKempen from "./pages/superadmin/pengurusan-kempen/DaftarKempen";
 import SenaraiPengesahanKempen from "./pages/superadmin/pengurusan-pengesahan/Kempen/SenaraiPengesahanKempen";
 import SenaraiPengesahanInstitusi from "./pages/superadmin/pengurusan-pengesahan/Institusi/SenaraiPengesahanInstitusi";
 
+import { db } from "../fb";
+import { collection, onSnapshot } from "firebase/firestore";
+import AppSetting from "./pages/superadmin/setting/AppSetting";
+
 
 function App() {
 
-	let { user } = useSelector((user) => user.auth)
+	let { user } 		= useSelector((user) => user.auth)
 
 	return (
 		<main className="App relative">
@@ -206,6 +210,7 @@ function App() {
 								<Route path="institusi" element={<SenaraiPengesahanInstitusi />} />
 								<Route path="kempen" element={<SenaraiPengesahanKempen />} />
 							</Route>
+							<Route path="app-setting" element={<AppSetting />} />
 						</>
 					)
 				}

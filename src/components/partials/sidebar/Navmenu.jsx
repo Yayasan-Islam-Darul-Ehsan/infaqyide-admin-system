@@ -81,9 +81,9 @@ const Navmenu = ({ menus }) => {
 			>
             {/* single menu with no childred*/}
             {!item.child && !item.isHeadr && (
-              	<NavLink className={`menu-link`} to={item.link}>
+              	<NavLink className={`menu-link items-center p-1`} to={item.link}>
                 	<span className={`menu-icon flex-grow-0`}><Icon className={` ${locationName === item.link ? 'text-white' : 'text-slate-600'}`} icon={item.icon} /></span>
-                	<div className={`text-box flex-grow ${locationName === item.link ? 'text-white' : 'text-slate-600'}`}>{item.title}</div>
+                	<div className={`text-box flex-grow text-[11px] ${locationName === item.link ? 'text-white' : 'text-slate-600'}`}>{item.title}</div>
                 	{item.badge && <span className="menu-badge">{item.badge}</span>}
               	</NavLink>
             )}
@@ -101,7 +101,7 @@ const Navmenu = ({ menus }) => {
 						<span className="menu-icon">
 							<Icon icon={item.icon} />
 						</span>
-						<div className="text-box">{item.title}</div>
+						<div className="text-box text-xs">{item.title}</div>
 					</div>
 					<div className="flex-0">
 						<div className={`menu-arrow transform transition-all duration-300 ${activeSubmenu === i ? " rotate-90" : ""}`}>

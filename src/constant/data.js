@@ -47,6 +47,16 @@ export const SuperAdminMenu = [
         link: "pengurusan/pengurusan-tabung",
     },
 	{
+        title: "Pengurusan Ahli Kariah",
+        icon: "heroicons-outline:user-group",
+        link: "pengurusan/pengurusan-kariah",
+    },
+	{
+        title: "Pengurusan Khairat Kematian",
+        icon: "heroicons-outline:user-group",
+        link: "pengurusan/pengurusan-kariah",
+    },
+	{
         isHeadr: true,
         title: "Kempen",
     },
@@ -66,13 +76,22 @@ export const SuperAdminMenu = [
     },
 	{
         title: "Senarai Institusi",
-        icon: "heroicons-outline:clipboard-document-check",
+        icon: "heroicons-outline:building-library",
         link: "pengesahan/institusi",
     },
 	{
         title: "Senarai Kempen",
-        icon: "heroicons-outline:clipboard-document-check",
+        icon: "heroicons-outline:clipboard-document-list",
         link: "pengesahan/kempen",
+    },
+	{
+        isHeadr: true,
+        title: "Tetapan",
+    },
+	{
+        title: "Aplikasi",
+        icon: "heroicons-outline:wrench-screwdriver",
+        link: "app-setting",
     },
 	// {
     //     isHeadr: true,
@@ -931,6 +950,7 @@ export const selectOptions = [
 		label: "Option 3",
 	},
 ];
+
 export const selectCategory = [
 	{
 		value: "option1",

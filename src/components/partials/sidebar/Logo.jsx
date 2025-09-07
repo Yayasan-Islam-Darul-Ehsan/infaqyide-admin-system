@@ -17,7 +17,7 @@ const SidebarLogo = ({ menuHover }) => {
 	const { user } = useSelector((user) => user.auth)
 	
 	return (
-		<div className={` logo-segment flex justify-between items-center bg-white dark:bg-slate-800 z-[9] py-6 px-4${menuHover ? "" : ""}
+		<div className={` logo-segment flex justify-between items-center bg-white dark:bg-slate-800 z-[9] py-1 px-4${menuHover ? "" : ""}
 		${skin === "bordered" ? " border-b border-r-0 border-slate-200 dark:border-slate-700" : " border-none"}`}
 		>
 		<Link to="/dashboard">

@@ -38,6 +38,7 @@
     "dayjs": "^1.11.7",
     "evergreen-ui": "^7.1.9",
     "exceljs": "^4.4.0",
+    "firebase": "^12.2.1",
     "framer-motion": "^10.12.12",
     "leaflet": "^1.9.3",
     "localforage": "^1.10.0",
