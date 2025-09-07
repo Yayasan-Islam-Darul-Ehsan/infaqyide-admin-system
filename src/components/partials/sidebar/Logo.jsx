@@ -30,7 +30,7 @@ const SidebarLogo = ({ menuHover }) => {
 
 			{(!collapsed || menuHover) && (
 				<div>
-					<h1 className="text-sm font-semibold text-slate-900 dark:text-slate-100">{user.role}</h1>
+					<h1 className="text-sm font-semibold text-slate-900 dark:text-slate-100">{user.role === "Organization" ? "Institusi InfaqYIDE" : "Super Admin"}</h1>
 				</div>
 			)}
 			</div>

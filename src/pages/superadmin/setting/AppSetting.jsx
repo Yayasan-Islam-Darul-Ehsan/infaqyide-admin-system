@@ -162,14 +162,14 @@ function AppSetting(props) {
                 }
             </section>
 
-            <section className='mt-6'>
+            {/* <section className='mt-6'>
                 <div className='flex justify-end items-center'>
                     <Button 
                     text={"Tambah Tetapan"}
                     onClick={open_modal}
                     />
                 </div>
-            </section>
+            </section> */}
         </div>
     );
 }

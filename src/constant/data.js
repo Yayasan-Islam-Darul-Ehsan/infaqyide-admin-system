@@ -114,11 +114,11 @@ export const menuItems = [
         icon: "heroicons-outline:home",
         link: "dashboard",
     },
-	{
-        title: "Pengurusan Pengguna",
-        icon: "heroicons-outline:users",
-        link: "pengurusan/pengurusan-pengguna",
-    },
+	// {
+    //     title: "Pengurusan Pengguna",
+    //     icon: "heroicons-outline:users",
+    //     link: "pengurusan/pengurusan-pengguna",
+    // },
     {
         isHeadr: true,
         title: "Pengurusan Institusi",
