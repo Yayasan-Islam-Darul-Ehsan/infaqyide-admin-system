@@ -47,7 +47,7 @@ const Sidebar = () => {
 			<SidebarLogo menuHover={menuHover} />
 			{/* <div className={`h-[0px] absolute top-[80px] nav-shadow z-[0] w-full transition-all duration-200 pointer-events-none ${ scroll ? " opacity-100" : " opacity-0"}`}></div> */}
 
-			<SimpleBar className="sidebar-menu px-4 h-[calc(100%-50px)]" scrollableNodeProps={{ ref: scrollableNodeRef }}>
+			<SimpleBar className="sidebar-menu px-4 h-[calc(100%-100px)]" scrollableNodeProps={{ ref: scrollableNodeRef }}>
 				<Navmenu menus={user.role === "Super Admin" ? SuperAdminMenu : menuItems} />
 			</SimpleBar>
 

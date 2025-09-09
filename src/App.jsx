@@ -152,6 +152,7 @@ import SenaraiPengesahanInstitusi from "./pages/superadmin/pengurusan-pengesahan
 import { db } from "../fb";
 import { collection, onSnapshot } from "firebase/firestore";
 import AppSetting from "./pages/superadmin/setting/AppSetting";
+import LaporanTransaksi from "./pages/superadmin/pengurusan-laporan/LaporanTransaksi";
 
 
 function App() {
@@ -210,6 +211,7 @@ function App() {
 								<Route path="institusi" element={<SenaraiPengesahanInstitusi />} />
 								<Route path="kempen" element={<SenaraiPengesahanKempen />} />
 							</Route>
+							<Route path="laporan" element={<LaporanTransaksi />} />
 							<Route path="app-setting" element={<AppSetting />} />
 						</>
 					)

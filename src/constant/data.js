@@ -86,6 +86,15 @@ export const SuperAdminMenu = [
     },
 	{
         isHeadr: true,
+        title: "Laporan",
+    },
+	{
+        title: "Transaksi Infaq",
+        icon: "heroicons-outline:calculator",
+        link: "laporan",
+    },
+	{
+        isHeadr: true,
         title: "Tetapan",
     },
 	{

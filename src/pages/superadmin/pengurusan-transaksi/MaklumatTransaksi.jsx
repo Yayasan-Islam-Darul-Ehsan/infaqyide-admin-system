@@ -90,7 +90,7 @@ function MaklumatTransaksiSumbangan() {
                             <div className='mt-3 space-y-3'>
                                 <div>
                                     <label htmlFor="" className='form-label'>Status</label>
-                                    <p className={`font-semibold ${maklumat_transaksi.billpayment_status === 1 ? "text-emerald-600" : "text-yellow-600"} text-sm`}>{maklumat_transaksi.billpayment_status === 1 ? "Pembayaran Berjaya" : "Gagal Pembayaran"}</p>
+                                    <p className={`font-semibold ${maklumat_transaksi.billpayment_status === 1 ? "text-emerald-600" : maklumat_transaksi.billpayment_status === 2 ? "text-yellow-600" : maklumat_transaksi.billpayment_status === 3 ? "text-red-500" : "text-slate-600"} text-sm`}>{maklumat_transaksi.billpayment_status === 1 ? "Pembayaran Berjaya" : "Gagal Pembayaran"}</p>
                                 </div>
                                 <Textinput 
                                 label={"No. Rujukan Transaksi"}
