@@ -15,6 +15,8 @@ import Textinput from '@/components/ui/Textinput';
 import Button from '@/components/ui/Button';
 import DropZone from '@/pages/forms/file-input/DropZone';
 import Modal from '@/components/ui/Modal';
+import axios from 'axios';
+import Loading from '@/components/Loading';
 
 MaklumatPengeluaranTerperinci.propTypes = {
     
@@ -56,6 +58,40 @@ function MaklumatPengeluaranTerperinci(props) {
         }
     }
 
+    const getURL = () => {
+        let env = process.env.NODE_ENV
+        if(env === "development") {
+            return `http://localhost:30001/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
+        } else if(env === "staging") {
+            return `https://infaqyide.xyz/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
+        } else if(env === "production") {
+            return `https://infaqyide.com.my/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
+        } 
+    }
+
+    const downloadSettlement = async () => {
+    try {
+
+        set_loading(true)
+
+        const res   = await axios.get(getURL(), { responseType: "blob" });
+        const blob  = new Blob([res.data], { type: "text/plain" });
+        const url   = window.URL.createObjectURL(blob);
+
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", `Bulk Settlement InfaqYIDE - ${state.disburse_batch_no}.txt`); // filename
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+    } catch (err) {
+        console.error("Download failed:", err);
+    } finally {
+        set_loading(false)
+    }
+    };
+
     const debouncedSearch = useCallback(
         debounce((val) => {
             getData(val), 1000
@@ -70,6 +106,8 @@ function MaklumatPengeluaranTerperinci(props) {
     const [modal, set_modal]    = useState(false)
     const open_modal            = () => set_modal(true)
     const close_modal           = () => set_modal(false)
+
+    if(loading) return <Loading />
 
     return (
         <div>
@@ -117,7 +155,7 @@ function MaklumatPengeluaranTerperinci(props) {
                     </Card>
                     <Card title={"Muat Turun EFT"} className='col-span-4'>
                         <div className='flex justify-center items-center'>
-                        <Button className='flex flex-col justify-center items-center gap-1'>
+                        <Button className='flex flex-col justify-center items-center gap-1' onClick={downloadSettlement}>
                             <Icons icon={"heroicons:arrow-down-tray"} className={"text-3xl"} />
                             <p className='text-sm text-black-500'>Muat Turun Fail EFT</p>
                         </Button>
