@@ -9,6 +9,7 @@ const DropZone = ({ set_file_url = ""}) => {
 	const { getRootProps, getInputProps, isDragAccept } = useDropzone({
 		accept: {
 			"image/*": [],
+			"text/*": []
 		},
 		maxFiles: 1,
 		onDrop: async (acceptedFiles) => {

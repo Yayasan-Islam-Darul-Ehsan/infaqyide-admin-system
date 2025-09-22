@@ -153,6 +153,8 @@ import { db } from "../fb";
 import { collection, onSnapshot } from "firebase/firestore";
 import AppSetting from "./pages/superadmin/setting/AppSetting";
 import LaporanTransaksi from "./pages/superadmin/pengurusan-laporan/LaporanTransaksi";
+import SenaraiPengeluaran from "./pages/superadmin/pengurusan-disbursement/SenaraiPengeluaran";
+import MaklumatPengeluaranTerperinci from "./pages/superadmin/pengurusan-disbursement/MaklumatPengeluaranTerperinci";
 
 
 function App() {
@@ -210,6 +212,10 @@ function App() {
 							<Route path="pengesahan">
 								<Route path="institusi" element={<SenaraiPengesahanInstitusi />} />
 								<Route path="kempen" element={<SenaraiPengesahanKempen />} />
+							</Route>
+							<Route path="pengeluaran">
+								<Route path="rekod-pengeluaran" element={<SenaraiPengeluaran />} />
+								<Route path="rekod-pengeluaran/:batch_no" element={<MaklumatPengeluaranTerperinci />} />
 							</Route>
 							<Route path="laporan" element={<LaporanTransaksi />} />
 							<Route path="app-setting" element={<AppSetting />} />

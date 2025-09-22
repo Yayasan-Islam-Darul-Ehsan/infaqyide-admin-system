@@ -10,6 +10,7 @@ const Card = ({
 	bodyClass = "p-6",
 	noborder,
 	titleClass = "custom-class",
+	onSearch
 }) => {
 	const [skin] = useSkin();
 

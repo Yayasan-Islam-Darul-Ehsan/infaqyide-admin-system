@@ -95,6 +95,15 @@ export const SuperAdminMenu = [
     },
 	{
         isHeadr: true,
+        title: "Settlement",
+    },
+	{
+        title: "Rekod Pengeluaran",
+        icon: "heroicons-outline:computer-desktop",
+        link: "pengeluaran/rekod-pengeluaran",
+    },
+	{
+        isHeadr: true,
         title: "Tetapan",
     },
 	{
