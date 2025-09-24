@@ -155,6 +155,7 @@ import AppSetting from "./pages/superadmin/setting/AppSetting";
 import LaporanTransaksi from "./pages/superadmin/pengurusan-laporan/LaporanTransaksi";
 import SenaraiPengeluaran from "./pages/superadmin/pengurusan-disbursement/SenaraiPengeluaran";
 import MaklumatPengeluaranTerperinci from "./pages/superadmin/pengurusan-disbursement/MaklumatPengeluaranTerperinci";
+import SenaraiTransaksiPengeluaranTerperinci from "./pages/superadmin/pengurusan-disbursement/SenaraiTransaksiPengeluaranTerperinci";
 
 
 function App() {
@@ -216,6 +217,7 @@ function App() {
 							<Route path="pengeluaran">
 								<Route path="rekod-pengeluaran" element={<SenaraiPengeluaran />} />
 								<Route path="rekod-pengeluaran/:batch_no" element={<MaklumatPengeluaranTerperinci />} />
+								<Route path="rekod-pengeluaran/:batch_no/:dd_id" element={<SenaraiTransaksiPengeluaranTerperinci />} />
 							</Route>
 							<Route path="laporan" element={<LaporanTransaksi />} />
 							<Route path="app-setting" element={<AppSetting />} />

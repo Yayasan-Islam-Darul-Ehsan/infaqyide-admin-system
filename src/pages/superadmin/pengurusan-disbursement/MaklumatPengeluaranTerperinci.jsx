@@ -24,7 +24,7 @@ MaklumatPengeluaranTerperinci.propTypes = {
 
 function MaklumatPengeluaranTerperinci(props) {
 
-    const state = useLocation().state
+    const state                     = useLocation().state
     const [loading, set_loading]    = useState(true)
     const [data, set_data]          = useState({
         row: [],
@@ -253,7 +253,7 @@ function MaklumatPengeluaranTerperinci(props) {
                                     <Table.Cell fontSize="small">{moment(item.created_date).format("DD MMM YYYY, hh:mm A")}</Table.Cell>
                                     <Table.Cell flexBasis={80} flexShrink={0} flexGrow={0}>
                                         <div className='flex flex-row justify-center items-center gap-1'>
-                                            <Link to={item.disburse_batch_no} state={item}>
+                                            <Link to={`${item.dd_id}`} state={item}>
                                                 <Icons icon={"heroicons-outline:pencil-square"} className={"text-yellow-500"} />
                                             </Link>
                                         </div>
