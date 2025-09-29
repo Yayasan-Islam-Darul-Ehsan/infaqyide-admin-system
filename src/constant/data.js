@@ -46,16 +46,16 @@ export const SuperAdminMenu = [
         icon: "heroicons-outline:archive-box",
         link: "pengurusan/pengurusan-tabung",
     },
-	{
-        title: "Pengurusan Ahli Kariah",
-        icon: "heroicons-outline:user-group",
-        link: "pengurusan/pengurusan-kariah",
-    },
-	{
-        title: "Pengurusan Khairat Kematian",
-        icon: "heroicons-outline:user-group",
-        link: "pengurusan/pengurusan-kariah",
-    },
+	// {
+    //     title: "Pengurusan Ahli Kariah",
+    //     icon: "heroicons-outline:user-group",
+    //     link: "pengurusan/pengurusan-kariah",
+    // },
+	// {
+    //     title: "Pengurusan Khairat Kematian",
+    //     icon: "heroicons-outline:user-group",
+    //     link: "pengurusan/pengurusan-kariah",
+    // },
 	{
         isHeadr: true,
         title: "Kempen",

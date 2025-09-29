@@ -159,9 +159,9 @@ const LoginForm = () => {
 
 		
 
-		<div className="mt-6 w-full">
+		{/* <div className="mt-6 w-full">
 			<Button className="w-full bg-gray-900 text-white" onClick={() => navigate("/register")}>Pendaftaran Institusi</Button>
-		</div>
+		</div> */}
     	</form>
   	);
 };

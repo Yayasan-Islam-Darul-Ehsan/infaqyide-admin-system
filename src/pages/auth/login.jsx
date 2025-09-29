@@ -10,6 +10,8 @@ import Logo from "@/assets/images/logo/logo.svg";
 import Illustration from "@/assets/images/auth/ils1.svg";
 import LeftColumn from "./common/left-column";
 
+import bg from '@/assets/yidebg1.jpg'
+
 const Login = () => {
 
 	const [isDark] = useDarkMode();
