@@ -166,33 +166,33 @@ export const menuItems = [
         icon: "heroicons:wallet",
         link: "tabung/senarai-tabung",
     },
-	{
-		title: "Maklumat AJK",
-        icon: "heroicons-outline:user-group",
-        link: "ajk/senarai-ajk",
-	},
+	// {
+	// 	title: "Maklumat AJK",
+    //     icon: "heroicons-outline:user-group",
+    //     link: "ajk/senarai-ajk",
+	// },
 	{
         title: "Maklumat Kempen",
         icon: "heroicons-outline:megaphone",
         link: "kempen/senarai-kempen",
 
     },
-	{
+	// {
 
-        title: "Hebahan",
-        icon: "heroicons-outline:newspaper",
-        link: "hebahan/senarai-hebahan",
-    },
+    //     title: "Hebahan",
+    //     icon: "heroicons-outline:newspaper",
+    //     link: "hebahan/senarai-hebahan",
+    // },
 	{
         title: "Kredit",
         icon: "heroicons-outline:credit-card",
         link: "institusi/kredit",
     },
-	{
-        title: "Pengeluaran",
-        icon: "heroicons-outline:banknotes",
-        link: "institusi/pengeluaran",
-    },
+	// {
+    //     title: "Pengeluaran",
+    //     icon: "heroicons-outline:banknotes",
+    //     link: "institusi/pengeluaran",
+    // },
 	{
         title: "Transaksi",
         icon: "heroicons-outline:list-bullet",
@@ -271,59 +271,54 @@ export const menuItems = [
         icon: "heroicons-outline:credit-card",
         link: "transaksi/senarai-bayaran",
     },
-    {
-      isHeadr: true,
-      title: "Aset dan Inventori",
-    },
-	{
-		title: "Senarai Inventori Aset",
-		icon: "heroicons-outline:archive-box",
-		link: "aset/inventori-aset"
-	},
-	{
-		title: "Pendaftaran Aset",
-		icon: "heroicons-solid:archive-box-arrow-down",
-		link: "aset/pendaftaran-aset"
-	},
-	{
-		title: "Senarai Lokasi",
-		icon: "heroicons-outline:map-pin",
-		link: "aset/senarai-lokasi"
-	},
-	{
-		title: "Pemerolehan Aset",
-		icon: "heroicons-outline:squares-2x2",
-		//link: "aset/permohonan-pemerolehan-aset"
-		child: [
-			{
-                childtitle: "Senarai Pemerolehan",
-                childlink: "aset/senarai-pemerolehan-aset"
-            },
-            {
-                childtitle: "Permohonan Pemerolehan",
-                childlink: "aset/permohonan-pemerolehan-aset"
-            }
-		]
-	},
-    {
- 
-      
+    // {
+    //   isHeadr: true,
+    //   title: "Aset dan Inventori",
+    // },
+	// {
+	// 	title: "Senarai Inventori Aset",
+	// 	icon: "heroicons-outline:archive-box",
+	// 	link: "aset/inventori-aset"
+	// },
+	// {
+	// 	title: "Pendaftaran Aset",
+	// 	icon: "heroicons-solid:archive-box-arrow-down",
+	// 	link: "aset/pendaftaran-aset"
+	// },
+	// {
+	// 	title: "Senarai Lokasi",
+	// 	icon: "heroicons-outline:map-pin",
+	// 	link: "aset/senarai-lokasi"
+	// },
+	// {
+	// 	title: "Pemerolehan Aset",
+	// 	icon: "heroicons-outline:squares-2x2",
+	// 	child: [
+	// 		{
+    //             childtitle: "Senarai Pemerolehan",
+    //             childlink: "aset/senarai-pemerolehan-aset"
+    //         },
+    //         {
+    //             childtitle: "Permohonan Pemerolehan",
+    //             childlink: "aset/permohonan-pemerolehan-aset"
+    //         }
+	// 	]
+	// },
+    // {
+	// 	title: "Pelupusan Aset",
+	// 	icon: "heroicons-outline:archive-box-x-mark",
+	// 	child: [
+	// 		{
+	// 			childtitle: "Senarai Pelupusan",
+	// 			childlink: "aset/senarai-pelupusan-aset"
+	// 		},
+	// 		{
+	// 			childtitle: "Permohonan Pelupusan",
+	// 			childlink: "aset/permohonan-pelupusan-aset"
+	// 		}
+	// 	]
 
-		title: "Pelupusan Aset",
-		icon: "heroicons-outline:archive-box-x-mark",
-		//link: "aset/permohonan-pelupusan-aset",
-		child: [
-			{
-				childtitle: "Senarai Pelupusan",
-				childlink: "aset/senarai-pelupusan-aset"
-			},
-			{
-				childtitle: "Permohonan Pelupusan",
-				childlink: "aset/permohonan-pelupusan-aset"
-			}
-		]
-
-    },
+    // },
   //         {
   //             childtitle: "Pendaftaran Aset",
   //             childlink: "aset/pendaftaran-aset"

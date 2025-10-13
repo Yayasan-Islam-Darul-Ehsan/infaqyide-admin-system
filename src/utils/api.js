@@ -15,7 +15,7 @@ let bad_respnse = {
 
 const GET__ENV = () => {
     if(process.env.NODE_ENV === "development") {
-        return "http://localhost:30001/admin/"
+        return "http://localhost:31100/admin/"
     }
     else if(process.env.NODE_ENV === "demo") {
         return "https://cp.infaqyide.xyz/admin/"

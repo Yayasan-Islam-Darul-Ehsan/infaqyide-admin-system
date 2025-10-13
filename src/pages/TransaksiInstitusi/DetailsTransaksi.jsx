@@ -86,7 +86,7 @@ function MaklumatTransaksi(props) {
                         !loading && (
                             <Pane>
                                 <div className='flex items-center justify-center'>
-                                    <img src="https://al-jariyah.com/static/media/logo_dark.c4a29d4218fc5c3e72e0.png" alt="" className='max-w-[80px]' />
+                                    <img src="https://yide.com.my/wp-content/uploads/2024/07/logo-besar.png" alt="" className='max-w-[200px]' />
                                 </div>
 
                                 <div className='mt-3 text-center'>

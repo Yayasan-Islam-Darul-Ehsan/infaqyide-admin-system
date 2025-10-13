@@ -119,19 +119,19 @@ const CrmPage = () => {
 							<div className="grid grid-cols-1 md:grid-cols-4 gap-3 mb-3">
 								<Card>
 									<div><p className="font-medium text-sm text-gray-600">Jumlah Sumbangan</p></div>
-									<div className="mt-3"><p className="font-semibold text-gray-900 text-2xl">RM {parseFloat(total_sumbangan).toFixed(2)}</p></div>
+									<div className="mt-3"><p className="font-semibold text-blue-600 text-2xl">RM {parseFloat(total_sumbangan).toFixed(2)}</p></div>
 								</Card>
 								<Card>
 									<div><p className="font-medium text-sm text-gray-600">Jumlah Infaq</p></div>
-									<div className="mt-3"><p className="font-semibold text-gray-900 text-2xl">RM {parseFloat(total_infaq).toFixed(2)}</p></div>
+									<div className="mt-3"><p className="font-semibold text-teal-600 text-2xl">RM {parseFloat(total_infaq).toFixed(2)}</p></div>
 								</Card>
 								<Card>
 									<div><p className="font-medium text-sm text-gray-600">Jumlah Waqaf</p></div>
-									<div className="mt-3"><p className="font-semibold text-gray-900 text-2xl">RM {parseFloat(total_waqaf).toFixed(2)}</p></div>
+									<div className="mt-3"><p className="font-semibold text-red-600 text-2xl">RM {parseFloat(total_waqaf).toFixed(2)}</p></div>
 								</Card>
 								<Card>
 									<div><p className="font-medium text-sm text-gray-600">Sumbangan Bulan Ini</p></div>
-									<div className="mt-3"><p className="font-semibold text-gray-900 text-2xl">RM {parseFloat(total_bulan_ini).toFixed(2)}</p></div>
+									<div className="mt-3"><p className="font-semibold text-yellow-600 text-2xl">RM {parseFloat(total_bulan_ini).toFixed(2)}</p></div>
 								</Card>
 							</div>
 						</section>
