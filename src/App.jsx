@@ -161,6 +161,7 @@ import SenaraiTransaksiPengeluaranTerperinci from "./pages/superadmin/pengurusan
 function App() {
 
 	let { user } 		= useSelector((user) => user.auth)
+	console.log("env : ", process.env.NODE_ENV)
 
 	return (
 		<main className="App relative">
