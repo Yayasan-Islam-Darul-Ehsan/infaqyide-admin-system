@@ -280,7 +280,7 @@ const MaklumatMasjid = () => {
             redirect: "follow"
         };
 
-        await fetch("https://cp.infaqyide.xyz/admin/file-uploader", requestOptions)
+        await fetch(process.env.NODE_ENV === "production" ? "https://admin.infaqyide.com.my/admin/file-uploader" : "https://beta-admin.infaqyide.com.my/admin/file-uploader", requestOptions)
         .then((response) => response.json())
         .then((result) => {
             console.log(result)
@@ -292,6 +292,177 @@ const MaklumatMasjid = () => {
 
         return file_url
     }
+
+    const malaysiaBanks = [
+    {
+        label: "Malayan Banking Berhad (Maybank)",
+        value: "MBBEMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "CIMB Bank Berhad",
+        value: "CIBBMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Public Bank Berhad",
+        value: "PBBEMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "RHB Bank Berhad",
+        value: "RHBBMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Hong Leong Bank Berhad",
+        value: "HLBBMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "AmBank (M) Berhad",
+        value: "ARBKMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "United Overseas Bank (Malaysia) Bhd",
+        value: "UOVBMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "OCBC Bank (Malaysia) Berhad",
+        value: "OCBCMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "HSBC Bank Malaysia Berhad",
+        value: "HBMBMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Standard Chartered Bank Malaysia Berhad",
+        value: "SCBLMYKX",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Citibank Berhad",
+        value: "CITIMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Bank Islam Malaysia Berhad",
+        value: "BIMBMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Bank Muamalat Malaysia Berhad",
+        value: "BMMBMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Affin Bank Berhad",
+        value: "PHBMMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Alliance Bank Malaysia Berhad",
+        value: "MFBBMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Bank Rakyat",
+        value: "BKRMMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Bank Simpanan Nasional",
+        value: "BSNAMYK1",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Agrobank / Bank Pertanian Malaysia Berhad",
+        value: "AGOBMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Al Rajhi Banking & Investment Corporation (Malaysia) Berhad",
+        value: "RJHIMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Kuwait Finance House (Malaysia) Berhad",
+        value: "KFHOMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Bank of China (Malaysia) Berhad",
+        value: "BKCHMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Industrial and Commercial Bank of China (Malaysia) Berhad",
+        value: "ICBKMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Bank of America Malaysia Berhad",
+        value: "BOFAMY2X",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Deutsche Bank (Malaysia) Berhad",
+        value: "DEUTMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "J.P. Morgan Chase Bank Berhad",
+        value: "CHASMYKX",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Sumitomo Mitsui Banking Corporation Malaysia Berhad",
+        value: "SMBCMYKL",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "MUFG Bank (Malaysia) Berhad",
+        value: "BOTKMYKX",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    },
+    {
+        label: "Mizuho Bank (Malaysia) Berhad",
+        value: "MHCBMYKA",
+        branch: "Head Office",
+        city: "Kuala Lumpur"
+    }
+    ];
 
     useEffect(() => {
         fetch_organization_category()
@@ -382,6 +553,44 @@ const MaklumatMasjid = () => {
                                         placeholder='Contoh: masjidsgbesi@email.com'
                                         defaultValue={masjid.organizationEmail}
                                         onChange={e => set_masjid({...masjid, organizationEmail: e.target.value })}
+                                    />
+                                </div>
+                            </div>
+                        </Card>
+                    </section>
+
+                    <section className='mt-6'>
+                        <Card>
+                            <div>
+                                <p className='text-lg font-semibold text-gray-900'>Maklumat Perbankan</p>
+                                <p className='text-sm font-normal text-gray-600'>Informasi tentang perbankan yang akan disimpan.</p>
+                            </div>
+                            <div className='mt-3'>
+                                <div>
+                                    <Select 
+                                    label={"Bank"}
+                                    placeholder='Contoh: Maybank'
+                                    defaultValue={masjid.organizationBankName}
+                                    onChange={e => set_masjid({...masjid, organizationBankName: e.target.value })}
+                                    options={malaysiaBanks}
+                                    />
+                                </div>
+                                <div className='mt-3'>
+                                    <Textinput 
+                                        label={'Nama Pemegang Bank'}
+                                        placeholder='Contoh: Akaun Bank Institusi A'
+                                        defaultValue={masjid.organizationBankAccName}
+                                        onChange={e => set_masjid({...masjid, organizationBankAccName: e.target.value })}
+                                    />
+                                </div>
+                                <div className='mt-3'>
+                                    <Textinput 
+                                        label={'No. Akaun Bank'}
+                                        placeholder='Contoh: 155059129123123'
+                                        defaultValue={masjid.organizationBankNumber}
+                                        onChange={e => set_masjid({...masjid, organizationBankNumber: e.target.value })}
+                                        enableWhiteSpace={false}
+                                        isNumberOnly
                                     />
                                 </div>
                             </div>
@@ -721,7 +930,7 @@ const MaklumatMasjid = () => {
                                 </div>
                                 <div className='mt-3'>
                                     <InputGroup 
-                                    prepend={ process.env.NODE_ENV === "production" ? "https://infaqyide.com.my/" : "https://dev.infaqyide.xyz/"}
+                                    prepend={ process.env.NODE_ENV === "production" ? "https://infaqyide.com.my/" : "https://beta-admin.infaqyide.com.my/"}
                                     label={"Permalink (Pautan Ke Halaman InfaqYIDE)"}
                                     placeholder={"masjid-klana-jaya"}
                                     defaultValue={masjid.organizationCode}
