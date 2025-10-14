@@ -27,10 +27,10 @@ function SenaraiTransaksiKeseluruhan() {
 	const [status, set_status]      = useState("")
 	const [year, set_year] 			= useState(new Date().getFullYear())
 
-	const getData = async (_search = "") => {
+	const getData = async (_search = "", _year = year) => {
 		set_loading(true)
 		try {
-			let api = await SYSADMIN_API(`pengurusan/transaksi?page=${page}&limit=${limit}&search=${_search}&status=${status}&year=${year}`, {}, "GET", true)
+			let api = await SYSADMIN_API(`pengurusan/transaksi?page=${page}&limit=${limit}&search=${_search}&status=${status}&year=${_year}`, {}, "GET", true)
 			if(api.status_code === 200) {
 				let { data } = api
 				set_data({
@@ -63,8 +63,8 @@ function SenaraiTransaksiKeseluruhan() {
     }
 
 	const debouncedSearch = useCallback(
-		debounce((val) => {
-			getData(val), 1000
+		debounce((val, year) => {
+			getData(val, year), 1000
 		}),
 		[]
 	);
@@ -87,7 +87,7 @@ function SenaraiTransaksiKeseluruhan() {
                             placeholder='Carian transaksi sumbangan infaq...'
                             onChange={e => {
                                 set_search(e.target.value)
-                                debouncedSearch(e.target.value)
+                                debouncedSearch(e.target.value, year)
                             }}
                             />
                             <Select 
@@ -103,6 +103,25 @@ function SenaraiTransaksiKeseluruhan() {
 							// 	{label: "2026", value: "2026"},
                             // ]}
                             options={getListYear()}
+                            />
+                            <Select 
+                             className='w-[200px] text-center'
+                            placeholder='-- Status Transaksi --'
+                            defaultValue={status}
+                            onChange={e => set_status(e.target.value)}
+                            // options={[
+                            //     {label: "2022", value: "2022"},
+                            //     {label: "2023", value: "2023"},
+                            //     {label: "2024", value: "2024"},
+							// 	{label: "2025", value: "2025"},
+							// 	{label: "2026", value: "2026"},
+                            // ]}
+                            options={[
+                                {label: 'Berjaya', value: '1'},
+                                {label: 'Sedang Diproses', value: '2'},
+                                {label: 'Transaksi Gagal', value: '3'},
+                                {label: 'Lain-lain', value: '4'}
+                            ]}
                             />
                         </div>
                         <Select 
