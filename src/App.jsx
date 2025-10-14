@@ -156,6 +156,10 @@ import LaporanTransaksi from "./pages/superadmin/pengurusan-laporan/LaporanTrans
 import SenaraiPengeluaran from "./pages/superadmin/pengurusan-disbursement/SenaraiPengeluaran";
 import MaklumatPengeluaranTerperinci from "./pages/superadmin/pengurusan-disbursement/MaklumatPengeluaranTerperinci";
 import SenaraiTransaksiPengeluaranTerperinci from "./pages/superadmin/pengurusan-disbursement/SenaraiTransaksiPengeluaranTerperinci";
+import PengurusanTransaksi2023 from "./pages/superadmin/pengurusan-transaksi/PengurusanTransaksi2023";
+import PengurusanTransaksi2022 from "./pages/superadmin/pengurusan-transaksi/PengurusanTransaksi2022";
+import PengurusanTransaksi2024 from "./pages/superadmin/pengurusan-transaksi/PengurusanTransaksi2024";
+import PengurusanTransaksi2025 from "./pages/superadmin/pengurusan-transaksi/PengurusanTransaksi2025";
 
 
 function App() {
@@ -194,6 +198,10 @@ function App() {
 								<Route path="daftar-institusi" element={<DaftarMasjid />} />
 
 								<Route path="pengurusan-transaksi" element={<SenaraiTransaksiKeseluruhan />} />
+								<Route path="pengurusan-transaksi-2022" element={<PengurusanTransaksi2022 />} />
+								<Route path="pengurusan-transaksi-2023" element={<PengurusanTransaksi2023 />} />
+								<Route path="pengurusan-transaksi-2024" element={<PengurusanTransaksi2024 />} />
+								<Route path="pengurusan-transaksi-2025" element={<PengurusanTransaksi2025 />} />
 								<Route path="maklumat-transaksi" element={<MaklumatTransaksiSumbangan />} />
 
 								<Route path="akaun-kredit">

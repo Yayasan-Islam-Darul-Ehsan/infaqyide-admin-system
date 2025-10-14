@@ -27,13 +27,13 @@ const GET__ENV = () => {
         return "https://admin.infaqyide.com.my/admin/"
     }
     else {
-        return "http://localhost:30001/admin/"
+        return "http://localhost:31100/admin/"
     }
 }
 
 const GET__ENV2 = () => {
     if(process.env.NODE_ENV === "development") {
-        return "http://localhost:30001/sysadmin/"
+        return "http://localhost:31100/sysadmin/"
     }
     else if(process.env.NODE_ENV === "demo") {
         return "https://cp.infaqyide.xyz/sysadmin/"
@@ -45,7 +45,7 @@ const GET__ENV2 = () => {
         return "https://admin.infaqyide.com.my/sysadmin/"
     }
     else {
-        return "http://localhost:30001/sysadmin/"
+        return "http://localhost:31100/sysadmin/"
     }
 }
 

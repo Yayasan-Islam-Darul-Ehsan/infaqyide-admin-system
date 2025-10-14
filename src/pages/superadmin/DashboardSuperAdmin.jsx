@@ -94,7 +94,7 @@ function DashboardSuperAdmin(props) {
                     </Card>
                     <Card>
                         <div className='text-start'>
-                        <p className='font-semibold text-2xl text-violet-600'>{toMYR(summary.JUMLAH_SUMBANGAN_INFAQ)}</p>
+                        <p className='font-semibold text-2xl text-violet-600'>{toMYR(summary.JUMLAH_SUMBANGAN_AUTO_INFAQ)}</p>
                         <p className='font-normal text-sm text-black-500'>Jumlah Kutipan Auto Infaq</p>
                         </div>
                     </Card>
@@ -196,7 +196,7 @@ function DashboardSuperAdmin(props) {
                                                     <Table.Cell fontSize="small">{item.account_phone}</Table.Cell>
                                                     <Table.Cell fontSize="small">
                                                         {
-                                                            item.account_verified == "2" ? <Badge className='bg-emerald-50 border border-emerald-100 text-emerald-900'>Akaun Aktif</Badge> : <Badge className='bg-red-50 border border-red-100 text-red-900'>Akaun Nyahaktif</Badge>
+                                                            item.account_status == "1" ? <Badge className='bg-emerald-50 border border-emerald-100 text-emerald-900'>Akaun Aktif</Badge> : <Badge className='bg-red-50 border border-red-100 text-red-900'>Akaun Nyahaktif</Badge>
                                                         }
                                                     </Table.Cell>
                                                 </Table.Row>

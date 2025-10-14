@@ -94,6 +94,26 @@ export const SuperAdminMenu = [
         link: "laporan",
     },
 	{
+        title: "Transaksi 2022",
+        icon: "heroicons-outline:calculator",
+        link: "pengurusan/pengurusan-transaksi-2022",
+    },
+	{
+        title: "Transaksi 2023",
+        icon: "heroicons-outline:calculator",
+        link: "pengurusan/pengurusan-transaksi-2023",
+    },
+	{
+        title: "Transaksi 2024",
+        icon: "heroicons-outline:calculator",
+        link: "pengurusan/pengurusan-transaksi-2024",
+    },
+	{
+        title: "Transaksi 2025",
+        icon: "heroicons-outline:calculator",
+        link: "pengurusan/pengurusan-transaksi-2025",
+    },
+	{
         isHeadr: true,
         title: "Settlement",
     },
