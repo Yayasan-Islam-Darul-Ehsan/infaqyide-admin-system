@@ -93,7 +93,7 @@ function MaklumatPengeluaranTerperinci(props) {
 
         const link = document.createElement("a");
         link.href = url;
-        link.setAttribute("download", `Bulk Settlement InfaqYIDE - ${state.disburse_batch_no}.txt`); // filename
+        link.setAttribute("download", `${state.disburse_batch_no}.txt`); // filename
         document.body.appendChild(link);
         link.click();
         link.remove();
