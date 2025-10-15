@@ -154,7 +154,12 @@ const LoginForm = () => {
 			<button disabled className="btn bg-gray-300 text-white w-full text-center flex justify-center items-center">
 				<Spinner width={20} />
 			</button> :
-			<button className="btn bg-teal-600 text-white block w-full text-center">Log Masuk</button>
+			(
+				<>
+				<button className="btn bg-gradient-to-br from-green-600 to-blue-600 text-white block w-full text-center">Log Masuk</button>
+				<Link to={"register"} className="btn bg-slate-800 text-white block w-full text-center">Pendaftaran Institusi</Link>
+				</>
+			)
 		}
 
 		
