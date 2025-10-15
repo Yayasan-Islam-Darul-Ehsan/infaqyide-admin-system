@@ -45,6 +45,7 @@
     "leaflet": "^1.9.3",
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
+    "lucide-react": "^0.545.0",
     "match-sorter": "^6.3.1",
     "mobiscroll-react": "^4.0.0",
     "moment": "^2.30.1",

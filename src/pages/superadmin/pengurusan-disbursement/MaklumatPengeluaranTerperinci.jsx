@@ -18,6 +18,8 @@ import Modal from '@/components/ui/Modal';
 import axios from 'axios';
 import Loading from '@/components/Loading';
 
+import { FileIcon, FileSpreadsheet, FileText, FileUp } from 'lucide-react';
+
 MaklumatPengeluaranTerperinci.propTypes = {
     
 };
@@ -61,11 +63,22 @@ function MaklumatPengeluaranTerperinci(props) {
     const getURL = () => {
         let env = process.env.NODE_ENV
         if(env === "development") {
-            return `http://localhost:30001/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
+            return `http://localhost:31100/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
         } else if(env === "staging") {
-            return `https://infaqyide.xyz/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
+            return `https://beta-admin.infaqyide.com.my/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
         } else if(env === "production") {
-            return `https://infaqyide.com.my/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
+            return `https://admin.infaqyide.com.my/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
+        } 
+    }
+
+    const getURL2 = () => {
+        let env = process.env.NODE_ENV
+        if(env === "development") {
+            return `http://localhost:31100/sysadmin/disbursement/fail-pengeluaran-excel/settlement-excel?batch_id=${state.disburse_id}`
+        } else if(env === "staging") {
+            return `https://beta-admin.infaqyide.com.my/sysadmin/disbursement/fail-pengeluaran-excel/settlement-excel?batch_id=${state.disburse_id}`
+        } else if(env === "production") {
+            return `https://admin.infaqyide.com.my/sysadmin/disbursement/fail-pengeluaran-excel/settlement-excel?batch_id=${state.disburse_id}`
         } 
     }
 
@@ -85,6 +98,29 @@ function MaklumatPengeluaranTerperinci(props) {
         link.click();
         link.remove();
         window.URL.revokeObjectURL(url);
+    } catch (err) {
+        console.error("Download failed:", err);
+    } finally {
+        set_loading(false)
+    }
+    };
+
+    const downloadSettlement2 = async () => {
+    try {
+
+        set_loading(true)
+
+        const res   = await axios.get(getURL2());
+        const link  = document.createElement("a");
+        link.href   = res.data.data
+
+        console.log("Log File : ", res.data)
+        // link.setAttribute("download", `Bulk Settlement InfaqYIDE - ${state.disburse_batch_no}.xlsx`); // filename
+        // document.body.appendChild(link);
+        // link.click();
+        // link.remove();
+        // window.URL.revokeObjectURL(url);
+        window.location.href = res.data.data
     } catch (err) {
         console.error("Download failed:", err);
     } finally {
@@ -154,17 +190,25 @@ function MaklumatPengeluaranTerperinci(props) {
                         </div>
                     </Card>
                     <Card title={"Muat Turun EFT"} className='col-span-4'>
-                        <div className='flex justify-center items-center'>
-                        <Button className='flex flex-col justify-center items-center gap-1' onClick={downloadSettlement}>
-                            <Icons icon={"heroicons:arrow-down-tray"} className={"text-3xl"} />
-                            <p className='text-sm text-black-500'>Muat Turun Fail EFT</p>
-                        </Button>
+                        <div className='flex flex-col justify-center items-center gap-3'>
+                            {/* <Icons icon={"heroicons:arrow-down-tray"} className={"text-3xl"} /> */}
+                            <Button className='flex flex-col justify-center items-center gap-1 bg-white border border-slate-200 btn btn-sm shadow-md' onClick={downloadSettlement}>
+                                <p className='text-sm text-black-500 flex items-center gap-1'>
+                                    <FileText /> Muat Turun Fail EFT - TXT File
+                                </p>
+                            </Button>
+                            <Button className='flex flex-col justify-center items-center gap-1 bg-green-600 btn btn-sm shadow-md' onClick={downloadSettlement2}>
+                                <p className='text-sm text-white flex items-center gap-1'>
+                                    <FileSpreadsheet /> Muat Turun Fail EFT - Excel File
+                                </p>
+                            </Button>
                         </div>
                     </Card>
                     <Card title={"Muat Naik Status E-Banker"} className='col-span-4'>
                         <div className='flex justify-center items-center'>
                         <Button className='flex flex-col justify-center items-center gap-1' onClick={open_modal}>
-                            <Icons icon={"heroicons:arrow-up-tray"} className={"text-3xl"} />
+                            {/* <Icons icon={"heroicons:arrow-up-tray"} className={"text-3xl"} /> */}
+                            <FileUp size={30} />
                             <p className='text-sm text-black-500'>Muat Naik Fail E-Banker</p>
                         </Button>
                         </div>
