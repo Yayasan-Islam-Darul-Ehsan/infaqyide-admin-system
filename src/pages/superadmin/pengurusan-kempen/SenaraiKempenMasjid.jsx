@@ -69,7 +69,7 @@ function SenaraiKempenMasjid() {
                 <div className='flex flex-row items-center gap-3'>
                     <Button 
                     icon={"heroicons:plus"} 
-                    text={"Daftar Kmepen"}
+                    text={"Daftar Kempen"}
                     className='bg-teal-600 text-white'
                     onClick={() => navigate("/pengurusan/daftar-kempen")}
                     />

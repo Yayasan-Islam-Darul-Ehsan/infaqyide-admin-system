@@ -160,6 +160,7 @@ import PengurusanTransaksi2023 from "./pages/superadmin/pengurusan-transaksi/Pen
 import PengurusanTransaksi2022 from "./pages/superadmin/pengurusan-transaksi/PengurusanTransaksi2022";
 import PengurusanTransaksi2024 from "./pages/superadmin/pengurusan-transaksi/PengurusanTransaksi2024";
 import PengurusanTransaksi2025 from "./pages/superadmin/pengurusan-transaksi/PengurusanTransaksi2025";
+import DaftarTabungMasjid from "./pages/superadmin/pengurusan-tabung/DaftarTabungMasjid";
 
 
 function App() {
@@ -212,6 +213,7 @@ function App() {
 									<Route path="maklumat-kredit-institusi" element={<MaklumatKreditInstitusi />} />
 								</Route>
 
+								<Route path="daftar-tabung" element={<DaftarTabungMasjid />} />
 								<Route path="pengurusan-tabung" element={<SenaraiTabungMasjid />} />
 								<Route path="maklumat-tabung" element={<MaklumatTabungMasjid />} />
 

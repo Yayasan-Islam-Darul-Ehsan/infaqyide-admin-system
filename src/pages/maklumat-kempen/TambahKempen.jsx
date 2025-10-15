@@ -42,7 +42,7 @@ TambahKempen.propTypes = {
 
 function TambahKempen(props) {
 
-    let base_url = process.env.NODE_ENV === "production" ? "https://al-jariyah.com/institusi/" : "https://demo.al-jariyah.com/institusi/"
+    let base_url = process.env.NODE_ENV === "production" ? "https://infaqyide.com.my/kempen/" : "https://beta.infaqyide.com.my/kempen/"
 
     const { user }                                          = useSelector(user => user.auth)
     const navigate                                          = useNavigate()

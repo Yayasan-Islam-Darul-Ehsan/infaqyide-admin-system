@@ -46,7 +46,7 @@ const styles = {
 
 function DaftarKempen(props) {
 
-    let base_url = process.env.NODE_ENV === "production" ? "https://infaqyide.com.my/kempen/" : "https://dev.infaqyide.xyz/kempen/"
+    let base_url = process.env.NODE_ENV === "production" ? "https://infaqyide.com.my/kempen/" : "https://beta.infaqyide.com.my/kempen/"
 
     let navigate    = useNavigate()
 
