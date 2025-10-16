@@ -501,21 +501,21 @@ function MaklumatInstitusi(props) {
                             <Textinput
                                 label={'Alamat 1'}
                                 placeholder='Contoh: Jalan 11'
-                                defaultValue={orgAddress.split(',')[0] || ''}
+                                defaultValue={orgAddress ? orgAddress.split(',')[0] : ''}
                                 disabled={disabled_editing}
                                 onChange={e => handleAddressChange(e.target.value, 1)}
                             />
                             <Textinput
                                 label={'Alamat 2'}
                                 placeholder='Contoh: Datuk Panglima Garang'
-                                defaultValue={orgAddress.split(',')[1] || ''}
+                                defaultValue={orgAddress ? orgAddress.split(',')[1] : ''}
                                 disabled={disabled_editing}
                                 onChange={e => handleAddressChange(e.target.value, 2)}
                             />
                             <Textinput
                                 label={'Alamat 3'}
                                 placeholder='Contoh: Hulu Selangor, 12345 Selangor, Malaysia'
-                                defaultValue={orgAddress.split(',')[2] || ''}
+                                defaultValue={orgAddress ? orgAddress.split(',')[2] : ''}
                                 disabled={disabled_editing}
                                 onChange={e => handleAddressChange(e.target.value, 3)}
                             />
@@ -746,9 +746,9 @@ function MaklumatInstitusi(props) {
                         </div>
                         <div className='mt-3'>
                             <InputGroup 
-                            prepend={ process.env.NODE_ENV === "production" ? "https://al-jariyah.com/institusi/" : "https://demo.al-jariyah.com/institusi/"}
-                            label={"Permalink (Pautan Ke Halaman Al-Jariyah)"}
-                            placeholder={"https://al-jariyah.com/institusi/masjid-klana-jaya"}
+                            prepend={ process.env.NODE_ENV === "production" ? "https://infaqyide.com.my/institusi/" : "https://beta.infaqyide.com.my/institusi/"}
+                            label={"Permalink (Pautan Ke Halaman InfaqYIDE)"}
+                            placeholder={"https://infaqyide.com.my/masjid/masjid-klana-jaya"}
                             defaultValue={orgCode}
                             disabled={disabled_editing}
                             onChange={e => setOrgCode(e.target.value)}

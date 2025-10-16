@@ -58,10 +58,12 @@ function DaftarTabungMasjid(props) {
                     let data    = ngo.data.row
                     let arr     = []
                     for (let i = 0; i < data.length; i++) {
-                        arr.push({
-                            label: data[i]["organizationName"],
-                            value: data[i]["organizationId"]
-                        })
+                        if(data[i]["organizationName"]) {
+                            arr.push({
+                                label: data[i]["organizationName"],
+                                value: data[i]["organizationId"]
+                            })
+                        }
                     }
                     set_senarai_masjid(arr)
                 }

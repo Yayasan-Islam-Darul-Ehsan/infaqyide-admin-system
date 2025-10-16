@@ -517,17 +517,24 @@ const MaklumatMasjid = () => {
                                 <p className='text-sm font-normal text-gray-600'>Sila pilih kategori institusi anda untuk dikemaskini.</p>
                             </div>
                             <div className='mt-3'>
-                                {
+                                {/* {
                                     masjid.organizationType && (
                                         <Select 
                                         placeholder='Contoh: Masjid'
                                         description={'Klik pada pilihan di atas untuk memilih jenis kategori institusi anda.'}
-                                        defaultValue={masjid.organizationType}
+                                        defaultValue={masjid.organizationType || ""}
                                         options={category_option}
                                         onChange={e => set_masjid({...masjid, organizationType: e.target.value})}
                                         />
                                     )
-                                }
+                                } */}
+                                <Select 
+                                    placeholder='Contoh: Masjid'
+                                    description={'Klik pada pilihan di atas untuk memilih jenis kategori institusi anda.'}
+                                    defaultValue={masjid.organizationType || ""}
+                                    options={category_option}
+                                    onChange={e => set_masjid({...masjid, organizationType: e.target.value})}
+                                />
                             </div>
                         </Card>
                     </section>
@@ -645,19 +652,19 @@ const MaklumatMasjid = () => {
                                     <Textinput
                                         label={'Alamat 1'}
                                         placeholder='Contoh: Jalan 11'
-                                        defaultValue={masjid.organizationAddress.split(',')[0] || ''}
+                                        defaultValue={masjid.organizationAddress ? masjid.organizationAddress.split(',')[0] : ''}
                                         onChange={e => handleAddressChange(e.target.value, 1)}
                                     />
                                     <Textinput
                                         label={'Alamat 2'}
                                         placeholder='Contoh: Datuk Panglima Garang'
-                                        defaultValue={masjid.organizationAddress.split(',')[1] || ''}
+                                        defaultValue={masjid.organizationAddress ? masjid.organizationAddress.split(',')[1] : ''}
                                         onChange={e => handleAddressChange(e.target.value, 2)}
                                     />
                                     <Textinput
                                         label={'Alamat 3'}
                                         placeholder='Contoh: Hulu Selangor, 12345 Selangor, Malaysia'
-                                        defaultValue={masjid.organizationAddress.split(',')[2] || ''}
+                                        defaultValue={masjid.organizationAddress ? masjid.organizationAddress.split(',')[2] : ''}
                                         onChange={e => handleAddressChange(e.target.value, 3)}
                                     />
                                 </div>
