@@ -1,0 +1,39 @@
+name: Deploy React + Vite to Ubuntu Server
+
+on:
+  push:
+    branches:
+      - main  # or your chosen branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22  # or the version you use
+
+      - name: Install Dependencies
+        run: |
+          yarn install --frozen-lockfile
+          # or npm ci
+
+      - name: Build Vite Project
+        run: |
+          yarn build
+          # or npm run build
+
+      - name: Deploy to Remote Server via SSH
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}
+          source: "dist/*"
+          target: "/home/infaqyide/admin"
+          strip_components: 1
