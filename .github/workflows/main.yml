@@ -98,7 +98,7 @@ jobs:
         run: yarn install --frozen-lockfile
 
       - name: Build for Production
-        run: npm run build:production
+        run: npm run build:prod
 
       - name: Deploy to Production Server
         uses: appleboy/scp-action@v0.1.7
