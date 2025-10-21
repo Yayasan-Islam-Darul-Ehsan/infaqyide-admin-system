@@ -18,7 +18,7 @@ const GET__ENV = () => {
         return "http://localhost:31100/admin/"
     }
     else if(process.env.NODE_ENV === "demo") {
-        return "https://cp.infaqyide.xyz/admin/"
+        return "https://beta-admin.infaqyide.com.my/admin/"
     }
     else if(process.env.NODE_ENV === "staging") {
         return "https://beta-admin.infaqyide.com.my/admin/"
@@ -36,7 +36,7 @@ const GET__ENV2 = () => {
         return "http://localhost:31100/sysadmin/"
     }
     else if(process.env.NODE_ENV === "demo") {
-        return "https://cp.infaqyide.xyz/sysadmin/"
+        return "https://beta-admin.infaqyide.com.my/sysadmin/"
     }
     else if(process.env.NODE_ENV === "staging") {
         return "https://beta-admin.infaqyide.com.my/sysadmin/"
