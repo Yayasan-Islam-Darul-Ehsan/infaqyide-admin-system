@@ -1,23 +1,14 @@
 name: Deploy React + Vite to Ubuntu Server
 
 on:
-  workflow_dispatch:  # Manual deployment only
-    inputs:
-      environment:
-        description: 'Environment to deploy'
-        required: true
-        type: choice
-        options:
-          - development
-          - staging
-          - production
+  push:
+    branches:
+      - main
 
 jobs:
-  build-and-deploy:
+  build-and-deploy-dev:
     runs-on: ubuntu-latest
-    
-    environment:
-      name: ${{ github.event.inputs.environment }}
+    environment: development
 
     steps:
       - name: Checkout Repository
@@ -27,46 +18,100 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
-          cache: 'yarn'  # enables caching for faster builds
+          cache: 'yarn'
 
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
       - name: Build for Development
-        if: github.event.inputs.environment == 'development'
         run: npm run build:dev
 
-      - name: Build for Staging
-        if: github.event.inputs.environment == 'staging'
-        run: npm run build:staging
-
-      - name: Build for Production
-        if: github.event.inputs.environment == 'production'
-        run: npm run build:production
-
-      - name: Set Deployment Path
-        id: deploy-path
-        run: |
-          ENV="${{ github.event.inputs.environment }}"
-          echo "environment=$ENV" >> $GITHUB_OUTPUT
-          echo "target_path=/home/infaqyide/admin/$ENV" >> $GITHUB_OUTPUT
-
-      - name: Deploy to Remote Server via SSH
+      - name: Deploy to Development Server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
           source: "dist/*"
-          target: ${{ steps.deploy-path.outputs.target_path }}
+          target: "/home/infaqyide/admin/development"
           strip_components: 1
-          rm: true  # removes old files before uploading
+          rm: true
 
-      - name: Deployment Summary
+      - name: Development Deployment Summary
         run: |
-          echo "### Deployment Successful! :rocket:" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "- **Environment**: ${{ steps.deploy-path.outputs.environment }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Target Path**: ${{ steps.deploy-path.outputs.target_path }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+          echo "✅ **Development deployment successful!**" >> $GITHUB_STEP_SUMMARY
+          echo "- Target: /home/infaqyide/admin/development" >> $GITHUB_STEP_SUMMARY
+
+  build-and-deploy-staging:
+    runs-on: ubuntu-latest
+    environment: staging
+    needs: build-and-deploy-dev  # runs after dev deployment
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build for Staging
+        run: npm run build:staging
+
+      - name: Deploy to Staging Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}
+          source: "dist/*"
+          target: "/home/infaqyide/admin/staging"
+          strip_components: 1
+          rm: true
+
+      - name: Staging Deployment Summary
+        run: |
+          echo "✅ **Staging deployment successful!**" >> $GITHUB_STEP_SUMMARY
+          echo "- Target: /home/infaqyide/admin/staging" >> $GITHUB_STEP_SUMMARY
+
+  build-and-deploy-prod:
+    runs-on: ubuntu-latest
+    environment: production
+    needs: build-and-deploy-staging  # runs after staging deployment
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Build for Production
+        run: npm run build:production
+
+      - name: Deploy to Production Server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_IP }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SERVER_PRIVATE_KEY }}
+          source: "dist/*"
+          target: "/home/infaqyide/admin/production"
+          strip_components: 1
+          rm: true
+
+      - name: Production Deployment Summary
+        run: |
+          echo "✅ **Production deployment successful!**" >> $GITHUB_STEP_SUMMARY
+          echo "- Target: /home/infaqyide/admin/production" >> $GITHUB_STEP_SUMMARY
