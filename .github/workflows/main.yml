@@ -1,13 +1,63 @@
+# name: Deploy React + Vite to Ubuntu Server
+
+# on:
+#   push:
+#     branches:
+#       - main  # or your chosen branch
+
+# jobs:
+#   build-and-deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout Repository
+#         uses: actions/checkout@v4
+
+#       - name: Setup Node.js
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version: 22  # or the version you use
+
+#       - name: Install Dependencies
+#         run: |
+#           yarn install --frozen-lockfile
+#           # or npm ci
+
+#       - name: Build Vite Project
+#         run: |
+#           yarn build
+#           # or npm run build
+
+#       - name: Deploy to Remote Server via SSH
+#         uses: appleboy/scp-action@v0.1.7
+#         with:
+#           host: ${{ secrets.SERVER_IP }}
+#           username: ${{ secrets.SERVER_USER }}
+#           key: ${{ secrets.SERVER_PRIVATE_KEY }}
+#           source: "dist/*"
+#           target: "/home/infaqyide/admin"
+#           strip_components: 1
+
 name: Deploy React + Vite to Ubuntu Server
 
 on:
-  push:
-    branches:
-      - main  # or your chosen branch
+  workflow_dispatch:  # Manual deployment only
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        type: choice
+        options:
+          - development
+          - staging
+          - production
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    
+    environment:
+      name: ${{ github.event.inputs.environment }}
 
     steps:
       - name: Checkout Repository
@@ -16,17 +66,30 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 22  # or the version you use
+          node-version: 22
+          cache: 'yarn'  # enables caching for faster builds
 
       - name: Install Dependencies
-        run: |
-          yarn install --frozen-lockfile
-          # or npm ci
+        run: yarn install --frozen-lockfile
 
-      - name: Build Vite Project
+      - name: Build for Development
+        if: github.event.inputs.environment == 'development'
+        run: npm run build:dev
+
+      - name: Build for Staging
+        if: github.event.inputs.environment == 'staging'
+        run: npm run build:staging
+
+      - name: Build for Production
+        if: github.event.inputs.environment == 'production'
+        run: npm run build:production
+
+      - name: Set Deployment Path
+        id: deploy-path
         run: |
-          yarn build
-          # or npm run build
+          ENV="${{ github.event.inputs.environment }}"
+          echo "environment=$ENV" >> $GITHUB_OUTPUT
+          echo "target_path=/home/infaqyide/admin/$ENV" >> $GITHUB_OUTPUT
 
       - name: Deploy to Remote Server via SSH
         uses: appleboy/scp-action@v0.1.7
@@ -35,5 +98,15 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_PRIVATE_KEY }}
           source: "dist/*"
-          target: "/home/infaqyide/admin"
+          target: ${{ steps.deploy-path.outputs.target_path }}
           strip_components: 1
+          rm: true  # removes old files before uploading
+
+      - name: Deployment Summary
+        run: |
+          echo "### Deployment Successful! :rocket:" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "- **Environment**: ${{ steps.deploy-path.outputs.environment }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Target Path**: ${{ steps.deploy-path.outputs.target_path }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Branch**: ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Commit**: ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
