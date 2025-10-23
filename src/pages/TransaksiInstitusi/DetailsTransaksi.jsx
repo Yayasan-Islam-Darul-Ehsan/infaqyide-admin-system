@@ -5,15 +5,11 @@ import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import useWidth from '@/hooks/useWidth';
 import moment from 'moment';
-import API_FORM_DATA, {  API_FORM_DATA_STAGING } from '@/utils/api';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
-import { Alert, FileCard, FileUploader } from 'evergreen-ui';
 import Card from '@/components/ui/Card';
 import { Pane } from 'evergreen-ui';
-import Badge from '@/components/ui/Badge';
 import AnimatedLotties from '@/components/AnimatedLotties';
-import Icons from '@/components/ui/Icon';
 import { API } from '@/utils/api';
 
 
@@ -37,7 +33,7 @@ function MaklumatTransaksi(props) {
     const GET__TRANSAKSI__DETAILS = async () => {
         set_loading(true);
         try {
-            let api = await API("getTransaksiDetails", { payment_ref: state.bill_invoice_no }, "POST", true);
+            let api = await API("getTransaksiDetails2", { payment_ref: state.bill_invoice_no }, "POST", true);
             console.log('Log Get DETAILS  : ', api);
     
             // Check if api is not null or undefined
@@ -94,13 +90,21 @@ function MaklumatTransaksi(props) {
                                 </div>
 
                                 <div className='mt-6'>
-                                    <div><p className='font-semibold text-sm text-gray-900'>Maklumat Pembayar</p></div>
-                                    <div className='mt-3'>
+                                    <div><p className='font-semibold text-sm text-gray-900'>Maklumat Penyumbang</p></div>
+                                    <div className='mt-3 space-y-3 gap-3'>
                                         <div className='flex justify-between items-center'>
-                                            <p className='font-semibold text-xs text-gray-900'>Nama</p>
+                                            <p className='font-semibold text-xs text-gray-900'>Nama Penyumbang</p>
                                             <p className='font-normal text-xs text-gray-900'>{transaction.bill_payor}</p>
                                         </div>
-                                        <div className='mt-3 flex justify-between items-center'>
+                                        <div className='flex justify-between items-center'>
+                                            <p className='font-semibold text-xs text-gray-900'>E-mel Penyumbang</p>
+                                            <p className='font-normal text-xs text-gray-900'>{transaction.bill_email || ""}</p>
+                                        </div>
+                                        <div className='flex justify-between items-center'>
+                                            <p className='font-semibold text-xs text-gray-900'>No. Telefon</p>
+                                            <p className='font-normal text-xs text-gray-900'>{transaction.bill_phone || ""}</p>
+                                        </div>
+                                        <div className='flex justify-between items-center'>
                                             <p className='font-semibold text-xs text-gray-900'>Kepada Institusi</p>
                                             <p className='font-normal text-xs text-gray-900'>{transaction.org_name}</p>
                                         </div>
@@ -111,18 +115,26 @@ function MaklumatTransaksi(props) {
 
                                 <div className='mt-6'>
                                     <div><p className='font-semibold text-sm text-gray-900'>Maklumat Pembayaran</p></div>
-                                    <div className='mt-3'>
+                                    <div className='mt-3 space-y-3'>
                                         <div className='flex justify-between items-center'>
                                             <p className='font-semibold text-xs text-gray-900'>Tarikh</p>
                                             <p className='font-normal text-xs text-gray-900'>{moment(transaction.bill_datetime).format("DD MMM YYYY, H:mm A")}</p>
                                         </div>
-                                        <div className='mt-3 flex justify-between items-center'>
+                                        <div className='flex justify-between items-center'>
                                             <p className='font-semibold text-xs text-gray-900'>No. Rujukan</p>
                                             <p className='font-normal text-xs text-gray-900'>{transaction.bill_invoice_no}</p>
                                         </div>
-                                        <div className='mt-3 flex justify-between items-center'>
+                                        <div className='flex justify-between items-center'>
+                                            <p className='font-semibold text-xs text-gray-900'>Kaedah Bayaran</p>
+                                            <p className='font-normal text-xs text-gray-900'>{transaction.bill_payment_channel}</p>
+                                        </div>
+                                        <div className='flex justify-between items-center'>
                                             <p className='font-semibold text-xs text-gray-900'>Amaun (RM)</p>
                                             <p className='font-semibold text-lg text-gray-900'>RM {parseFloat(transaction.bill_amount).toFixed(2)}</p>
+                                        </div>
+                                        <div className='flex justify-between items-center'>
+                                            <p className='font-semibold text-xs text-gray-900'>Status</p>
+                                            <p className={`font-semibold text-xs ${transaction.bill_status == 1 ? 'text-emerald-600' : 'text-red-600'}`}>{transaction.bill_status == 1 ? 'Sumbangan Berjaya' : 'Sumbangan Gaga'}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -130,11 +142,15 @@ function MaklumatTransaksi(props) {
                                 <div className='mt-6 border-t border-dashed border-gray-400'></div>
 
                                 <div className='mt-6'>
-                                    <div><p className='font-semibold text-sm text-gray-900'>Tindakan</p></div>
-                                    <div className='mt-3'>
-                                        <div className='mb-3 flex justify-between items-center'>
-                                            <p className='font-semibold text-xs text-gray-900'>Jenis Bayaran</p>
-                                            <p className='font-normal text-xs text-gray-900'>{transaction.bill_payment_channel}</p>
+                                    <div><p className='font-semibold text-sm text-gray-900'>Maklumat Tabung</p></div>
+                                    <div className='mt-3 space-y-3'>
+                                        <div className='flex justify-between items-center'>
+                                            <p className='font-semibold text-xs text-gray-900'>Nama Tabung</p>
+                                            <p className='font-normal text-xs text-gray-900'>{transaction.nama_tabung || ""}</p>
+                                        </div>
+                                        <div className='flex justify-between items-center'>
+                                            <p className='font-semibold text-xs text-gray-900'>Keterangan Tabung</p>
+                                            <p className='font-normal text-xs text-gray-900'>{transaction.keterangan_tabung || ""}</p>
                                         </div>
                                     </div>
                                 </div>

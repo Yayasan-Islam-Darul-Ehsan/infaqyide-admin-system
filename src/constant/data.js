@@ -203,11 +203,11 @@ export const menuItems = [
     //     icon: "heroicons-outline:newspaper",
     //     link: "hebahan/senarai-hebahan",
     // },
-	{
-        title: "Kredit",
-        icon: "heroicons-outline:credit-card",
-        link: "institusi/kredit",
-    },
+	// {
+    //     title: "Kredit",
+    //     icon: "heroicons-outline:credit-card",
+    //     link: "institusi/kredit",
+    // },
 	// {
     //     title: "Pengeluaran",
     //     icon: "heroicons-outline:banknotes",
@@ -219,78 +219,78 @@ export const menuItems = [
         link: "institusi/transaksi-institusi",
         
     },
-    {
-        isHeadr: true,
-        title: "Kariah & Khairat Kematian",
-    },
-    {
-        title: "Pengesahan Kariah",
-        icon: "heroicons-outline:clipboard-document-check",
-        link: "pengesahan/senarai-kariah",
-    },
-    {
-        title: "Senarai Ahli Kariah",
-        icon: "heroicons-outline:users",
-        link: "kariah/senarai-kariah",
-    },
-	{
-        title: "Senarai Asnaf",
-        icon: "heroicons-outline:users",
-        link: "asnaf/list",
-    },
-	{
-        title: "Senarai Anak Yatim",
-        icon: "heroicons-outline:users",
-        link: "anak-yatim/list",
-    },
-	{
-        title: "Senarai Ahli Khairat",
-        icon: "heroicons-outline:users",
-        link: "ahli-khairat/list",
-    },
-    {
-        title: "Khairat Kematian",
-        icon: "heroicons-outline:credit-card",
-        child: [
-            {
-                childtitle: "Bayar",
-                childlink: "khairat-kematian/pay"
-            },
-            {
-                childtitle: "Rekod Bayaran",
-                childlink: "khairat-kematian/senarai-khairat-kematian"
-            }
-        ]
-    },
-	{
-        title: "Permohonan Bantuan Khairat Kematian",
-        icon: "heroicons-outline:credit-card",
-        child: [
-            {
-                childtitle: "Senarai Permohonan",
-                childlink: "permohonan-bantuan-khairat/senarai-permohonan"
-            }
-        ]
-    },
-	{
-        title: "Yuran Khairat Kematian",
-        icon: "heroicons-outline:newspaper",
-		    child: [
-            {
-                childtitle: "Senarai Yuran",
-                childlink: "yuran/list"
-            },
-            {
-                childtitle: "Tambah Yuran",
-                childlink: "yuran/create"
-            }
-        ]
-    },
-	{
-        title: "Transaksi Bayaran Yuran Khairat Kematian",
-        icon: "heroicons-outline:credit-card",
-        link: "transaksi/senarai-bayaran",
-    },
+    // {
+    //     isHeadr: true,
+    //     title: "Kariah & Khairat Kematian",
+    // },
+    // {
+    //     title: "Pengesahan Kariah",
+    //     icon: "heroicons-outline:clipboard-document-check",
+    //     link: "pengesahan/senarai-kariah",
+    // },
+    // {
+    //     title: "Senarai Ahli Kariah",
+    //     icon: "heroicons-outline:users",
+    //     link: "kariah/senarai-kariah",
+    // },
+	// {
+    //     title: "Senarai Asnaf",
+    //     icon: "heroicons-outline:users",
+    //     link: "asnaf/list",
+    // },
+	// {
+    //     title: "Senarai Anak Yatim",
+    //     icon: "heroicons-outline:users",
+    //     link: "anak-yatim/list",
+    // },
+	// {
+    //     title: "Senarai Ahli Khairat",
+    //     icon: "heroicons-outline:users",
+    //     link: "ahli-khairat/list",
+    // },
+    // {
+    //     title: "Khairat Kematian",
+    //     icon: "heroicons-outline:credit-card",
+    //     child: [
+    //         {
+    //             childtitle: "Bayar",
+    //             childlink: "khairat-kematian/pay"
+    //         },
+    //         {
+    //             childtitle: "Rekod Bayaran",
+    //             childlink: "khairat-kematian/senarai-khairat-kematian"
+    //         }
+    //     ]
+    // },
+	// {
+    //     title: "Permohonan Bantuan Khairat Kematian",
+    //     icon: "heroicons-outline:credit-card",
+    //     child: [
+    //         {
+    //             childtitle: "Senarai Permohonan",
+    //             childlink: "permohonan-bantuan-khairat/senarai-permohonan"
+    //         }
+    //     ]
+    // },
+	// {
+    //     title: "Yuran Khairat Kematian",
+    //     icon: "heroicons-outline:newspaper",
+	// 	    child: [
+    //         {
+    //             childtitle: "Senarai Yuran",
+    //             childlink: "yuran/list"
+    //         },
+    //         {
+    //             childtitle: "Tambah Yuran",
+    //             childlink: "yuran/create"
+    //         }
+    //     ]
+    // },
+	// {
+    //     title: "Transaksi Bayaran Yuran Khairat Kematian",
+    //     icon: "heroicons-outline:credit-card",
+    //     link: "transaksi/senarai-bayaran",
+    // },
     // {
     //   isHeadr: true,
     //   title: "Aset dan Inventori",
@@ -369,39 +369,39 @@ export const menuItems = [
   //         }
   //     ]
   // },
-	{
-        isHeadr: true,
-        title: "Kewangan Masjid",
-    },
-	{
-        title: "Panjar Wang Runcit",
-        icon: "heroicons-outline:calculator",
-		link: "panjar-wang-runcit/info"
-	},
-	{
-        title: "Baki Bank Terkini",
-        icon: "heroicons-outline:calculator",
-		    child: [
-			{
-            	childtitle: "Baki Terkini Bank Semasa",
-            	childlink: 'kewangan/baki-bank-semasa'
-          	},
-			{
-            	childtitle: "Baki Terkini Simpanan Tetap",
-            	childlink: 'kewangan/baki-simpanan-tetap'
-          	},
-      	]
-    },
-	{
-        title: "Rekod Perolehan",
-        icon: "heroicons-outline:calculator",
-		link: "perolehan/senarai-transaksi"
-    },
-	{
-        title: "Rekod Perbelanjaan",
-        icon: "heroicons-outline:calculator",
-		link: "perbelanjaan/senarai-transaksi"
-    },
+	// {
+    //     isHeadr: true,
+    //     title: "Kewangan Masjid",
+    // },
+	// {
+    //     title: "Panjar Wang Runcit",
+    //     icon: "heroicons-outline:calculator",
+	// 	link: "panjar-wang-runcit/info"
+	// },
+	// {
+    //     title: "Baki Bank Terkini",
+    //     icon: "heroicons-outline:calculator",
+	// 	    child: [
+	// 		{
+    //         	childtitle: "Baki Terkini Bank Semasa",
+    //         	childlink: 'kewangan/baki-bank-semasa'
+    //       	},
+	// 		{
+    //         	childtitle: "Baki Terkini Simpanan Tetap",
+    //         	childlink: 'kewangan/baki-simpanan-tetap'
+    //       	},
+    //   	]
+    // },
+	// {
+    //     title: "Rekod Perolehan",
+    //     icon: "heroicons-outline:calculator",
+	// 	link: "perolehan/senarai-transaksi"
+    // },
+	// {
+    //     title: "Rekod Perbelanjaan",
+    //     icon: "heroicons-outline:calculator",
+	// 	link: "perbelanjaan/senarai-transaksi"
+    // },
 ];
 
 export const topMenu = 

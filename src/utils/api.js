@@ -58,6 +58,7 @@ export const API = async (name = "", body = null, method = "POST", auth = true )
     if(auth === true) {
         let token = sessionStorage.getItem("token")
         myHeaders.append("token", token)
+        myHeaders.append("Authorization", token)
     }
 
     let response    = bad_respnse
@@ -236,7 +237,7 @@ export async function API_FORM_DATA_STAGING(API_NAME = "", DATA = [], METHOD = "
         redirect: 'follow'
     };    
 
-    await fetch("https://beta-admin.infaqyide.com.my/admin/file-uploader", requestOptions)
+    await fetch("https://admin-stg.infaqyide.com.my/admin/file-uploader", requestOptions)
     .then(response => response.json())
     .then(res => {
         console.log("Log Upload Form Data : ", res)

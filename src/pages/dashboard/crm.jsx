@@ -21,13 +21,11 @@ const CrmPage = () => {
 	const [total_waqaf, set_total_waqaf] 						= useState(0)
 	const [total_bulan_ini, set_total_bulan_ini] 				= useState(0)
 
-	const [total_verified, set_total_verified] 					= useState(0)
-	const [total_pending, set_total_pending] 					= useState(0)
-	const [total_active_khairat, set_total_active_khairat] 		= useState(0)
-	const [total_yuran_collected, set_total_yuran_collected] 	= useState(0)
-
 	const [ahli_kariah, set_ahli_kariah] 						= useState([])
 	const [bayaran_yuran, set_bayaran_yuran] 					= useState([])
+
+	const [loading2, set_loading2] 								= useState(true)
+	const [transaksi, set_transaksi] 							= useState({row: [], total: 0, totalPages: 0})
 
 	const GET_DASHBOARD_INFAQ = async () => {
         set_loading(true)
@@ -47,45 +45,24 @@ const CrmPage = () => {
         }, 500);
     }
 
-	const get_dashboard = async () => {
-		set_loading(true)
-		let api = await API("kariah/dashboard", {}, "GET", true)
-		
-		if(api.status_code === 200) {
-			let data = api.data
-			set_total_verified(data.TOTAL_VERIFIED)
-			set_total_pending(data.TOTAL_PENDING_REGISTRATION)
-			set_total_active_khairat(data.TOTAL_ACTIVE_KHAIRAT_KEMATIAN)
-			set_total_yuran_collected(Number(data.TOTAL_BAYARAN_YURAN))
+	const GET_SENARAI_KUTIPAN = async () => {
+		try {
+			set_loading2(true)
+			let api = await API(`v2/transaksi?page=1&limit=10`, {}, "GET", true)
+			if(api.status_code === 200) {
+				set_transaksi(api.data)
+				setTimeout(() => {
+					set_loading2(false)
+				}, 500);
+			}
+		} catch (error) {
+			set_loading2(false)
 		}
-		setTimeout(() => {
-			set_loading(false)
-		}, 1000);
-	}
-
-	const get_list_ahli_kariah = async () => {
-		set_loading_1(true)
-		let api = await API(`kariah/ahli/senarai-ahli?page=${0}&limit=${5}`, {}, "GET", true)
-        if(api.status_code === 200) {
-            set_ahli_kariah(api.data.row)
-        }
-		set_loading_1(false)
-	}
-
-	const get_list_bayaran = async () => {
-		set_loading_2(true)
-		let api = await API(`kariah/payment/list?page=${0}&limit=${5}`, {}, "GET", true)
-		if(api.status_code === 200) {
-            set_bayaran_yuran(api.data.row)
-        }
-		set_loading_2(false)
 	}
 
 	useMemo(() => {
 		GET_DASHBOARD_INFAQ()
-		get_dashboard()
-		get_list_ahli_kariah()
-		get_list_bayaran()
+		GET_SENARAI_KUTIPAN()
 	}, [])
 
 	const get_badge = (status) => {
@@ -122,11 +99,11 @@ const CrmPage = () => {
 									<div className="mt-3"><p className="font-semibold text-blue-600 text-2xl">RM {parseFloat(total_sumbangan).toFixed(2)}</p></div>
 								</Card>
 								<Card>
-									<div><p className="font-medium text-sm text-gray-600">Jumlah Infaq</p></div>
+									<div><p className="font-medium text-sm text-gray-600">Jumlah Kutipan Infaq</p></div>
 									<div className="mt-3"><p className="font-semibold text-teal-600 text-2xl">RM {parseFloat(total_infaq).toFixed(2)}</p></div>
 								</Card>
 								<Card>
-									<div><p className="font-medium text-sm text-gray-600">Jumlah Waqaf</p></div>
+									<div><p className="font-medium text-sm text-gray-600">Jumlah Kutipan Kempen</p></div>
 									<div className="mt-3"><p className="font-semibold text-red-600 text-2xl">RM {parseFloat(total_waqaf).toFixed(2)}</p></div>
 								</Card>
 								<Card>
@@ -136,7 +113,7 @@ const CrmPage = () => {
 							</div>
 						</section>
 
-						<section>
+						{/* <section>
 							<div className="grid grid-cols-1 md:grid-cols-4 gap-3 mt-6">
 								<Card>
 									<div><p className="font-medium text-sm text-gray-600">Jumlah Ahli Kariah</p></div>
@@ -155,12 +132,12 @@ const CrmPage = () => {
 									<div className="mt-3"><p className="font-semibold text-gray-900 text-2xl">RM {parseFloat(total_yuran_collected).toFixed(2)}</p></div>
 								</Card>
 							</div>
-						</section>
+						</section> */}
 						</>
 					)
 				}
 
-				<div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+				{/* <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
 				<Card className="mt-6">
 				{
 					loading_1 && <ListLoading count={5} />
@@ -195,7 +172,6 @@ const CrmPage = () => {
                                             <td width={'5%'} className='p-3 font-normal text-xs'>{index + 1}.</td>
                                             <td width={'20%'} className='p-3 font-semibold text-xs text-clip'>
                                                 <p className='font-semibold text-gray-900'>{data.full_name}</p>
-                                                {/* <p className='font-normal text-gray-900'>{data.ic_number}</p> */}
                                             </td>
                                             <td width={'10%'} className='p-3 font-normal text-xs text-clip'>
                                                 <p className='font-semibold text-gray-900'>{data.email_address}</p>
@@ -239,13 +215,11 @@ const CrmPage = () => {
 								<table className='min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700'>
 									<thead className="bg-slate-200 dark:bg-slate-700 p-3 rounded-md">
 										<td width={'5%'} className='p-3 font-semibold text-xs'>Bil.</td>
-										{/* <td width={'20%'} className='p-3 font-semibold text-xs'>Nama Bil</td> */}
 										<td width={'10%'} className='p-3 font-semibold text-xs'>Jumlah(RM)</td>
 										<td width={'10%'} className='p-3 font-semibold text-xs'>Nama</td>
 										<td width={'10%'} className='p-3 font-semibold text-xs'>E-mel</td>
 										<td width={'10%'} className='p-3 font-semibold text-xs'>No. Telefon</td>
 										<td width={'10%'} className='p-3 font-semibold text-xs'>Status</td>
-										{/* <td width={'10%'} className='p-3 font-semibold text-xs'>Tarikh</td> */}
 									</thead>
 									<tbody className='text-xs p-3'>
 										{
@@ -259,10 +233,6 @@ const CrmPage = () => {
 											bayaran_yuran.length > 0 && bayaran_yuran.map((data, index) => (
 												<tr key={index} className='border border-gray-100 p-3'>
 													<td width={'5%'} className='p-3 font-normal text-xs'>{index + 1}.</td>
-													{/* <td width={'20%'} className='p-3 font-semibold text-xs text-clip'>
-														<p className='font-normal text-gray-900'>{data.bill_name}</p>
-														<p className='font-semibold text-gray-900 underline'>{data.transaction_id}</p>
-													</td> */}
 													<td width={'10%'} className='p-3 font-normal text-xs text-clip'>
 														<p className='font-normal text-gray-900'>{data.payment_amount}</p>
 													</td>
@@ -278,9 +248,6 @@ const CrmPage = () => {
 													<td width={'10%'} className='p-3 font-normal text-xs text-clip'>
 														<p className='font-normal text-gray-900'>{get_badge(data.payment_status)}</p>
 													</td>
-													{/* <td width={'10%'} className='p-3 font-normal text-xs text-clip'>
-														<p className='font-normal text-gray-900'>{moment(data.created_date).format("YYYY-MM-DD hh:mm A")}</p>
-													</td> */}
 												</tr>
 											))
 										}
@@ -290,7 +257,87 @@ const CrmPage = () => {
 						)
 					}
 				</Card>
-				</div>
+				</div> */}
+
+				<section className="mt-6">
+					<Card
+					title={"Senarai 5 Transaksi Terkini"}
+					subtitle={"Berikut adalah senarai 5 transaksi terkini untuk institusi anda."}
+					>
+					{
+						loading2 ? 
+						<ListLoading count={10} /> : (
+							// <pre>
+							// 	<code>
+							// 		{JSON.stringify(transaksi, undefined, 4)}
+							// 	</code>
+							// </pre>
+							<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+							<table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+								<thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+									<tr>
+										<th scope="col" class="px-6 py-3">
+											Bil.
+										</th>
+										<th scope="col" class="px-6 py-3">
+											Maklumat Penyumbang
+										</th>
+										<th scope="col" class="px-6 py-3">
+											Jenis Sumbangan
+										</th>
+										<th scope="col" class="px-6 py-3">
+											Jumlah Sumbangan (RM)
+										</th>
+										<th scope="col" class="px-6 py-3">
+											Tarikh Sumbangan
+										</th>
+										<th scope="col" class="px-6 py-3">
+											Status
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									{ transaksi.row.length == 0 && (
+										<>
+										<tr>
+											<td colSpan={6}>Anda tidak mempunyai senarai kutipan sumbangan.</td>
+										</tr>
+										</>
+									)}
+
+									{ transaksi.row.length > 0 && transaksi.row.map((item, index) => (
+										<>
+										<tr key={index} className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+											<td scope="col" class="px-6 py-3">
+												{index + 1}
+											</td>
+											<td scope="col" class="px-6 py-3">
+												<span>{item.billpayment_payorName}</span><br />
+												<span>{item.billpayment_payorEmail}</span>
+											</td>
+											<td scope="col" class="px-6 py-3">
+												<span>{item.billpayment_type}</span>
+											</td>
+											<td scope="col" class="px-6 py-3">
+												<span>{Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR'}).format(item.billpayment_amountNett)}</span>
+											</td>
+											<td scope="col" class="px-6 py-3">
+												<span>{item.billpayment_status == 1 ? 'Transaksi Berjaya' : 'Transaksi Gagal'}</span>
+											</td>
+											<td scope="col" class="px-6 py-3">
+												<span>{moment(item.billpayment_createdDate).format('DD MMM YYYY, hh:mm A')}</span>
+											</td>
+										</tr>
+										</>
+									)
+									)}
+								</tbody>
+							</table>
+							</div>
+						)
+					}
+					</Card>
+				</section>
 			</div>
 		</div>
 	);
