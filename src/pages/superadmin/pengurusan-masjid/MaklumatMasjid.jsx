@@ -280,7 +280,7 @@ const MaklumatMasjid = () => {
             redirect: "follow"
         };
 
-        await fetch(process.env.NODE_ENV === "production" ? "https://admin.infaqyide.com.my/admin/file-uploader" : "https://beta-admin.infaqyide.com.my/admin/file-uploader", requestOptions)
+        await fetch(`${window.location.origin}/admin/file-uploader`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
             console.log(result)

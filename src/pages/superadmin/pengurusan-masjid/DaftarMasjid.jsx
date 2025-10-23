@@ -222,7 +222,7 @@ function DaftarMasjid(props) {
             redirect: "follow"
         };
 
-        await fetch("https://cp.infaqyide.xyz/admin/file-uploader", requestOptions)
+        await fetch(`${window.location.origin}/admin/file-uploader`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
             console.log(result)
