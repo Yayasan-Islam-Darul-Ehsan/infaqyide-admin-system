@@ -299,8 +299,8 @@ const CrmPage = () => {
 								<tbody>
 									{ transaksi.row.length == 0 && (
 										<>
-										<tr>
-											<td colSpan={6}>Anda tidak mempunyai senarai kutipan sumbangan.</td>
+										<tr className="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700 border-gray-200">
+											<td scope="col" class="px-6 py-3 text-center" colSpan={6}>Anda tidak mempunyai senarai kutipan sumbangan.</td>
 										</tr>
 										</>
 									)}

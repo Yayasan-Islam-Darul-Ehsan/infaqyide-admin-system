@@ -33,6 +33,7 @@ const schema = yup
 			.string()
 			.oneOf([yup.ref("password"), null], "Kata laluan tidak sepadan")
 			.required("Sila sahkan kata laluan anda!"),
+			
 	})
 	.required();
 
@@ -88,7 +89,7 @@ const RegForm = () => {
 	if (loading) return <Loading />;
 
 	return (
-		<form onSubmit={handleSubmit(onSubmit)} className="space-y-5 ">
+		<form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
 			<Textinput
 				name="username"
 				label="ID Pengguna (Wakil Institusi)"

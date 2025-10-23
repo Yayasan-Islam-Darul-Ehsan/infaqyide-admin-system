@@ -18,10 +18,10 @@ const GET__ENV = () => {
         return "http://localhost:31100/admin/"
     }
     else if(process.env.NODE_ENV === "demo") {
-        return "https://beta-admin.infaqyide.com.my/admin/"
+        return "https://admin-stg.infaqyide.com.my/admin/"
     }
     else if(process.env.NODE_ENV === "staging") {
-        return "https://beta-admin.infaqyide.com.my/admin/"
+        return "https://admin-stg.infaqyide.com.my/admin/"
     }
     else if(process.env.NODE_ENV === "production") {
         return "https://admin.infaqyide.com.my/admin/"
@@ -36,10 +36,10 @@ const GET__ENV2 = () => {
         return "http://localhost:31100/sysadmin/"
     }
     else if(process.env.NODE_ENV === "demo") {
-        return "https://beta-admin.infaqyide.com.my/sysadmin/"
+        return "https://admin-stg.infaqyide.com.my/sysadmin/"
     }
     else if(process.env.NODE_ENV === "staging") {
-        return "https://beta-admin.infaqyide.com.my/sysadmin/"
+        return "https://admin-stg.infaqyide.com.my/sysadmin/"
     }
     else if(process.env.NODE_ENV === "production") {
         return "https://admin.infaqyide.com.my/sysadmin/"
