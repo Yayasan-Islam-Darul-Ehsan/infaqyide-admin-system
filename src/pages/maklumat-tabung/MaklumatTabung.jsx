@@ -186,9 +186,9 @@ function MaklumatTabung(props) {
 
             <section className='mt-6'>
                 <div className='bg-yellow-50 px-5 py-3 rounded-lg border border-yellow-600 shadow-md'>
-                    {/* <div>
+                    <div>
                         <p className='font-semibold text-lg text-gray-600'>Peringatan!</p>
-                    </div> */}
+                    </div>
                     <div className=''>
                         <ul className=''>
                             <li className='text-sm text-gray-600'>Semua medan dibawah adalah wajib diisi.</li>
@@ -258,17 +258,17 @@ function MaklumatTabung(props) {
                             />
                         </div>
                         
-                        <div className='mt-3'>
+                        {/* <div className='mt-3'>
                             <InputGroup 
                             
                             label={"Tabung Permalink"}
-                            prepend={`https://pay.al-jariyah.com/institusi/tabung/`}
+                            prepend={`${window.location.origin}/institusi/tabung/`}
                             description={"URL ini boleh digunapakai untuk membenarkan pengguna untuk menyalurkan sumbangan infaq dan waqaf mereka kepada tabung ini."}
                             defaultValue={tabung_permalink}
                             disabled={disabled_editing}
                             onChange={e => set_tabung_permalink(e.target.value)}
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </Card>
             </section>

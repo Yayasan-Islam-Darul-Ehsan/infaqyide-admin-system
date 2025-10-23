@@ -7,6 +7,7 @@ import ListLoading from "@/components/skeleton/ListLoading";
 import Grid from "@/components/skeleton/Grid";
 import Badge from "@/components/ui/Badge";
 import moment from "moment";
+import DashboardChartMasjid from "./DashboardChartMasjid";
 
 const CrmPage = () => {
 
@@ -111,6 +112,12 @@ const CrmPage = () => {
 									<div className="mt-3"><p className="font-semibold text-yellow-600 text-2xl">RM {parseFloat(total_bulan_ini).toFixed(2)}</p></div>
 								</Card>
 							</div>
+						</section>
+
+						<section className="mt-6">
+							<Card>
+								<DashboardChartMasjid />
+							</Card>
 						</section>
 
 						{/* <section>

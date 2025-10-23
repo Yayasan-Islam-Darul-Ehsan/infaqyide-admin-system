@@ -176,11 +176,11 @@ export const menuItems = [
         icon: "heroicons-outline:lock-closed",
         link: "institusi/tukar-kata-laluan",
     },
-	{
-        title: "Maklumat Perbankan",
-        icon: "heroicons-outline:building-library",
-        link: "perbankan/maklumat",
-    },
+	// {
+    //     title: "Maklumat Perbankan",
+    //     icon: "heroicons-outline:building-library",
+    //     link: "perbankan/maklumat",
+    // },
 	{
         title: "Maklumat Tabung",
         icon: "heroicons:wallet",

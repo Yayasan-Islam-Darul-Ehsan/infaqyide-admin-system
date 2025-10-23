@@ -150,13 +150,12 @@ function TambahTabung(props) {
 
             <section className='mt-6'>
                 <div className='bg-yellow-50 px-5 py-3 rounded-lg border border-yellow-600 shadow-md'>
-                    {/* <div>
-                        <p className='font-semibold text-lg text-gray-600'>Peringatan!</p>
-                    </div> */}
-                    <div className=''>
+                    <div>
+                        <p className='font-semibold text-base text-yellow-600'>Peringatan!</p>
+                    </div>
+                    <div className='mt-3'>
                         <ul className=''>
                             <li className='text-sm text-gray-600'>Semua medan dibawah adalah wajib diisi.</li>
-                            {/* <li className='text-sm text-gray-600'>2. Sila pastikan semua maklumat yang diisi adalah tepat dan benar.</li> */}
                         </ul>
                     </div>
                 </div>
@@ -213,19 +212,19 @@ function TambahTabung(props) {
                             onChange={e => set_tabung_description(e.target.value)}
                             />
                         </div>
-                        <div className='mt-3'>
+                        {/* <div className='mt-3'>
                             <InputGroup 
                             classGroup='lowercase'
                             className='lowercase'
                             classLabel='lowercase'
                             // required
                             label={"Tabung Permalink"}
-                            prepend={ process.env.NODE_ENV === "production" ? "https://pay.al-jariyah.com/institusi/tabung/" : "https://paydev.al-jariyah.com/institusi/tabung/"}
+                            prepend={`${window.location.origin}/institusi/tabung/`}
                             description={"URL ini boleh digunapakai untuk membenarkan pengguna untuk menyalurkan sumbangan infaq dan waqaf mereka kepada tabung ini."}
                             defaultValue={tabung_permalink}
                             onChange={e => set_tabung_permalink(e.target.value)}
                             />
-                        </div>
+                        </div> */}
                     </div>
                 </Card>
             </section>

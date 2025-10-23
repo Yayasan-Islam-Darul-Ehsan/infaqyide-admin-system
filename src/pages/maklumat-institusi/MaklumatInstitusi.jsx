@@ -21,6 +21,9 @@ import LoaderCircle from '@/components/Loader-circle';
 import { validateEmail } from '@/constant/global_function';
 import Icons from '@/components/ui/Icon';
 
+import uploadSvgImage from "@/assets/images/svg/upload.svg";
+import { useDropzone } from 'react-dropzone';
+
 
 MaklumatInstitusi.propTypes = {
     
@@ -75,6 +78,8 @@ function MaklumatInstitusi(props) {
     const [opt_for_negeri, set_opt_for_negeri]      = useState(NEGERI)
     const [opt_for_daerah, set_opt_for_daerah]      = useState([])
     const [opt_for_postcode, set_opt_for_postcode]  = useState([])
+
+    const [files, setFiles]                             = useState([])
 
 
     const [modal, set_modal] = useState(false)
@@ -354,6 +359,53 @@ function MaklumatInstitusi(props) {
         else {
             return <Badge className='bg-red-600 text-white'>{status}</Badge>
         }
+    }
+
+    const { getRootProps, getInputProps, isDragAccept } = useDropzone({
+        accept: {
+            "image/*": [],
+        },
+        maxFiles: 1,
+        onDrop: async (acceptedFiles) => {
+            console.log("Log Accepted File : ", acceptedFiles)
+            setFiles(
+                acceptedFiles.map((file) =>
+                    Object.assign(file, { preview: URL.createObjectURL(file) })
+                )
+            );
+
+            await uploadFileToServer(acceptedFiles).then(res => {
+                console.log("Log Res Upload File : ", res)
+                set_file_url = res
+                setOrgImage(res)
+            })
+        },
+    });
+
+    const uploadFileToServer = async (fileInput) => {
+
+        console.log("Log Filter File Before Upload : ", fileInput)
+        let file_url 	= ""
+        const formdata 	= new FormData();
+        formdata.append("file", fileInput[0]);
+
+        const requestOptions = {
+            method: "POST",
+            body: formdata,
+            redirect: "follow"
+        };
+
+        await fetch(`${window.location.origin.includes('localhost') ? 'https://admin-stg.infaqyide.com.my' : window.location.origin.includes('localhost')}/admin/file-uploader`, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+            console.log(result)
+            setOrgImage(result.data)
+        })
+        .catch((error) => {
+            console.error(error)
+        });
+
+        return file_url
     }
 
     const malaysiaBanks = [
@@ -890,6 +942,49 @@ function MaklumatInstitusi(props) {
                                 max={12}
                                 isNumberOnly
                             />
+                        </div>
+                    </div>
+                </Card>
+            </section>
+
+            <section className='mt-6'>
+                <Card title={"Gambar Institusi"} subtitle={"Klik pada ruangan di bawah untuk muatnaik gambar institusi."}>
+                    <div>
+                        <div className="w-full text-center border-dashed border border-secondary-500 rounded-md py-[52px] flex flex-col justify-center items-center">
+                            {files.length === 0 && (
+                                <div {...getRootProps({ className: "dropzone" })}>
+                                    <input className="hidden" {...getInputProps()} />
+                                    <img
+                                        src={orgImage || uploadSvgImage}
+                                        alt=""
+                                        className="mx-auto mb-4"
+                                    />
+                                    {isDragAccept ? (
+                                        <p className="text-sm text-slate-500 dark:text-slate-300 ">
+                                            Drop the files here ...
+                                        </p>
+                                    ) : (
+                                        <p className="text-sm text-slate-500 dark:text-slate-300 f">
+                                            Drop files here or click to upload.
+                                        </p>
+                                    )}
+                                </div>
+                            )}
+                            <div className="flex space-x-4">
+                                {files.map((file, i) => (
+                                    <div key={i} className="mb-4 flex-none">
+                                        <div className="h-[300px] w-[300px] mx-auto mt-6 rounded-md">
+                                            <img
+                                                src={file.preview}
+                                                className=" object-contain h-full w-full block rounded-md"
+                                                onLoad={() => {
+                                                    URL.revokeObjectURL(file.preview);
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </Card>

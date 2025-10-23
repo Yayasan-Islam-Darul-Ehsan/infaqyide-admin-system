@@ -223,10 +223,12 @@ function SenaraiTabung(props) {
                                         <table className='mt-6 min-w-full divide-y divide-slate-100 table-fixed dark:divide-slate-700'>
                                             <thead className="bg-slate-200 dark:bg-slate-700 p-3 rounded-md">
                                                 <td width={'5%'} className='p-3 font-semibold text-sm'>Bil.</td>
-                                                <td width={'20%'} className='p-3 font-semibold text-sm'>Nama Tabung</td>
+                                                <td width={'10%'} className='p-3 font-semibold text-sm'>Nama Tabung</td>
                                                 <td width={'10%'} className='p-3 font-semibold text-sm'>Keterangan Tabung</td>
                                                 <td width={'10%'} className='p-3 font-semibold text-sm'>Baki Terkini Tabung (RM)</td>
+                                                <td width={'10%'} className='p-3 font-semibold text-sm'>Koleksi Tabung (RM)</td>
                                                 <td width={'10%'} className='p-3 font-semibold text-sm'>Jenis Tabung</td>
+                                                <td width={'10%'} className='p-3 font-semibold text-sm'>Status</td>
                                                 <td width={'10%'} className='text-center p-3 font-semibold text-sm'>Tindakan</td>
                                             </thead>
                                             <tbody className='text-sm p-3'>
@@ -241,25 +243,31 @@ function SenaraiTabung(props) {
                                                     list_tabung.length > 0 && list_tabung.map((data, index) => (
                                                         <tr key={index} className='border border-gray-100 p-3'>
                                                             <td width={'5%'} className='p-3 font-normal text-sm'>{index + 1}.</td>
-                                                            <td width={'20%'} className='p-3 font-normal text-sm text-clip'>
+                                                            <td width={'10%'} className='p-3 font-normal text-sm text-clip'>
                                                                 <p className='font-normal text-gray-900'>{data.tabung_name}</p>
                                                             </td>
                                                             <td width={'10%'} className='p-3 font-normal text-sm text-clip'>
                                                                 <p className='font-normal text-gray-900'>{data.tabung_desc ?? '-- tiada maklumat --'}</p>
                                                             </td>
                                                             <td width={'10%'} className='p-3 font-normal text-sm text-clip'>
-                                                                <p className='font-normal text-gray-900'>{parseFloat(data.tabung_balance).toFixed(2)}</p>
+                                                                <p className='font-normal text-gray-900'>{Intl.NumberFormat('ms-MY', {style: 'currency', currency: 'MYR'}).format(data.tabung_balance)}</p>
+                                                            </td>
+                                                            <td width={'10%'} className='p-3 font-normal text-sm text-clip'>
+                                                                <p className='font-normal text-gray-900'>{Intl.NumberFormat('ms-MY', {style: 'currency', currency: 'MYR'}).format(data.collection_amount)}</p>
                                                             </td>
                                                             <td width={'10%'} className='p-3 font-normal text-sm text-clip'>
                                                                 <p className='font-normal text-gray-900'>{data.tabung_type}</p>
+                                                            </td>
+                                                            <td width={'10%'} className='p-3 font-normal text-sm text-clip'>
+                                                                <p className={`font-semibold ${data.tabung_status == 1 ? 'text-emerald-600' : 'text-red-600'}`}>{data.tabung_status == 1 ? 'Aktif' : 'Tidak Aktif'}</p>
                                                             </td>
                                                             <td width={'10%'} className='w-full p-3 font-normal flex flex-row gap-6 justify-center items-center'>
                                                                 <button className='' onClick={() => navigate("/tabung/maklumat-tabung", { state: data })}>
                                                                     <Icons className={"text-lg text-yellow-500"} icon={"heroicons:pencil-square"} />
                                                                 </button>
-                                                                <button className='' onClick={() => navigate("/tabung/tambah-nilai", { state: data })}>
+                                                                {/* <button className='' onClick={() => navigate("/tabung/tambah-nilai", { state: data })}>
                                                                     <Icons className={"text-lg text-teal-600"} icon={"heroicons:plus-circle"} />
-                                                                </button>
+                                                                </button> */}
                                                                 <button className='' onClick={() => open_modal(data.tabung_id)}>
                                                                     <Icons className={"text-lg text-red-500"} icon={"heroicons:trash"} />
                                                                 </button>
