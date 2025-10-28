@@ -376,17 +376,21 @@ function DaftarKempen(props) {
                                 </div>
                             </div>
                             <div className='mt-6'>
+                                <label htmlFor=" hh" className="form-label ">Status Kempen</label>
                                 <Select 
+                                className='text-sm text-slate-600'
+                                classNamePrefix='select'
                                 label={"Status"}
                                 placeholder='-- Pilih Status Kempen --'
                                 description={"* Kempen anda akan melalui suatu proses pengesahan oleh pihak admin YIDE. Sila pastikan semua maklumat telah lengkap dan benar."}
                                 defaultValue={maklumat_kempen.campaignStatus}
-                                onChange={e => set_maklumat_kempen({...maklumat_kempen, campaignStatus: e.target.value })}
+                                onChange={({label, value}) => set_maklumat_kempen({...maklumat_kempen, campaignStatus: value })}
                                 options={[
                                     {label: 'Aktif', value: 'ACTIVE'},
                                     {label: 'Nyahaktif', value: 'INACTIVE'},
                                     {label: 'Dalam Proses', value: 'PENDING'},
                                 ]}
+                                styles={styles}
                                 />
                             </div>
                         </div>

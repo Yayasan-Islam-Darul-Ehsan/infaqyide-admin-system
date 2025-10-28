@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "dev:stg": "cross-env NODE_ENV=staging vite --mode staging",
+    "dev:live": "cross-env NODE_ENV=production vite --mode production",
     "build": "NODE_ENV=production vite build --mode production",
     "build:dev": "NODE_ENV=development vite build --mode development",
     "build:demo": "cross-env NODE_ENV=demo vite build --mode demo",
