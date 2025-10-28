@@ -145,7 +145,7 @@ function SenaraiPengguna() {
                                         }</Table.Cell>
                                         <Table.Cell fontSize="small">{moment(item.account_created_date).format("DD MMM YYYY, hh:mm A")}</Table.Cell>
                                         <Table.Cell flexBasis={150} flexShrink={0} flexGrow={0} fontSize="small">{
-                                            item.account_verified == "2" ? <Badge className='bg-emerald-50 border border-emerald-100 text-emerald-900'>Akaun Aktif</Badge> : <Badge className='bg-red-50 border border-red-100 text-red-900'>Akaun Nyahaktif</Badge>
+                                            item.account_status == "1" ? <Badge className='bg-emerald-50 border border-emerald-100 text-emerald-900'>Akaun Aktif</Badge> : <Badge className='bg-red-50 border border-red-100 text-red-900'>Akaun Nyahaktif</Badge>
                                         }</Table.Cell>
                                         <Table.Cell flexBasis={120} flexShrink={0} flexGrow={0} fontSize="larger" textAlign="center" justifyItems="center" alignItems="center">
                                             <div className='flex flex-row justify-center items-center gap-1'>
