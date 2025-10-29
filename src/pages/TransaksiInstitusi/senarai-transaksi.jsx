@@ -75,13 +75,13 @@ function SenaraiHebahan(props) {
 
     const GetStatus = (TransaksiStatus) => {
         if(TransaksiStatus === 2) {
-            return <Badge className='bg-yellow-500 text-white justify-center'></Badge>
+            return <Badge className='bg-yellow-500 text-white justify-center'>Dalam Proses</Badge>
         }
         else if(TransaksiStatus === 1) {
-            return <Badge className='bg-emerald-600 text-white justify-center'>Berjaya</Badge>
+            return <Badge className='bg-emerald-600 text-white justify-center'>Sumbangan Berjaya</Badge>
         }
         else if(TransaksiStatus === 3) {
-            return <Badge className='bg-red-500 text-white justify-center'>Gagal</Badge>
+            return <Badge className='bg-red-500 text-white justify-center'>Sumbangan Gagal</Badge>
         }
         else  {
             return <Badge className='bg-red-500 text-white justify-center'>Tidak Diketahui</Badge>
