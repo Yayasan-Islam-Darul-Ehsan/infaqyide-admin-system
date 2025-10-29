@@ -161,6 +161,8 @@ import PengurusanTransaksi2022 from "./pages/superadmin/pengurusan-transaksi/Pen
 import PengurusanTransaksi2024 from "./pages/superadmin/pengurusan-transaksi/PengurusanTransaksi2024";
 import PengurusanTransaksi2025 from "./pages/superadmin/pengurusan-transaksi/PengurusanTransaksi2025";
 import DaftarTabungMasjid from "./pages/superadmin/pengurusan-tabung/DaftarTabungMasjid";
+import KomenPengesahanInstitusi from "./pages/Pengesahan/Institusi/SenaraiPengesahan";
+import KomenPengesahanKempen from "./pages/Pengesahan/Kempen/SenaraiPengesahan";
 
 
 function App() {
@@ -298,6 +300,12 @@ function App() {
 				{/* * * * * * * * * * * Senarai Transaksi Bayaran Ahli Kariah * * * * * * * * * * */}
 				<Route path="transaksi/senarai-bayaran" element={<SenaraiTransaksi />} />
 				<Route path="transaksi/maklumat-bayaran/:id" element={<MaklumatTransaksi />} />
+
+				{/* * * * * * * * * * * Senarai Komen Pengesahan * * * * * * * * * * */}
+				<Route path="pengesahan">
+					<Route path="institusi" element={<KomenPengesahanInstitusi />} />
+					<Route path="kempen" element={<KomenPengesahanKempen />} />
+				</Route>
 
 
 				{/* * * * * * * * * * * Senarai Transaksi Khairat Kematian * * * * * * * * * * */}

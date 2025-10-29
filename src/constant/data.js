@@ -219,6 +219,21 @@ export const menuItems = [
         link: "institusi/transaksi-institusi",
         
     },
+	{
+        title: "Pengesahan",
+        icon: "heroicons-outline:shield-exclamation",
+		child: [
+			{
+				childtitle: 'Akaun Institusi',
+				childlink: 'pengesahan/institusi'
+			},
+			{
+				childtitle: 'Kempen',
+				childlink: 'pengesahan/kempen'
+			},
+		]
+        
+    },
     // {
     //     isHeadr: true,
     //     title: "Kariah & Khairat Kematian",
