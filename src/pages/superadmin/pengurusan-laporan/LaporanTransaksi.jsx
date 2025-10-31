@@ -127,10 +127,15 @@ function LaporanTransaksi(props) {
                     <div>
                         <label className="form-label" for="disabled-picker">Tarikh Mula</label>
                         <Flatpickr
+                        type='date'
                         value={excel.dateFrom}
                         id="disabled-picker"
                         className="form-control py-2"
-                        onChange={(date) => set_excel({...excel, dateFrom: date})}
+                        onChange={(date) => {
+                            console.log(date[0])
+                            console.log(moment(date[0]).format("YYYY-MM-DD"))
+                            set_excel({...excel, dateFrom: moment(date[0]).format("YYYY-MM-DD")})}
+                        }
                         options={{
                             dateFormat: "Y-m-d",
                         }}
@@ -139,10 +144,15 @@ function LaporanTransaksi(props) {
                     <div>
                         <label className="form-label" for="disabled-picker">Tarikh Hingga</label>
                         <Flatpickr
+                        type='date'
                         value={excel.dateTo}
                         id="disabled-picker"
                         className="form-control py-2"
-                        onChange={(date) => set_excel({...excel, dateTo: date})}
+                        onChange={(date) => {
+                            console.log(date[0])
+                            console.log(moment(date[0]).format("YYYY-MM-DD"))
+                            set_excel({...excel, dateTo: moment(date[0]).format("YYYY-MM-DD")})
+                        }}
                         options={{
                             dateFormat: "Y-m-d",
                         }}
