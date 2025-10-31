@@ -13,6 +13,10 @@ import Badge from '@/components/ui/Badge';
 import { Link } from 'react-router-dom';
 import Icons from '@/components/ui/Icon';
 import moment from 'moment';
+import Button from '@/components/ui/Button';
+import Modal from '@/components/ui/Modal';
+
+import Flatpickr from "react-flatpickr";
 
 function toMYR(amount = 0) {
     return Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR' }).format(amount)
@@ -35,6 +39,13 @@ function LaporanTransaksi(props) {
         limit: 10,
         total: 0,
         totalPages: 0
+    })
+
+    const [modal, set_modal] = useState(false)
+    const [excel, set_excel] = useState({
+        dateFrom: moment().startOf('month').format("YYYY-MM-DD"),
+        dateTo: moment().endOf('month').format("YYYY-MM-DD"),
+        status: ''
     })
 
     const [search, set_search]          = useState("")
@@ -60,6 +71,29 @@ function LaporanTransaksi(props) {
         }
     }
 
+    const getExcel = async () => {
+        set_modal(false)
+        set_loading(true)
+        try {
+            let api = await SYSADMIN_API(`excel-laporan-infaq?dateFrom=${excel.dateFrom}&dateTo=${excel.dateTo}&status=${excel.status}`, {}, "GET")
+            if(api.status_code === 200) {
+                // window.location.href = api.data
+                const link = document.createElement('a');
+                link.href = api.data;
+                link.download = api.data; // Optional: suggest filename
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+            } else {
+                toast.error(api.message)
+            }
+        } catch (error) {
+            toast.error("Ralat! Terdapat masalah untuk muat turun senarai transaksi ke fail Excel.")
+        } finally {
+            set_loading(false)
+        }
+    }
+
     const debouncedSearch = useCallback(
         debounce((val) => {
             getData(val), 1000
@@ -75,6 +109,63 @@ function LaporanTransaksi(props) {
 
     return (
         <div>
+
+            <Modal
+            centered={true}
+            title='Tetapan Excel'
+            themeClass='bg-green-600 text-white'
+            activeModal={modal}
+            onClose={() => set_modal(false)}
+            footerContent={(
+                <div className='flex justify-end items-center'>
+                    <Button className=''>Tutup</Button>
+                    <Button className='bg-teal-600 text-white' onClick={getExcel}>Muat Turun Excel</Button>
+                </div>
+            )}
+            >
+                <div className='space-y-3 gap-3'>
+                    <div>
+                        <label className="form-label" for="disabled-picker">Tarikh Mula</label>
+                        <Flatpickr
+                        value={excel.dateFrom}
+                        id="disabled-picker"
+                        className="form-control py-2"
+                        onChange={(date) => set_excel({...excel, dateFrom: date})}
+                        options={{
+                            dateFormat: "Y-m-d",
+                        }}
+                        />
+                    </div>
+                    <div>
+                        <label className="form-label" for="disabled-picker">Tarikh Hingga</label>
+                        <Flatpickr
+                        value={excel.dateTo}
+                        id="disabled-picker"
+                        className="form-control py-2"
+                        onChange={(date) => set_excel({...excel, dateTo: date})}
+                        options={{
+                            dateFormat: "Y-m-d",
+                        }}
+                        />
+                    </div>
+                    <div>
+                        <Select 
+                        label={"Status Transaksi"}
+                        placeholder='Contoh: Transaksi Berjaya'
+                        defaultValue={excel.status}
+                        options={[
+                            {label: 'Semua Status', value: ''},
+                            {label: 'Transaksi Berjaya', value: '1'},
+                            {label: 'Sedang Diproses', value: '2'},
+                            {label: 'Transaksi Gagal', value: '3'},
+                            {label: 'Transaksi Tidak Diketahui', value: '4'}
+                        ]}
+                        onChange={e => set_excel({...excel, status: e.target.value})}
+                        />
+                    </div>
+                </div>
+            </Modal>
+
             <HomeBredCurbs title={"Laporan Transaksi Sumbangan InfaqYIDE"} />
 
             <section className='mt-6'>
@@ -117,6 +208,14 @@ function LaporanTransaksi(props) {
                 title={"Senarai Transaksi Sumbangan Infaq"}
                 subtitle={"Klik pada transaksi di bawah untuk melihat maklumat terperinci."}
                 className='overflow-scroll'
+                headerslot={(
+                    <Button 
+                    text={"Download Excel"}
+                    icon={'heroicons:arrow-down-tray'}
+                    className='btn btn-sm bg-green-600 text-white'
+                    onClick={() => set_modal(true)}
+                    />
+                )}
                 >
                     <div className='flex flex-row justify-between items-center'>
                         <div className='flex flex-row items-center gap-1'>

@@ -87,6 +87,7 @@ function PengurusanTransaksi2025() {
                         className='bg-green-600 text-white'
                         onClick={getExcel}
                         text={"Muat Turun Excel"}
+                        icon={'heroicons:arrow-down-tray'}
                         />
                     )}
                 >
