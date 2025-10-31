@@ -170,7 +170,6 @@ function DaftarTabungMasjid(props) {
                             placeholder='-- Sila Pilih Tabung --'
                             description={"Sila pilih jenis tabung yang diperlukan untuk daftar tabung."}
                             defaultValue={tabung.tabungType}
-                            value={tabung.tabungType}
                             options={[
                                 {label: 'Infaq', value: 'Infaq'},
                                 {label: 'Kempen', value: 'Kempen'},
