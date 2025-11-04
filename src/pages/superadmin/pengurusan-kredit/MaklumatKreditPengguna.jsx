@@ -212,7 +212,7 @@ function MaklumatKreditPengguna(props) {
                                         <Table.Cell fontSize="small" className='line-clamp-1'>{item.creditTransInvoiceNo || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
                                         <Table.Cell fontSize="small" alignSelf="center">
 											{item.creditTransType === "Infaq" && <Badge className='mx-auto bg-teal-50 border border-teal-100 text-teal-900'>Infaq Am</Badge>}
-											{item.creditTransType === "Auto-infaq" && <Badge className='mx-auto bg-blue-50 border border-blue-100 text-blue-900'>Auto Infaq</Badge>}
+											{(item.creditTransType === "Auto-infaq" || item.creditTransType === "Auto-Infaq") && <Badge className='mx-auto bg-blue-50 border border-blue-100 text-blue-900'>Auto Infaq</Badge>}
 											{item.creditTransType === "Topup" && <Badge className='mx-auto bg-purple-50 border border-purple-100 text-purple-900'>Tambah Nilai</Badge>}
                                             {item.creditTransType === "Pay" && <Badge className='mx-auto bg-lime-50 border border-lime-100 text-lime-900'>Bayaran Lain-lain</Badge>}
 										</Table.Cell>
