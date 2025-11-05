@@ -100,7 +100,7 @@ function MaklumatKreditInstitusi(props) {
     }
 
     useEffect(() => {
-        //getData()
+        getData()
     }, [state])
 
     useMemo(() => {
