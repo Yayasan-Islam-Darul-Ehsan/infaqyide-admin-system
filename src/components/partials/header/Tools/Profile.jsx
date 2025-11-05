@@ -12,7 +12,9 @@ const profileLabel = () => {
 
 	const { user } = useSelector(a => a.auth)
 
-	let [session_user, set_session_user] = useState(JSON.parse(sessionStorage.getItem("user")))
+	if(!user) {
+		return;
+	}
 	
 	return (
 		<div className="flex items-center">
