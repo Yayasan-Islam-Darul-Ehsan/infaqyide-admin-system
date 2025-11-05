@@ -41,7 +41,7 @@ function DashboardSuperAdmin(props) {
     const GetLatestTransaction = async () => {
         set_loading_transaction(true)
         try {
-            let api = await SYSADMIN_API(`pengurusan/transaksi?page=1&limit=10&year=${new Date().getFullYear()}`, {}, "GET")
+            let api = await SYSADMIN_API(`pengurusan/transaksi?page=1&limit=10`, {}, "GET")
             if(api.status_code === 200) {
                 set_data_transaction(api.data.row)
             }
