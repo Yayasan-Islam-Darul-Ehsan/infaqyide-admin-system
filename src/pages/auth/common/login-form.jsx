@@ -98,9 +98,9 @@ const LoginForm = () => {
 				} else {
 					console.error('No encrypted path found.');
 					// Redirect to login or fallback page if no encrypted data is present
-					setTimeout(() => {
-						window.location.href = "/dashboard";
-					}, 1000);
+					// setTimeout(() => {
+					// 	window.location.href = "/dashboard";
+					// }, 1000);
 				}
 				
 			} else {
