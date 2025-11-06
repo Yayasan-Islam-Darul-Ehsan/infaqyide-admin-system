@@ -9,7 +9,7 @@ import Textarea from '@/components/ui/Textarea'
 import Textinput from '@/components/ui/Textinput'
 import HomeBredCurbs from '@/pages/dashboard/HomeBredCurbs'
 import { API, SYSADMIN_API } from '@/utils/api'
-import { Pagination, Pane, SearchInput, Spinner, Table } from 'evergreen-ui'
+import { Alert, Pagination, Pane, SearchInput, Spinner, Table } from 'evergreen-ui'
 import { debounce } from 'lodash'
 import moment from 'moment'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -112,6 +112,7 @@ function SenaraiPengesahanInstitusi() {
 
     return (
         <div>
+
             <Modal
             title='Komplen Pengesahan Institusi'
             themeClass='bg-teal-600 text-white'
@@ -210,6 +211,25 @@ function SenaraiPengesahanInstitusi() {
                     />
                 </div>
             </div>
+
+            <section className='mt-6'>
+                <Alert title="Peringatan!" intent='warning'>
+                    <p className='mt-1 text-sm text-slate-600'>
+                        Sila pastikan semua maklumat institusi telah lengkap sepenuhnya sebelum membuat pengesahan institusi. 
+                        Institusi akan kekal di sini jikalau pengesahan berjaya tetapi maklumat institusi masih tidak lengkap.
+                    </p>
+                    <div className='mt-3'>
+                        <ul className='text-sm list-inside list-decimal'>
+                            <li>Nama institusi</li>
+                            <li>E-mel institusi</li>
+                            <li>No. SSM / ROS</li>
+                            <li>Alamat Institusi</li>
+                            <li>Gambar Institusi</li>
+                            <li>Maklumat Perbankan</li>
+                        </ul>
+                    </div>
+                </Alert>
+            </section>
 
             <section className='mt-6'>
                 <Card title={"Senarai Pengguna"} subtitle={"Klik pada senarai pengguna di bawah untuk melihat maklumat terperinci."}>
