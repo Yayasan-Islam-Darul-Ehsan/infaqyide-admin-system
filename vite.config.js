@@ -20,7 +20,7 @@ export default defineConfig({
       preventAssignment: true,
       values: {
         //__DEV__: JSON.stringify(true),
-        //"process.env.NODE_ENV": JSON.stringify("development"),
+        // "process.env.NODE_ENV": JSON.stringify("production"),
       },
     }),
     react(),

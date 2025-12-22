@@ -141,7 +141,7 @@ function SenaraiPengeluaran(props) {
                                             <Link to={`${item.disburse_batch_no}`} state={item}>{item.disburse_batch_no}</Link>
                                         </Table.Cell>
                                         <Table.Cell fontSize="small">{moment(item.disburse_settlement_date).format("DD MMM YYYY")}</Table.Cell>
-                                        <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.disburse_amount)}</Table.Cell>
+                                        <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.disburse_amount2)}</Table.Cell>
                                         <Table.Cell fontSize="small">
                                             {item.disburse_status == "Approved" && <Badge className='bg-emerald-50 border border-emerald-100 text-emerald-900'>Pengeluaran Berjaya</Badge>}
                                             {item.disburse_status == "Pending" && <Badge className='bg-yellow-50 border border-yellow-100 text-yellow-600'>Dalam Proses Pengeluaran</Badge>}
