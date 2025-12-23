@@ -136,6 +136,12 @@ function MaklumatPengeluaranTerperinci(props) {
     );
 
     const uploadReportBank = async () => {
+
+        if (!selectedFile) {
+            toast.error("Sila pilih fail terlebih dahulu");
+            return;
+        }
+
         close_modal()
         set_loading(true)
         try {
@@ -144,11 +150,13 @@ function MaklumatPengeluaranTerperinci(props) {
 
             const requestOptions = {
                 method: "POST",
-                body: formdata,
-                redirect: "follow"
+                body: formdata
             };
 
-            await fetch(process.env.NODE_ENV == "production" ? "https://admin.infaqyide.com.my/sysadmin/disbursement/upload-eft-settlement" : "https://admin-stg.infaqyide.com.my/sysadmin/disbursement/upload-eft-settlement", requestOptions)
+            let url_local   = "http://localhost:31100/sysadmin/disbursement/upload-eft-settlement"
+            let url         = process.env.NODE_ENV == "production" ? "https://admin.infaqyide.com.my/sysadmin/disbursement/upload-eft-settlement" : "https://admin-stg.infaqyide.com.my/sysadmin/disbursement/upload-eft-settlement"
+
+            await fetch(url_local, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 set_loading(false)
@@ -179,6 +187,11 @@ function MaklumatPengeluaranTerperinci(props) {
     const open_modal            = () => set_modal(true)
     const close_modal           = () => set_modal(false)
 
+    const onFileChange = (event) => {
+		setSelectedFile(event.target.files);
+        console.log("Log File : ", event.target.files)
+	};
+
     if(loading) return <Loading />
 
     return (
@@ -200,7 +213,17 @@ function MaklumatPengeluaranTerperinci(props) {
                 <div>
                     <label htmlFor="" className='form-label'>Muat Naik Fail</label>
                     {/* <DropZone /> */}
-                    <input className='form-label' type="file" onChange={setSelectedFile} />
+                    <input className='form-label' type="file" onChange={onFileChange} />
+                    
+                    {/* <p>{JSON.stringify(selectedFile)}</p> */}
+                    {/* Display file info */}
+                    {selectedFile && selectedFile[0] && (
+                        <div className='mt-2 p-2 bg-slate-100 rounded'>
+                            <p className='text-sm'><strong>Nama Fail:</strong> {selectedFile[0].name}</p>
+                            <p className='text-sm'><strong>Saiz:</strong> {(selectedFile[0].size / 1024).toFixed(2)} KB</p>
+                            <p className='text-sm'><strong>Jenis:</strong> {selectedFile[0].type}</p>
+                        </div>
+                    )}
                 </div>
             </Modal>
 
