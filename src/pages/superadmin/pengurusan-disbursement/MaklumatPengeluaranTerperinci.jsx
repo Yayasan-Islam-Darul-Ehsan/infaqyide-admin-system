@@ -43,7 +43,7 @@ function MaklumatPengeluaranTerperinci(props) {
         status: ""
     })
 
-     const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFile, setSelectedFile] = useState(null);
 
     const getData = async (_search = "") => {
         try {
@@ -135,6 +135,42 @@ function MaklumatPengeluaranTerperinci(props) {
         []
     );
 
+    const uploadReportBank = async () => {
+        close_modal()
+        set_loading(true)
+        try {
+            const formdata 	= new FormData();
+            formdata.append("file", selectedFile[0]);
+
+            const requestOptions = {
+                method: "POST",
+                body: formdata,
+                redirect: "follow"
+            };
+
+            await fetch(process.env.NODE_ENV == "production" ? "https://admin.infaqyide.com.my/sysadmin/disbursement/upload-eft-settlement" : "https://admin-stg.infaqyide.com.my/sysadmin/disbursement/upload-eft-settlement", requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                set_loading(false)
+                console.log(result)
+                // file_url = result.data
+                if(result.status_code === 200) {
+                    toast.success("Kemaskini Berjaya")
+                    setTimeout(() => {
+                        window.location.reload()
+                    }, 3000);
+                } else {
+                    toast.error(result.message)
+                }
+            })
+            .catch((error) => {
+                console.error(error)
+            });
+        } catch (e) {
+            toast.error("Ralat! Terdapat masalah pada pangkalan data. Sila hubungi sistem pentadbir anda.")   
+        }
+    }
+
     useEffect(() => {
         getData()
     }, [metadata.page, metadata.limit])
@@ -157,13 +193,14 @@ function MaklumatPengeluaranTerperinci(props) {
             footerContent={(<>
             <div className='flex justify-end items-center gap-1'>
                 <Button className='btn btn-sm' onClick={close_modal} text={"Tutup"} />
-                <Button className='btn btn-sm bg-teal-600 text-white' text={"Muat Naik"} />
+                <Button className='btn btn-sm bg-teal-600 text-white' onClick={uploadReportBank} text={"Muat Naik"} />
             </div>
             </>)}
             >
                 <div>
                     <label htmlFor="" className='form-label'>Muat Naik Fail</label>
-                    <DropZone />
+                    {/* <DropZone /> */}
+                    <input className='form-label' type="file" onChange={setSelectedFile} />
                 </div>
             </Modal>
 

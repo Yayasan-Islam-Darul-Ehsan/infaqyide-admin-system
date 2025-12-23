@@ -40,7 +40,7 @@ const DropZone = ({ set_file_url = ""}) => {
 			redirect: "follow"
 		};
 
-		await fetch("https://cp.infaqyide.xyz/admin/file-uploader", requestOptions)
+		await fetch("https://admin.infaqyide.com.my/admin/file-uploader", requestOptions)
 		.then((response) => response.json())
 		.then((result) => {
 			console.log(result)

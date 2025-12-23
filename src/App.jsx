@@ -163,6 +163,7 @@ import PengurusanTransaksi2025 from "./pages/superadmin/pengurusan-transaksi/Pen
 import DaftarTabungMasjid from "./pages/superadmin/pengurusan-tabung/DaftarTabungMasjid";
 import KomenPengesahanInstitusi from "./pages/Pengesahan/Institusi/SenaraiPengesahan";
 import KomenPengesahanKempen from "./pages/Pengesahan/Kempen/SenaraiPengesahan";
+import AutoInfaqAdmin from "./pages/superadmin/pengurusan-autoinfaq/SenaraiAutoInfaq";
 
 
 function App() {
@@ -222,6 +223,9 @@ function App() {
 								<Route path="pengurusan-kempen" element={<SenaraiKempenMasjid />} />
 								<Route path="maklumat-kempen" element={<MaklumatKempen />} />
 								<Route path="daftar-kempen" element={<DaftarKempen />} />
+							</Route>
+							<Route path="auto-infaq">
+								<Route path="rekod" element={<AutoInfaqAdmin />} />
 							</Route>
 							<Route path="pengesahan">
 								<Route path="institusi" element={<SenaraiPengesahanInstitusi />} />

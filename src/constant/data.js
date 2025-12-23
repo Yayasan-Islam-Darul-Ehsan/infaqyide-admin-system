@@ -72,6 +72,15 @@ export const SuperAdminMenu = [
     },
 	{
         isHeadr: true,
+        title: "Penjadualan Infaq",
+    },
+	{
+        title: "Senarai Auto Infaq",
+        icon: "heroicons-outline:clipboard-document-list",
+        link: "auto-infaq/rekod",
+    },
+	{
+        isHeadr: true,
         title: "Pengesahan",
     },
 	{
