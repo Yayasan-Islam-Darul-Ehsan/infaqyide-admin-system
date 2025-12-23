@@ -156,7 +156,7 @@ function MaklumatPengeluaranTerperinci(props) {
             let url_local   = "http://localhost:31100/sysadmin/disbursement/upload-eft-settlement"
             let url         = process.env.NODE_ENV == "production" ? "https://admin.infaqyide.com.my/sysadmin/disbursement/upload-eft-settlement" : "https://admin-stg.infaqyide.com.my/sysadmin/disbursement/upload-eft-settlement"
 
-            await fetch(url_local, requestOptions)
+            await fetch(url, requestOptions)
             .then((response) => response.json())
             .then((result) => {
                 set_loading(false)
