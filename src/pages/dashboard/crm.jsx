@@ -8,6 +8,7 @@ import Grid from "@/components/skeleton/Grid";
 import Badge from "@/components/ui/Badge";
 import moment from "moment";
 import DashboardChartMasjid from "./DashboardChartMasjid";
+import Alert from "@/components/ui/Alert";
 
 const CrmPage = () => {
 
@@ -27,6 +28,15 @@ const CrmPage = () => {
 
 	const [loading2, set_loading2] 								= useState(true)
 	const [transaksi, set_transaksi] 							= useState({row: [], total: 0, totalPages: 0})
+	
+	// Registration status state
+	const [registrationStatus, setRegistrationStatus] 			= useState(null)
+	const [showStatusAlert, setShowStatusAlert] 				= useState(false)
+	
+	// Profile completion state
+	const [profileData, setProfileData] 						= useState(null)
+	const [isProfileIncomplete, setIsProfileIncomplete] 		= useState(false)
+	const [missingFields, setMissingFields] 					= useState([])
 
 	const GET_DASHBOARD_INFAQ = async () => {
         set_loading(true)
@@ -61,9 +71,75 @@ const CrmPage = () => {
 		}
 	}
 
+	const GetStatusPendaftaran = async () => {
+		try {
+			let api = await API("getStatusPendaftaran", {}, "GET", true)
+			console.log("Log Api Get Status Pendaftaran : ", api)
+			
+			if(api.status_code === 200 && api.data?.organizationRegistrationStatus) {
+				const status = api.data.organizationRegistrationStatus
+				setRegistrationStatus(status)
+				setShowStatusAlert(true)
+			}
+		} catch (error) {
+			console.error("Error fetching registration status:", error)
+		}
+	}
+
+	const GetStatusPendingData = async () => {
+		try {
+			let api = await API("getStatusPendingData", {}, "GET", true)
+			console.log("Log Api Get Status Pending Data : ", api)
+			
+			if(api.status_code === 200 && api.data) {
+				const data = api.data
+				setProfileData(data)
+				
+				// Fields to check for completion
+				const fieldsToCheck = {
+					organizationName: 'Nama Institusi',
+					organizationType: 'Jenis Institusi',
+					organizationRegistrationNo: 'No. Pendaftaran',
+					organizationPhone: 'No. Telefon',
+					organizationAddress: 'Alamat',
+					organizationCity: 'Bandar',
+					organizationState: 'Negeri',
+					organizationPostcode: 'Poskod',
+					organizationPICName: 'Nama PIC',
+					organizationPICPhone: 'No. Telefon PIC',
+					organizationPICEmail: 'E-mel PIC',
+					organizationBankName: 'Nama Bank',
+					organizationBankNumber: 'No. Akaun Bank',
+					organizationBankAccName: 'Nama Pemegang Akaun'
+				}
+				
+				// Check for null or empty values
+				const missing = []
+				Object.keys(fieldsToCheck).forEach(key => {
+					if (!data[key] || data[key] === null || data[key] === '') {
+						missing.push(fieldsToCheck[key])
+					}
+				})
+				
+				if(missing.length > 0) {
+					setIsProfileIncomplete(true)
+					setMissingFields(missing)
+				} else {
+					setIsProfileIncomplete(false)
+					setMissingFields([])
+				}
+			}
+		} catch (error) {
+			console.error("Error fetching pending data:", error)
+		}
+	}
+
+
 	useMemo(() => {
 		GET_DASHBOARD_INFAQ()
 		GET_SENARAI_KUTIPAN()
+		GetStatusPendaftaran()
+		GetStatusPendingData()
 	}, [])
 
 	const get_badge = (status) => {
@@ -78,6 +154,112 @@ const CrmPage = () => {
         }
     }
 
+	// Function to render incomplete profile alert
+	const renderIncompleteProfileAlert = () => {
+		if (!isProfileIncomplete || missingFields.length === 0) return null;
+
+		return (
+			<Alert 
+				className="alert-warning bg-amber-50 border border-amber-600"
+				icon="heroicons:exclamation-triangle"
+				dismissible={true}
+				label={
+					<div>
+						<h4 className="text-base font-semibold mb-2 text-amber-800">Profil Institusi Tidak Lengkap</h4>
+						<p className="text-sm text-amber-900 mb-3">
+							Profil institusi anda masih belum lengkap. Sila lengkapkan maklumat berikut untuk memastikan institusi anda dapat dipaparkan dengan sempurna di aplikasi mudah alih InfaqYIDE.
+						</p>
+						<div className="mb-3">
+							<p className="text-sm font-semibold text-amber-800 mb-2">Maklumat yang perlu dilengkapkan ({missingFields.length}):</p>
+							<ul className="list-disc list-inside text-sm text-amber-900 space-y-1">
+								{missingFields.slice(0, 5).map((field, index) => (
+									<li key={index}>{field}</li>
+								))}
+								{missingFields.length > 5 && (
+									<li className="font-medium">...dan {missingFields.length - 5} lagi</li>
+								)}
+							</ul>
+						</div>
+						<a 
+							href="/institusi/maklumat" 
+							className="inline-flex items-center px-4 py-2 bg-amber-600 hover:bg-amber-700 text-white text-sm font-medium rounded-md transition-colors duration-200"
+						>
+							<span>Lengkapkan Profil</span>
+							<svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+								<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+							</svg>
+						</a>
+					</div>
+				}
+			/>
+		);
+	}
+
+	// Function to render registration status alert
+	const renderRegistrationAlert = () => {
+		if (!showStatusAlert || !registrationStatus) return null;
+
+		const statusConfig = {
+			'Waiting': {
+				className: 'alert-warning bg-blue-50 border border-blue-700',
+				icon: 'heroicons-outline:clock',
+				title: 'Menunggu Pengesahan',
+				titleClass: 'text-blue-700',
+				message: 'Pendaftaran institusi anda sedang dalam proses menunggu pengesahan. Kami akan memaklumkan kepada anda sebaik sahaja pendaftaran diproses.'
+			},
+			'Pending Approval': {
+				className: 'alert-info bg-blue-50 border border-blue-700',
+				icon: 'heroicons-outline:information-circle',
+				title: 'Menunggu Kelulusan',
+				titleClass: 'text-blue-700',
+				message: 'Pendaftaran institusi anda sedang menunggu kelulusan daripada pentadbir sistem. Sila tunggu untuk maklum balas selanjutnya.'
+			},
+			'In-Review': {
+				className: 'alert-info bg-blue-50 border border-blue-700',
+				icon: 'heroicons-outline:document-search',
+				title: 'Dalam Semakan',
+				titleClass: 'text-blue-700',
+				message: 'Pendaftaran institusi anda sedang dalam proses semakan oleh pasukan kami. Kami akan menghubungi anda sekiranya memerlukan maklumat tambahan.'
+			},
+			'Approved': {
+				className: 'alert-success bg-emerald-50 border border-emerald-700',
+				icon: 'heroicons-outline:check-circle',
+				title: 'Pendaftaran Berjaya',
+				titleClass: 'text-emerald-700',
+				message: 'Tahniah! Pendaftaran institusi anda telah berjaya diluluskan. Profil anda kini akan dipaparkan di aplikasi mudah alih InfaqYIDE.'
+			},
+			'Rejected': {
+				className: 'alert-danger bg-red-50 border border-red-700',
+				icon: 'heroicons-outline:x-circle',
+				title: 'Pendaftaran Ditolak',
+				titleClass: 'text-red-700',
+				message: 'Maaf, pendaftaran institusi anda telah ditolak. Sila hubungi pentadbir sistem untuk maklumat lanjut atau cuba daftar semula dengan maklumat yang tepat.'
+			}
+		};
+
+		const config = statusConfig[registrationStatus] || {
+			className: 'alert-dark',
+			icon: 'heroicons-outline:information-circle',
+			title: 'Status Pendaftaran',
+			titleClass: statusConfig[registrationStatus].titleClass,
+			message: `Status semasa: ${registrationStatus}`
+		};
+
+		return (
+			<Alert 
+				className={config.className}
+				icon={config.icon}
+				dismissible={true}
+				label={
+					<div>
+						<h4 className={`text-base font-semibold mb-1 ${config.titleClass}`}>{config.title}</h4>
+						<p className="text-sm">{config.message}</p>
+					</div>
+				}
+			/>
+		);
+	}
+
 	return (
 		<div>
 			<HomeBredCurbs title="Halaman Utama" />
@@ -89,6 +271,17 @@ const CrmPage = () => {
 						</>
 					)
 				}
+
+				{/* Alerts Section */}
+				{!loading && (
+					<div className="space-y-4 my-6">
+						{/* Incomplete Profile Alert */}
+						{isProfileIncomplete && renderIncompleteProfileAlert()}
+						
+						{/* Registration Status Alert */}
+						{showStatusAlert && registrationStatus && renderRegistrationAlert()}
+					</div>
+				)}
 
 				{
 					!loading && (
