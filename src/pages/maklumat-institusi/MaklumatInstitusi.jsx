@@ -250,7 +250,8 @@ function MaklumatInstitusi(props) {
                 orgData : orgData,
                 orgBankAccName,
                 orgBankName,
-                orgBankNumber
+                orgBankNumber,
+                orgImage: orgImage
             }
     
             let api = await API(`updateInstitusi`, json)
@@ -307,7 +308,8 @@ function MaklumatInstitusi(props) {
                 orgData : orgData,
                 orgBankAccName,
                 orgBankName,
-                orgBankNumber
+                orgBankNumber,
+                orgImage: orgImage
             }
     
             let api = await API(`updateDraftInstitusi`, json)
@@ -395,7 +397,7 @@ function MaklumatInstitusi(props) {
             redirect: "follow"
         };
 
-        await fetch(`${window.location.origin.includes('localhost') ? 'https://admin-stg.infaqyide.com.my' : window.location.origin.includes('localhost')}/admin/file-uploader`, requestOptions)
+        await fetch(`${window.location.origin.includes('localhost') ? 'https://admin.infaqyide.com.my' : window.location.origin.includes('localhost')}/admin/file-uploader`, requestOptions)
         .then((response) => response.json())
         .then((result) => {
             console.log(result)
@@ -691,9 +693,9 @@ function MaklumatInstitusi(props) {
                         <div>
                             <Select 
                             label={"Bank"}
-                            placeholder='Contoh: Maybank'
+                            placeholder='Contoh: Maybank2U'
                             defaultValue={orgBankName}
-                            onChange={e => setOrgBankAccName(e.target.value)}
+                            onChange={e => setOrgBankName(e.target.value)}
                             options={malaysiaBanks}
                             disabled={disabled_editing}
                             />

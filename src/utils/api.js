@@ -237,7 +237,7 @@ export async function API_FORM_DATA_STAGING(API_NAME = "", DATA = [], METHOD = "
         redirect: 'follow'
     };    
 
-    await fetch("https://admin-stg.infaqyide.com.my/admin/file-uploader", requestOptions)
+    await fetch("https://admin.infaqyide.com.my/admin/file-uploader", requestOptions)
     .then(response => response.json())
     .then(res => {
         console.log("Log Upload Form Data : ", res)
