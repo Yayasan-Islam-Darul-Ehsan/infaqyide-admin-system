@@ -28,6 +28,11 @@ export const SuperAdminMenu = [
         link: "pengurusan/pengurusan-transaksi",
     },
 	{
+        title: "Komisen DagangTEK",
+        icon: "heroicons-outline:credit-card",
+        link: "komisen-dagangtek",
+    },
+	{
         title: "Pengurusan Akaun Kredit",
         icon: "heroicons:wallet",
         child: [

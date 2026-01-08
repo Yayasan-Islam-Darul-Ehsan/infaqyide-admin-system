@@ -164,6 +164,8 @@ import DaftarTabungMasjid from "./pages/superadmin/pengurusan-tabung/DaftarTabun
 import KomenPengesahanInstitusi from "./pages/Pengesahan/Institusi/SenaraiPengesahan";
 import KomenPengesahanKempen from "./pages/Pengesahan/Kempen/SenaraiPengesahan";
 import AutoInfaqAdmin from "./pages/superadmin/pengurusan-autoinfaq/SenaraiAutoInfaq";
+import SenaraiKomisenDagangTEK from "./pages/superadmin/pengurusan-komisen-dagangtek/SenaraiKomisenDagangTEK";
+import MaklumatKomisenDagangTEK from "./pages/superadmin/pengurusan-komisen-dagangtek/MaklumatKomisenDagangTEK";
 
 
 function App() {
@@ -238,10 +240,10 @@ function App() {
 							</Route>
 							<Route path="laporan" element={<LaporanTransaksi />} />
 							<Route path="app-setting" element={<AppSetting />} />
+							<Route path="komisen-dagangtek" element={<SenaraiKomisenDagangTEK />} />
+							<Route path="komisen-dagangtek/detail" element={<MaklumatKomisenDagangTEK />} />
 						</>
-					)
-				}
-
+				)}
 				<Route path="dashboard" element={<CrmPage />} />
 
 				{/* * * * * * * * * * * Maklumat Institusi * * * * * * * * * * */}
