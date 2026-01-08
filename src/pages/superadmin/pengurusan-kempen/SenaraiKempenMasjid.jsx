@@ -90,7 +90,7 @@ function SenaraiKempenMasjid() {
                             }}
                             />
                             <Select 
-                             className='w-[200px] text-center'
+                            className='w-[200px] text-center'
                             placeholder='-- Status Kempen --'
                             defaultValue={status}
                             onChange={e => set_status(e.target.value)}
@@ -104,7 +104,7 @@ function SenaraiKempenMasjid() {
                             ]}
                             />
                             {/* <Select 
-                             className='w-[200px] text-center'
+                            className='w-[200px] text-center'
                             placeholder='-- Jenis Kempen --'
                             defaultValue={jenis}
                             onChange={e => set_jenis(e.target.value)}
@@ -134,11 +134,12 @@ function SenaraiKempenMasjid() {
                             <Table.HeaderCell flexBasis={50} flexShrink={0} flexGrow={0}>Bil.</Table.HeaderCell>
                             {/* <Table.HeaderCell flexBasis={300} flexShrink={0} flexGrow={0}>Nama Institusi</Table.HeaderCell> */}
                             <Table.HeaderCell flexBasis={350} flexShrink={0} flexGrow={0}>Nama Kempen</Table.HeaderCell>
+                            <Table.HeaderCell>Ranking</Table.HeaderCell>
                             <Table.HeaderCell>Tarikh Mula</Table.HeaderCell>
                             <Table.HeaderCell>Tarikh Tamat</Table.HeaderCell>
                             <Table.HeaderCell>Jumlah Sasaran (RM)</Table.HeaderCell>
                             <Table.HeaderCell>Jumlah Terkumpul (RM)</Table.HeaderCell>
-                            <Table.HeaderCell>Tarikh Daftar</Table.HeaderCell>
+                            {/* <Table.HeaderCell>Tarikh Daftar</Table.HeaderCell> */}
                             <Table.HeaderCell flexBasis={150} flexShrink={0} flexGrow={0} textAlign="center">Status</Table.HeaderCell>
                             <Table.HeaderCell flexBasis={70} flexShrink={0} flexGrow={0}>Tindakan</Table.HeaderCell>
                         </Table.Head>
@@ -169,11 +170,12 @@ function SenaraiKempenMasjid() {
                                         <Table.Cell flexBasis={50} flexShrink={0} flexGrow={0} fontSize="small">{(page - 1) * limit + index + 1}.</Table.Cell>
                                         {/* <Table.Cell flexBasis={300} flexShrink={0} flexGrow={0} fontSize="small" className='line-clamp-1'>{item.organizationName || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell> */}
                                         <Table.Cell flexBasis={350} flexShrink={0} flexGrow={0} fontSize="small" className='line-clamp-1'>{item.campaignTitle || <span className='text-red-600'>-- tiada maklumat --</span>}</Table.Cell>
-                                        <Table.Cell fontSize="small">{item.campaignDateStart ? moment(item.campaignDateStart).format("DD MMM YYYY, hh:mm A") : "--"}</Table.Cell>
-                                        <Table.Cell fontSize="small">{item.campaignDeadline ? moment(item.campaignDeadline).format("DD MMM YYYY, hh:mm A") : "--"}</Table.Cell>
+                                        <Table.Cell fontSize="small">{item.campaignRanking}</Table.Cell>
+                                        <Table.Cell fontSize="small">{item.campaignDateStart ? moment(item.campaignDateStart).format("DD MMM YYYY") : "--"}</Table.Cell>
+                                        <Table.Cell fontSize="small">{item.campaignDeadline ? moment(item.campaignDeadline).format("DD MMM YYYY") : "--"}</Table.Cell>
                                         <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", {style:'currency', currency:'MYR'}).format(item.campaignTarget)}</Table.Cell>
                                         <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", {style:'currency', currency:'MYR'}).format(item.campaignCollection)}</Table.Cell>
-                                        <Table.Cell fontSize="small">{item.campaignCreatedDate ? moment(item.campaignCreatedDate).format("DD MMM YYYY, hh:mm A") : "--"}</Table.Cell>
+                                        {/* <Table.Cell fontSize="small">{item.campaignCreatedDate ? moment(item.campaignCreatedDate).format("DD MMM YYYY") : "--"}</Table.Cell> */}
                                         <Table.Cell flexBasis={150} flexShrink={0} flexGrow={0} fontSize="small">
                                             {item.campaignStatus == "ACTIVE" && <Badge className='bg-emerald-50 border border-emerald-100 text-emerald-900'>Kempen Aktif</Badge>}
                                             {item.campaignStatus == "INACTIVE" && <Badge className='bg-red-50 border border-red-100 text-red-900'>Kempen Nyahaktif</Badge>}

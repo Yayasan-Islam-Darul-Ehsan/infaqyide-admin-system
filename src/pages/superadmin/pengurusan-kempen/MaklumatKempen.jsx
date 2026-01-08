@@ -14,19 +14,19 @@ import Checkbox from '@/components/ui/Checkbox';
 
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import {
-  ClassicEditor,
-  Bold,
-  Essentials,
-  Heading,
-  Indent,
-  IndentBlock,
-  Italic,
-  Link,
-  List,
-  MediaEmbed,
-  Paragraph,
-  Table,
-  Undo
+    ClassicEditor,
+    Bold,
+    Essentials,
+    Heading,
+    Indent,
+    IndentBlock,
+    Italic,
+    Link,
+    List,
+    MediaEmbed,
+    Paragraph,
+    Table,
+    Undo
 } from 'ckeditor5';
 
 import 'ckeditor5/ckeditor5.css';
@@ -506,12 +506,25 @@ function MaklumatKempen(props) {
                                     />
                                 </div>
                             </div>
-                            <div className='mt-6'>
+                            {/* <div className='mt-6'>
                                 <label htmlFor="" className='form-label'>Konfigurasi Tambahan</label>
                                 <div className='space-y-1'>
                                     <Checkbox name={"Ketengahkan Kempen"} label={"Ketengahkan Kempen"} value={maklumat_kempen.campaignFeatured} onChange={e => set_maklumat_kempen({...maklumat_kempen, campaignFeatured: e.target.checked})} />
                                     <Checkbox name={"Paparkan Nama Penyumbang"} label={"Paparkan Nama Penyumbang"} value={maklumat_kempen.campaignDisplayDonor} onChange={e => set_maklumat_kempen({...maklumat_kempen, campaignDisplayDonor: e.target.checked})} />
                                 </div>
+                            </div> */}
+                            <div className='mt-6'>
+                                <Textinput 
+                                label={"Ranking Susunan Kempen"}
+                                description={"Isi nombor yang paling rendah untuk utamakan kempen contoh nombor 1. Default ialah 100"}
+                                placeholder='Contoh: 1'
+                                defaultValue={maklumat_kempen.campaignRanking}
+                                onChange={e => set_maklumat_kempen({...maklumat_kempen, campaignRanking: e.target.value})}
+                                isNumberOnly
+                                enableWhiteSpace={false}
+                                max={100}
+                                maxLength={3}
+                                />
                             </div>
                             <div className='mt-6'>
                                 <label htmlFor="" className='form-label'>Status</label>
