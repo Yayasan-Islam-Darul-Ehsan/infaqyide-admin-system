@@ -3,6 +3,7 @@ import Badge from '@/components/ui/Badge'
 import Button from '@/components/ui/Button'
 import Card from '@/components/ui/Card'
 import Icons from '@/components/ui/Icon'
+import Modal from '@/components/ui/Modal'
 import Select from '@/components/ui/Select'
 import Textinput from '@/components/ui/Textinput'
 import HomeBredCurbs from '@/pages/dashboard/HomeBredCurbs'
@@ -25,6 +26,30 @@ function SenaraiMasjid() {
     const [search, set_search]      = useState("")
     const [status, set_status]      = useState("")
 
+    const [selectedData, setSelectedData] = useState("")
+
+
+    const debouncedSearch = useCallback(
+        debounce((val) => getData(val), 1000),
+        []
+    );
+
+    useEffect(() => {
+        getData()
+    }, [page, limit, status])
+
+    const [modal, set_modal] = useState(false)
+
+    const open_modal = (masjid_id) => {
+        setSelectedData(masjid_id)
+        set_modal(true)
+    }
+
+    const close_modal = () => {
+        setSelectedData("")
+        set_modal(false)
+    }
+
     const getData = async (_search = "") => {
         set_loading(true)
         try {
@@ -44,19 +69,51 @@ function SenaraiMasjid() {
         }
     }
 
-    const debouncedSearch = useCallback(
-        debounce((val) => getData(val), 1000),
-        []
-    );
+    const deleteData = async (masjid_id) => {
+        set_modal(false)
+        set_loading(true)
 
-    useEffect(() => {
-        getData()
-    }, [page, limit, status])
+        if(!masjid_id) return
+
+        try {
+            let api = await SYSADMIN_API(`pengurusan/institusi/${masjid_id}`, {}, "DELETE", true)
+            set_loading(false)
+            if(api.status_code === 200) {
+                toast.success(api.message)
+                setTimeout(() => {
+                    window.location.reload()
+                }, 1000);
+            } else {
+                toast.error(api.message)
+            }
+        } catch (e) {
+            toast.error("Ralat! Terdapat masalah teknikal untuk memadam akaun institusi")
+        }
+    }
 
     //if(loading) return <Loading />
 
     return (
         <div>
+            
+            <Modal
+            title='Pengesahan Memadam Akaun Institusi'
+            themeClass='bg-red-600 text-white'
+            centered={true}
+            activeModal={modal}
+            onClose={close_modal}
+            footerContent={<>
+            <div className='flex justify-end items-center gap-3'>
+                <Button className='text-sm' text={"Tutup"} onClick={close_modal} />
+                <Button className='text-sm bg-red-600 text-white' text={"Ya, Teruskan"} onClick={() => deleteData(selectedData)}/>    
+            </div>
+            </>}
+            >
+                <div>
+                    <p className='text-sm text-slate-600'>Anda pasti untuk nyahaktif dan padam akaun institusi ini? Tindakan ini tidak boleh dikembalikan.</p>
+                </div>
+            </Modal>
+
             <div className="flex justify-between flex-wrap items-center mb-6">
                 <p className="font-medium lg:text-2xl text-xl capitalize text-slate-900 inline-block ltr:pr-4 rtl:pl-4">
                     {`Senarai Maklumat Institusi Berdaftar`}
@@ -165,7 +222,7 @@ function SenaraiMasjid() {
                                         <Table.Cell flexBasis={70} flexShrink={0} flexGrow={0} fontSize="larger" textAlign="center" justifyItems="center" alignItems="center">
                                             <div className='flex flex-row justify-center items-center gap-1'>
                                                 <Link to={"/pengurusan/maklumat-institusi"} state={item}><Icons icon={"heroicons-outline:pencil-square"} className={"text-yellow-500"} /></Link>
-                                                <Link to={"/pengurusan/maklumat-institusi"} state={item}><Icons icon={"heroicons-outline:trash"} className={"text-red-600"} /></Link>
+                                                <button onClick={() => open_modal(item.organizationId)}><Icons icon={"heroicons-outline:trash"} className={"text-red-600"} /></button>
                                             </div>
                                         </Table.Cell>
                                     </Table.Row>
