@@ -258,64 +258,72 @@ function SenaraiKomisenDagangTEK() {
                     {/* Total Transactions Card */}
                     <div className="hover:shadow-lg transition-all duration-300 border border-purple-700 rounded-lg">
                         <div className="p-6 bg-gradient-to-br from-purple-50 to-purple-100 dark:from-purple-900/20 dark:to-purple-800/20 rounded-md">
-                            <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center justify-between mb-1">
                                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-purple-500 dark:bg-purple-600 shadow-lg">
                                     <Icon icon="heroicons:arrow-trending-up" className="text-white text-lg" />
                                 </div>
+                                <div className='text-right'>
+                                <div className="text-xs uppercase tracking-wider text-purple-600 dark:text-purple-400 font-semibold">Jumlah Transaksi</div>
+                                <div className="text-xl font-extrabold text-purple-700 dark:text-purple-300">
+                                    {stats.total_transactions?.toLocaleString() || 0}
+                                </div>
+                                <div className="text-xs text-purple-500 dark:text-purple-400">Jumlah Keseluruhan</div>
+                                </div>
                             </div>
-                            <div className="text-xs uppercase tracking-wider text-purple-600 dark:text-purple-400 font-semibold mb-1">Jumlah Transaksi</div>
-                            <div className="text-3xl font-extrabold text-purple-700 dark:text-purple-300">
-                                {stats.total_transactions?.toLocaleString() || 0}
-                            </div>
-                            <div className="text-xs text-purple-500 dark:text-purple-400 mt-2">Semua masa</div>
                         </div>
                     </div>
 
                     {/* Total Amount Card */}
                     <div className="hover:shadow-lg transition-all duration-300 border border-blue-700 rounded-lg">
                         <div className="p-6 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/20 dark:to-blue-800/20 rounded-md">
-                            <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center justify-between mb-1">
                                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-blue-500 dark:bg-blue-600 shadow-lg">
                                     <Icon icon="heroicons:currency-dollar" className="text-white text-lg" />
                                 </div>
+                                <div className='text-right'>
+                                <div className="text-xs uppercase tracking-wider text-blue-600 dark:text-blue-400 font-semibold">Jumlah Amount</div>
+                                <div className="text-xl font-extrabold text-blue-700 dark:text-blue-300">
+                                    RM {parseFloat(stats.total_amount || 0).toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </div>
+                                <div className="text-xs text-blue-500 dark:text-blue-400">Nilai keseluruhan</div>
+                                </div>
                             </div>
-                            <div className="text-xs uppercase tracking-wider text-blue-600 dark:text-blue-400 font-semibold mb-1">Jumlah Amount</div>
-                            <div className="text-3xl font-extrabold text-blue-700 dark:text-blue-300">
-                                RM {parseFloat(stats.total_amount || 0).toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </div>
-                            <div className="text-xs text-blue-500 dark:text-blue-400 mt-2">Jumlah keseluruhan</div>
                         </div>
                     </div>
 
                     {/* Total Commission Card */}
                     <div className="hover:shadow-lg transition-all duration-300 border border-green-700 rounded-lg">
                         <div className="p-6 bg-gradient-to-br from-green-50 to-green-100 dark:from-green-900/20 dark:to-green-800/20 rounded-md">
-                            <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center justify-between mb-1">
                                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-green-500 dark:bg-green-600 shadow-lg">
                                     <Icon icon="heroicons:banknotes" className="text-white text-lg" />
                                 </div>
+                                <div className='text-right'>
+                                <div className="text-xs uppercase tracking-wider text-green-600 dark:text-green-400 font-semibold">Jumlah Komisen</div>
+                                <div className="text-xl font-extrabold text-green-700 dark:text-green-300">
+                                    RM {parseFloat(stats.total_commission || 0).toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </div>
+                                <div className="text-xs text-green-500 dark:text-green-400">Pendapatan komisen</div>
+                                </div>
                             </div>
-                            <div className="text-xs uppercase tracking-wider text-green-600 dark:text-green-400 font-semibold mb-1">Jumlah Komisen</div>
-                            <div className="text-3xl font-extrabold text-green-700 dark:text-green-300">
-                                RM {parseFloat(stats.total_commission || 0).toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </div>
-                            <div className="text-xs text-green-500 dark:text-green-400 mt-2">Pendapatan komisen</div>
                         </div>
                     </div>
 
                     {/* Average Commission Card */}
                     <div className="hover:shadow-lg transition-all duration-300 border border-cyan-700 rounded-lg">
                         <div className="p-6 bg-gradient-to-br from-cyan-50 to-cyan-100 dark:from-cyan-900/20 dark:to-cyan-800/20 rounded-md">
-                            <div className="flex items-center justify-between mb-3">
+                            <div className="flex items-center justify-between mb-1">
                                 <div className="flex items-center justify-center w-12 h-12 rounded-full bg-cyan-500 dark:bg-cyan-600 shadow-lg">
                                     <Icon icon="heroicons:chart-bar" className="text-white text-lg" />
                                 </div>
+                                <div className='text-right'>
+                                <div className="text-xs uppercase tracking-wider text-cyan-600 dark:text-cyan-400 font-semibold">Purata Komisen</div>
+                                <div className="text-xl font-extrabold text-cyan-700 dark:text-cyan-300">
+                                    RM {parseFloat(stats.avg_commission || 0).toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                                </div>
+                                <div className="text-xs text-cyan-500 dark:text-cyan-400">Per transaksi</div>
+                                </div>
                             </div>
-                            <div className="text-xs uppercase tracking-wider text-cyan-600 dark:text-cyan-400 font-semibold mb-1">Purata Komisen</div>
-                            <div className="text-3xl font-extrabold text-cyan-700 dark:text-cyan-300">
-                                RM {parseFloat(stats.avg_commission || 0).toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                            </div>
-                            <div className="text-xs text-cyan-500 dark:text-cyan-400 mt-2">Per transaksi</div>
                         </div>
                     </div>
                 </div>
@@ -367,7 +375,7 @@ function SenaraiKomisenDagangTEK() {
                         </div>
 
                         {/* Export Button */}
-                        <div className="flex-1 flex items-end">
+                        {/* <div className="flex-1 flex items-end">
                             <Button
                                 text="Export ke Excel"
                                 icon="heroicons-outline:document-arrow-down"
@@ -375,7 +383,7 @@ function SenaraiKomisenDagangTEK() {
                                 onClick={exportToExcel}
                                 disabled={data.length === 0}
                             />
-                        </div>
+                        </div> */}
                     </div>
 
                     {/* Results Info */}
