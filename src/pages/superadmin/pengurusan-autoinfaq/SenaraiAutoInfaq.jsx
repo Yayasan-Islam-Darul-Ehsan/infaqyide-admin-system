@@ -1055,7 +1055,7 @@ export default function AutoInfaqAdmin() {
 												<td className="py-4 px-5">
 													<div className="flex flex-col">
 														<span className="text-sm font-semibold text-gray-800 group-hover:text-emerald-600 transition-colors duration-200">
-															{item.autoInfaqName}
+															{item.autoInfaqName?.substr(0, 30)}
 														</span>
 														{/* <span className="text-xs text-gray-400 font-mono mt-0.5">
 															{truncateCode(

@@ -147,6 +147,7 @@ function MaklumatPengeluaranTerperinci(props) {
         try {
             const formdata 	= new FormData();
             formdata.append("file", selectedFile[0]);
+            formdata.append("disbursement_id", state.disburse_id)
 
             const requestOptions = {
                 method: "POST",
