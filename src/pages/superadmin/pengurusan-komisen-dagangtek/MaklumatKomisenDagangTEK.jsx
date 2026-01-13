@@ -142,6 +142,63 @@ function MaklumatKomisenDagangTEK() {
         }
     };
 
+    const exportToExcel = async () => {
+        try {
+            toast.info("Sedang menjana Excel...");
+            
+            // Get the base URL based on environment
+            const getBaseUrl = () => {
+                if (process.env.NODE_ENV === "development") {
+                    return "http://localhost:40000/sysadmin/";
+                } else if (process.env.NODE_ENV === "staging") {
+                    return "https://admin-stg.infaqyide.com.my/sysadmin/";
+                } else if (process.env.NODE_ENV === "production") {
+                    return "https://admin.infaqyide.com.my/sysadmin/";
+                } else {
+                    return "http://localhost:40000/sysadmin/";
+                }
+            };
+
+            const token = sessionStorage.getItem("token");
+            const baseUrl = getBaseUrl();
+            const url = `${baseUrl}dagangtek/export-excel?year=${year}&month=${month}`;
+
+            // Fetch PDF as blob
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'token': token
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to download PDF');
+            }
+
+            // Get the blob from response
+            const data = await response.json();
+            console.log("data excel : ", data)
+
+            // Create a link element and trigger download
+            const downloadUrl   = data.data.url
+            const link          = document.createElement('a');
+            link.href           = downloadUrl;
+            link.download       = `Komisen_DagangTEK_${year}_${getMonthName(month)}_${moment().format('YYYYMMDDHHmmss')}.pdf`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+
+            // Clean up the URL object
+            window.URL.revokeObjectURL(downloadUrl);
+
+            toast.success("PDF berjaya dimuat turun!");
+        } catch (error) {
+            console.error("Error exporting to PDF:", error);
+            toast.error("Gagal memuat turun PDF. Sila cuba lagi.");
+        }
+    };
+
     // Handle page change
     const handlePageChange = (page) => {
         setCurrentPage(page);
@@ -253,6 +310,14 @@ function MaklumatKomisenDagangTEK() {
                             Menunjukkan {data.length > 0 ? ((currentPage - 1) * rowsPerPage) + 1 : 0} - {Math.min(currentPage * rowsPerPage, totalRows)} daripada {totalRows} rekod
                         </div>
                     </div>
+                    <div className='flex gap-3'>
+                    <Button
+                        text="Export ke Excel"
+                        icon="heroicons-outline:document-arrow-down"
+                        className="bg-green-600 text-white"
+                        onClick={exportToExcel}
+                        disabled={data.length === 0}
+                    />
                     <Button
                         text="Export ke PDF"
                         icon="heroicons-outline:document-arrow-down"
@@ -260,6 +325,7 @@ function MaklumatKomisenDagangTEK() {
                         onClick={exportToPDF}
                         disabled={data.length === 0}
                     />
+                    </div>
                 </div>
 
                 {/* Table */}
