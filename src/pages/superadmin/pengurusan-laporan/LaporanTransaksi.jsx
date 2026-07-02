@@ -263,16 +263,17 @@ function LaporanTransaksi(props) {
                         <Table className='mt-6 overflow-scroll'>
                             <Table.Head>
                                 <Table.HeaderCell flexBasis={50} flexShrink={0} flexGrow={0}>Bil.</Table.HeaderCell>
-                                <Table.HeaderCell>Jenis Transaksi</Table.HeaderCell>
-                                <Table.HeaderCell>No. Transaksi</Table.HeaderCell>
-                                <Table.HeaderCell>Jumlah Transaksi (RM)</Table.HeaderCell>
-                                <Table.HeaderCell>Komisen DagangTEK (RM)</Table.HeaderCell>
-                                <Table.HeaderCell>Komisen YIDE (RM)</Table.HeaderCell>
-                                <Table.HeaderCell>Agihan Ke YIDE (30%)</Table.HeaderCell>
-                                <Table.HeaderCell>Agihan Ke Transaksi (70%)</Table.HeaderCell>
-                                <Table.HeaderCell>Status Transaksi</Table.HeaderCell>
-                                <Table.HeaderCell>Tarikh</Table.HeaderCell>
-                                <Table.HeaderCell>Tindakan</Table.HeaderCell>
+                                <Table.HeaderCell fontSize={9} textAlign="center">Jenis Transaksi</Table.HeaderCell>
+                                <Table.HeaderCell fontSize={9} textAlign="center">No. Transaksi</Table.HeaderCell>
+                                <Table.HeaderCell fontSize={9} textAlign="center">Jumlah Transaksi (RM)</Table.HeaderCell>
+                                <Table.HeaderCell fontSize={9} textAlign="center">Komisen DagangTEK (RM)</Table.HeaderCell>
+                                <Table.HeaderCell fontSize={9} textAlign="center">Komisen Kepada YIDE (RM)</Table.HeaderCell>
+                                {/* <Table.HeaderCell fontSize={9} textAlign="center">Agihan Ke YIDE (30%)</Table.HeaderCell>
+                                <Table.HeaderCell fontSize={9} textAlign="center">Agihan Ke Institusi (70%)</Table.HeaderCell> */}
+                                <Table.HeaderCell fontSize={9} textAlign="center">Jumlah Kutipan Sumbangan</Table.HeaderCell>
+                                <Table.HeaderCell fontSize={9} textAlign="center">Status Transaksi</Table.HeaderCell>
+                                <Table.HeaderCell fontSize={9} textAlign="center">Tarikh</Table.HeaderCell>
+                                <Table.HeaderCell fontSize={9} textAlign="center">Tindakan</Table.HeaderCell>
                             </Table.Head>
                             <Table.Body>
                                 {
@@ -309,8 +310,9 @@ function LaporanTransaksi(props) {
                                             <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.billpayment_amount)}</Table.Cell>
                                             <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.billpayment_commission_dagangtek)}</Table.Cell>
                                             <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.billpayment_commission_yide)}</Table.Cell>
-                                            <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.billpayemnt_amountSplitYIDE)}</Table.Cell>
-                                            <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.billpayemnt_amountSplitInstitusi)}</Table.Cell>
+                                            {/* <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.billpayemnt_amountSplitYIDE)}</Table.Cell>
+                                            <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.billpayemnt_amountSplitInstitusi)}</Table.Cell> */}
+                                            <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(parseFloat(item.billpayemnt_amountSplitYIDE) + parseFloat(item.billpayemnt_amountSplitInstitusi))}</Table.Cell>
                                             <Table.Cell fontSize="small">
                                                 {item.billpayment_status == "1" && <Badge className='bg-emerald-50 border border-emerald-100 text-emerald-900'>Transaksi Berjaya</Badge>}
                                                 {item.billpayment_status == "2" && <Badge className='bg-yellow-50 border border-yellow-100 text-yellow-600'>Dalam Proses</Badge>}
