@@ -270,7 +270,7 @@ function LaporanTransaksi(props) {
                                 <Table.HeaderCell fontSize={9} textAlign="center">Komisen Kepada YIDE (RM)</Table.HeaderCell>
                                 {/* <Table.HeaderCell fontSize={9} textAlign="center">Agihan Ke YIDE (30%)</Table.HeaderCell>
                                 <Table.HeaderCell fontSize={9} textAlign="center">Agihan Ke Institusi (70%)</Table.HeaderCell> */}
-                                <Table.HeaderCell fontSize={9} textAlign="center">Jumlah Kutipan Sumbangan</Table.HeaderCell>
+                                <Table.HeaderCell fontSize={9} textAlign="center">Jumlah Agihan Institusi</Table.HeaderCell>
                                 <Table.HeaderCell fontSize={9} textAlign="center">Status Transaksi</Table.HeaderCell>
                                 <Table.HeaderCell fontSize={9} textAlign="center">Tarikh</Table.HeaderCell>
                                 <Table.HeaderCell fontSize={9} textAlign="center">Tindakan</Table.HeaderCell>
