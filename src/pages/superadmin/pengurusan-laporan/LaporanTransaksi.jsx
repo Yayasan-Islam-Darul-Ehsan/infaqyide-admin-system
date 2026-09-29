@@ -264,6 +264,7 @@ function LaporanTransaksi(props) {
                             <Table.Head>
                                 <Table.HeaderCell flexBasis={50} flexShrink={0} flexGrow={0}>Bil.</Table.HeaderCell>
                                 <Table.HeaderCell fontSize={9} textAlign="center">Jenis Transaksi</Table.HeaderCell>
+                                <Table.HeaderCell fontSize={9} textAlign="center">Channel Pembayaran</Table.HeaderCell>
                                 <Table.HeaderCell fontSize={9} textAlign="center">No. Transaksi</Table.HeaderCell>
                                 <Table.HeaderCell fontSize={9} textAlign="center">Jumlah Transaksi (RM)</Table.HeaderCell>
                                 <Table.HeaderCell fontSize={9} textAlign="center">Komisen DagangTEK (RM)</Table.HeaderCell>
@@ -288,7 +289,7 @@ function LaporanTransaksi(props) {
                                 {
                                     (!loading && metadata.total === 0) && (
                                         <Table.Row flex={1} textAlign="center">
-                                            <Table.Cell flex={1} fontSize="small" colSpan={9}>
+                                            <Table.Cell flex={1} fontSize="small" colSpan={11}>
                                                 <td className='flex w-full justify-center items-center'>
                                                     Tiada senarai transaksi sumbangan infaq.
                                                 </td>
@@ -305,6 +306,12 @@ function LaporanTransaksi(props) {
                                                 {(item.billpayment_type === "Auto-infaq" || item.billpayment_type === "Auto-Infaq" ) && <Badge className='bg-blue-50 border border-blue-100 text-blue-900'>Auto Infaq</Badge>}
                                                 {item.billpayment_type === "Topup" && <Badge className='bg-purple-50 border border-purple-100 text-purple-900'>Tambah Nilai</Badge>}
                                                 {item.billpayment_type === "Kempen" && <Badge className='bg-orange-50 border border-orange-100 text-orange-900'>Kempen</Badge>}
+                                            </Table.Cell>
+                                            <Table.Cell fontSize="small">
+                                                {item.billpayment_paymentChannel === "Online Banking" && <Badge className='bg-indigo-50 border border-indigo-100 text-indigo-900'>Online Banking (FPX)</Badge>}
+                                                {item.billpayment_paymentChannel === "Kredit" && <Badge className='bg-amber-50 border border-amber-100 text-amber-900'>Kredit</Badge>}
+                                                {item.billpayment_paymentChannel && !["Online Banking", "Kredit"].includes(item.billpayment_paymentChannel) && <Badge className='bg-slate-50 border border-slate-100 text-slate-900'>{item.billpayment_paymentChannel}</Badge>}
+                                                {!item.billpayment_paymentChannel && "-"}
                                             </Table.Cell>
                                             <Table.Cell fontSize="small">{item.billpayment_invoiceNo}</Table.Cell>
                                             <Table.Cell fontSize="small">{Intl.NumberFormat("ms-MY", { style: "currency", currency: "MYR"}).format(item.billpayment_amount)}</Table.Cell>
