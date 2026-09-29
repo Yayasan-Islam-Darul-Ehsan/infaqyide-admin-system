@@ -113,6 +113,25 @@ export const API = async (name = "", body = null, method = "POST", auth = true )
 
 }
 
+// Muat turun fail (cth. PDF) daripada API sysadmin. Pulangkan { blob, fileName } atau throw Error(message)
+export const SYSADMIN_API_FILE = async (name = "", fallbackFileName = "fail") => {
+    let token = sessionStorage.getItem("token")
+    let response = await fetch(GET__ENV2() + name, {
+        method: "GET",
+        headers: { "Authorization": "Bearer " + token, "token": token }
+    })
+
+    if(!response.ok || !(response.headers.get("Content-Type") || "").includes("application/pdf")) {
+        let message = "Fail tidak dapat dimuat turun."
+        try { message = (await response.json()).message || message } catch (_) {}
+        throw new Error(message)
+    }
+
+    let disposition = response.headers.get("Content-Disposition") || ""
+    let match       = disposition.match(/filename="?([^"]+)"?/)
+    return { blob: await response.blob(), fileName: match ? match[1] : fallbackFileName }
+}
+
 export const SYSADMIN_API = async (name = "", body = null, method = "POST", auth = true ) => {
 
     let base_url = GET__ENV2()
