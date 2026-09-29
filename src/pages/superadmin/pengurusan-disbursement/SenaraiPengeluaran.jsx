@@ -11,6 +11,15 @@ import Icons from '@/components/ui/Icon';
 import Textinput from '@/components/ui/Textinput';
 import { debounce } from 'lodash';
 import Select from '@/components/ui/Select';
+import GradientStatCard from '@/components/ui/GradientStatCard';
+
+function toMYR(amount = 0) {
+    return Intl.NumberFormat('ms-MY', { style: 'currency', currency: 'MYR' }).format(amount || 0)
+}
+
+function toNumber(value = 0) {
+    return Number(value || 0).toLocaleString('ms-MY')
+}
 
 SenaraiPengeluaran.propTypes = {
     
@@ -38,6 +47,26 @@ function SenaraiPengeluaran(props) {
         search: "",
         status: ""
     })
+
+    const [rumusan, set_rumusan]                = useState({})
+    const [loading_rumusan, set_loading_rumusan] = useState(true)
+
+    const getRumusan = async () => {
+        try {
+            let api = await SYSADMIN_API(`disbursement/rumusan`, {}, "GET", true)
+            if(api.status_code === 200) {
+                set_rumusan(api.data || {})
+            }
+        } catch (error) {
+            toast.error("Ralat! Rumusan pengeluaran tidak dapat dipaparkan.")
+        } finally {
+            set_loading_rumusan(false)
+        }
+    }
+
+    useEffect(() => {
+        getRumusan()
+    }, [])
 
     const getData = async (_search = "") => {
         try {
@@ -69,7 +98,45 @@ function SenaraiPengeluaran(props) {
         <div>
             <section>
                 <HomeBredCurbs title={"Senarai Pengeluaran & Agihan Kewangan Kepada Institusi."} />
-            </section>        
+            </section>
+
+            <section className='mt-6'>
+                <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-4'>
+                    <GradientStatCard
+                    theme='orange'
+                    label='Amaun Tertunggak'
+                    icon='heroicons:banknotes'
+                    loading={loading_rumusan}
+                    value={toMYR(rumusan.AMAUN_TERTUNGGAK)}
+                    caption={`${toNumber(rumusan.EFT_TERTUNGGAK)} EFT institusi belum diagihkan`}
+                    />
+                    <GradientStatCard
+                    theme='blue'
+                    label='Batch Tertunggak'
+                    icon='heroicons:clock'
+                    loading={loading_rumusan}
+                    value={toNumber(rumusan.BATCH_TERTUNGGAK)}
+                    caption='Batch yang belum selesai diagihkan'
+                    />
+                    <GradientStatCard
+                    theme='green'
+                    label='Batch Selesai'
+                    icon='heroicons:check-badge'
+                    loading={loading_rumusan}
+                    value={toNumber(rumusan.BATCH_SELESAI)}
+                    caption={`${toMYR(rumusan.AMAUN_SELESAI)} telah diagihkan`}
+                    />
+                    <GradientStatCard
+                    theme='purple'
+                    label='Keseluruhan (All Time)'
+                    icon='heroicons:chart-bar'
+                    loading={loading_rumusan}
+                    value={toMYR(rumusan.JUMLAH_AMAUN)}
+                    caption={`${toNumber(rumusan.JUMLAH_BATCH)} batch settlement`}
+                    />
+                </div>
+            </section>
+
 
             <section className='mt-6'>
                 <Card 
