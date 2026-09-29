@@ -77,7 +77,7 @@ const Navmenu = ({ menus }) => {
 			<li key={i} className={`single-sidebar-menu
 				${item.child ? "item-has-children" : ""}
 				${activeSubmenu === i ? "open" : ""}
-				${locationName === item.link ? "bg-teal-600 rounded" : ""}`}
+				${locationName === item.link ? "bg-gradient-to-r from-[#3a9366] to-[#3a7f84] rounded-lg shadow-sm shadow-[#3d8d77]/30" : ""}`}
 			>
             {/* single menu with no childred*/}
             {!item.child && !item.isHeadr && (
@@ -94,7 +94,7 @@ const Navmenu = ({ menus }) => {
             {/*    !!sub menu parent   */}
             {item.child && (
 				<div
-					className={`menu-link ${activeSubmenu === i ? "parent_active not-collapsed bg-teal-500": "collapsed"}`}
+					className={`menu-link ${activeSubmenu === i ? "parent_active not-collapsed bg-gradient-to-r from-[#3a9366] to-[#3a7f84] shadow-sm shadow-[#3d8d77]/30": "collapsed"}`}
 					onClick={() => toggleSubmenu(i)}
 				>
 					<div className="flex-1 flex items-start">

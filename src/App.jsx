@@ -143,7 +143,7 @@ import SenaraiTabungMasjid from "./pages/superadmin/pengurusan-tabung/SenaraiTab
 import MaklumatTabungMasjid from "./pages/superadmin/pengurusan-tabung/MaklumatTabungMasjid";
 import SenaraiKempenMasjid from "./pages/superadmin/pengurusan-kempen/SenaraiKempenMasjid";
 import MaklumatKempen from "./pages/superadmin/pengurusan-kempen/MaklumatKempen";
-import DashboardSuperAdmin from "./pages/superadmin/DashboardSuperAdmin";
+import DashboardEksekutif from "./pages/superadmin/dashboard/DashboardEksekutif";
 import DaftarMasjid from "./pages/superadmin/pengurusan-masjid/DaftarMasjid";
 import DaftarKempen from "./pages/superadmin/pengurusan-kempen/DaftarKempen";
 import SenaraiPengesahanKempen from "./pages/superadmin/pengurusan-pengesahan/Kempen/SenaraiPengesahanKempen";
@@ -194,7 +194,7 @@ function App() {
 				{
 					user && user.role === "Super Admin" && (
 						<>
-							<Route path="dashboard" element={<DashboardSuperAdmin />} />
+							<Route path="dashboard" element={<DashboardEksekutif />} />
 							<Route path="pengurusan">
 								<Route path="pengurusan-pengguna" element={<SenaraiPengguna />} />
 								<Route path="maklumat-pengguna" element={<MaklumatPengguna />} />

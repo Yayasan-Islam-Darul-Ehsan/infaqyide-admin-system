@@ -14,12 +14,12 @@ const Submenu = ({ activeSubmenu, item, i, toggleMultiMenu, activeMultiMenu }) =
 				<div>
 					<div onClick={() => toggleMultiMenu(j)} className={`${
 						activeMultiMenu
-						? " text-black dark:text-white font-medium"
+						? " text-[#2f7d5b] dark:text-[#7fd1a8] font-semibold"
 						: "text-slate-600 dark:text-slate-300"
 					} text-sm flex space-x-3 items-center transition-all duration-150 cursor-pointer rtl:space-x-reverse`}>
 					<span
 						className={`${ activeMultiMenu === j
-							? " bg-slate-900 dark:bg-slate-300 ring-4 ring-opacity-[15%] ring-black-500 dark:ring-slate-300 dark:ring-opacity-20"
+							? " bg-[#3a9366] border-[#3a9366] dark:bg-[#7fd1a8] dark:border-[#7fd1a8] ring-4 ring-[#3a9366]/20 dark:ring-[#7fd1a8]/20"
 							: ""
 						} h-2 w-2 rounded-full border border-slate-600 dark:border-white inline-block flex-none `}
 					></span>
@@ -46,14 +46,14 @@ const Submenu = ({ activeSubmenu, item, i, toggleMultiMenu, activeMultiMenu }) =
 					<span
 						className={`${
 						isActive
-							? " text-black dark:text-white font-medium"
+							? " text-[#2f7d5b] dark:text-[#7fd1a8] font-semibold"
 							: "text-slate-600 dark:text-slate-300"
 						} text-sm flex space-x-3 items-center transition-all duration-150 rtl:space-x-reverse`}
 					>
 						<span
 						className={`${
 							isActive
-							? " bg-slate-900 dark:bg-slate-300 ring-4 ring-opacity-[15%] ring-black-500 dark:ring-slate-300 dark:ring-opacity-20"
+							? " bg-[#3a9366] border-[#3a9366] dark:bg-[#7fd1a8] dark:border-[#7fd1a8] ring-4 ring-[#3a9366]/20 dark:ring-[#7fd1a8]/20"
 							: ""
 						} h-2 w-2 rounded-full border border-slate-600 dark:border-white inline-block flex-none`}
 						></span>
