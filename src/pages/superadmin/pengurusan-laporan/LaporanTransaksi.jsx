@@ -2,9 +2,9 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { SYSADMIN_API } from '@/utils/api';
 import HomeBredCurbs from '@/pages/dashboard/HomeBredCurbs';
-import Card from '@/components/ui/Card';
 import Pagination from '@/components/ui/Pagination';
 import Icons from '@/components/ui/Icon';
+import GradientStatCard from '@/components/ui/GradientStatCard';
 import { debounce } from 'lodash';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
@@ -91,17 +91,53 @@ function FilterSelect({ label, value, options, onChange }) {
     )
 }
 
-function StatCard({ icon, iconClass, label, value, caption }) {
+// Pecahan setiap ringgit kutipan: institusi + DagangTEK + YIDE + caj gateway = jumlah kutipan
+function PecahanKutipan({ rumusan, loading }) {
+    const kutipan = parseFloat(rumusan.JUMLAH_KESELURUHAN_INFAQ || 0)
+    const segments = [
+        { label: 'Agihan Institusi', value: parseFloat(rumusan.JUMLAH_AGIHAN_KEPADA_INSTITUSI || 0), bar: 'bg-emerald-500', dot: 'bg-emerald-500' },
+        { label: 'Komisen DagangTEK', value: parseFloat(rumusan.JUMLAH_KOMISEN_DAGANGTEK || 0), bar: 'bg-orange-400', dot: 'bg-orange-400' },
+        { label: 'Komisen YIDE', value: parseFloat(rumusan.JUMLAH_KOMISEN_INFAQYIDE || 0), bar: 'bg-violet-500', dot: 'bg-violet-500' },
+        { label: 'Caj Payment Gateway', value: parseFloat(rumusan.JUMLAH_CAJ_GATEWAY || 0), bar: 'bg-slate-400', dot: 'bg-slate-400' }
+    ]
+    const percent = value => kutipan > 0 ? (value / kutipan) * 100 : 0
+
     return (
-        <div className='rounded-lg border border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-800'>
-            <div className='flex items-center gap-3'>
-                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg ${iconClass}`}>
-                    <Icons icon={icon} className='text-xl' />
+        <div className='rounded-2xl border border-slate-100 bg-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800'>
+            <div className='flex flex-col gap-3 md:flex-row md:items-start md:justify-between'>
+                <div>
+                    <h4 className='text-base font-semibold text-slate-900 dark:text-white'>Ke Mana Setiap Ringgit</h4>
+                    <p className='text-sm text-slate-500 dark:text-slate-400'>
+                        {toMYR(kutipan)} dikutip daripada {Number(rumusan.JUMLAH_TRANSAKSI_BERJAYA || 0).toLocaleString('ms-MY')} transaksi berjaya
+                    </p>
                 </div>
-                <p className='text-sm font-medium text-slate-500 dark:text-slate-400'>{label}</p>
+                <span className='self-start whitespace-nowrap rounded-xl bg-slate-900 px-4 py-2 text-xs font-bold uppercase tracking-widest text-white dark:bg-slate-700'>
+                    {percent(segments[0].value).toFixed(1)}% kepada institusi
+                </span>
             </div>
-            <p className='mt-4 text-2xl font-semibold tabular-nums text-slate-900 dark:text-white'>{value}</p>
-            {caption && <p className='mt-1 text-xs text-slate-500 dark:text-slate-400'>{caption}</p>}
+
+            <div className='mt-6 flex h-3 w-full overflow-hidden rounded-full bg-slate-100 dark:bg-slate-700'>
+                {!loading && segments.map(segment => (
+                    <div key={segment.label} className={`${segment.bar} h-full transition-all duration-500`} style={{ width: `${percent(segment.value)}%` }} />
+                ))}
+            </div>
+
+            <div className='mt-5 grid grid-cols-2 gap-4 lg:grid-cols-4'>
+                {segments.map(segment => (
+                    <div key={segment.label}>
+                        <div className='flex items-center gap-2'>
+                            <span className={`h-2.5 w-2.5 rounded-full ${segment.dot}`} />
+                            <span className='text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400'>{segment.label}</span>
+                        </div>
+                        <p className='mt-1 text-lg font-bold tabular-nums text-slate-900 dark:text-white'>{toMYR(segment.value)}</p>
+                        <p className='text-xs text-slate-400'>{percent(segment.value).toFixed(1)}%</p>
+                    </div>
+                ))}
+            </div>
+
+            <p className='mt-5 text-xs text-slate-400'>
+                Dikira daripada transaksi berjaya mengikut penapis semasa. Agihan institusi, komisen DagangTEK, komisen YIDE dan caj gateway dijumlahkan tepat kepada jumlah kutipan.
+            </p>
         </div>
     )
 }
@@ -200,10 +236,98 @@ function LaporanTransaksi() {
         <div>
             <HomeBredCurbs title={"Laporan Transaksi Sumbangan InfaqYIDE"} />
 
-            {/* Penapis */}
+            {/* Rumusan */}
+            <section className='mt-6 space-y-5'>
+                <div className='flex flex-col gap-2 md:flex-row md:items-end md:justify-between'>
+                    <div>
+                        <h4 className='text-lg font-semibold text-slate-900 dark:text-white'>Rumusan Kutipan</h4>
+                        <p className='text-sm text-slate-500 dark:text-slate-400'>Tempoh: <span className='font-medium text-slate-700 dark:text-slate-200'>{tempoh}</span></p>
+                    </div>
+                    <span className='self-start whitespace-nowrap rounded-xl bg-slate-100 px-3 py-1.5 text-xs font-semibold uppercase tracking-widest text-slate-500 dark:bg-slate-800 dark:text-slate-400 md:self-auto'>
+                        Transaksi berjaya sahaja
+                    </span>
+                </div>
+                <div className='grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-5'>
+                    <GradientStatCard
+                    theme='blue'
+                    label='Jumlah Kutipan'
+                    icon='heroicons:banknotes'
+                    loading={loading}
+                    value={toMYR(rumusan.JUMLAH_KESELURUHAN_INFAQ)}
+                    caption={`${Number(rumusan.JUMLAH_TRANSAKSI_BERJAYA || 0).toLocaleString('ms-MY')} transaksi berjaya`}
+                    />
+                    <GradientStatCard
+                    theme='green'
+                    label='Agihan Institusi'
+                    icon='heroicons:hand-raised'
+                    loading={loading}
+                    value={toMYR(rumusan.JUMLAH_AGIHAN_KEPADA_INSTITUSI)}
+                    caption='Jumlah bersih untuk diagihkan'
+                    />
+                    <GradientStatCard
+                    theme='orange'
+                    label='Komisen DagangTEK'
+                    icon='heroicons:building-office-2'
+                    loading={loading}
+                    value={toMYR(rumusan.JUMLAH_KOMISEN_DAGANGTEK)}
+                    caption='7% (≤ RM10,000) / 5%'
+                    />
+                    <GradientStatCard
+                    theme='purple'
+                    label='Komisen YIDE'
+                    icon='heroicons:building-library'
+                    loading={loading}
+                    value={toMYR(rumusan.JUMLAH_KOMISEN_INFAQYIDE)}
+                    caption='7% (≤ RM20) / 5%'
+                    />
+                    <GradientStatCard
+                    theme='slate'
+                    label='Caj Payment Gateway'
+                    icon='heroicons:credit-card'
+                    loading={loading}
+                    value={toMYR(rumusan.JUMLAH_CAJ_GATEWAY)}
+                    caption='RM1.00 setiap transaksi FPX'
+                    />
+                </div>
+                <PecahanKutipan rumusan={rumusan} loading={loading} />
+            </section>
+
+            {/* Carian & Penapis */}
             <section className='mt-6'>
-                <Card bodyClass='p-5'>
-                    <div className='grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-12'>
+                <div className='rounded-2xl border border-slate-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800'>
+                    <div className='flex flex-col gap-3 border-b border-slate-100 px-6 py-4 dark:border-slate-700 md:flex-row md:items-center md:justify-between'>
+                        <div className='flex items-center gap-3'>
+                            <div className='flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'>
+                                <Icons icon='heroicons:adjustments-horizontal' className='text-lg' />
+                            </div>
+                            <div>
+                                <h4 className='text-base font-semibold text-slate-900 dark:text-white'>Carian & Penapis</h4>
+                                <p className='text-xs text-slate-500 dark:text-slate-400'>Rumusan, senarai dan fail Excel mengikut penapis ini.</p>
+                            </div>
+                        </div>
+                        <div className='flex items-center gap-2'>
+                            {isFiltered && (
+                                <button
+                                type='button'
+                                onClick={resetFilters}
+                                className='btn btn-sm inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200'
+                                >
+                                    <Icons icon='heroicons:arrow-path' />
+                                    Set Semula
+                                </button>
+                            )}
+                            <button
+                            type='button'
+                            onClick={getExcel}
+                            disabled={downloading || metadata.total === 0}
+                            className='btn btn-sm inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 text-white hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-60'
+                            >
+                                <Icons icon={downloading ? 'svg-spinners:180-ring' : 'heroicons:arrow-down-tray'} />
+                                {downloading ? 'Menjana Excel...' : 'Muat Turun Excel'}
+                            </button>
+                        </div>
+                    </div>
+                    <div className='grid grid-cols-1 gap-4 p-6 md:grid-cols-2 xl:grid-cols-12'>
                         <div className='xl:col-span-3'>
                             <label className='block text-xs font-medium text-slate-500 dark:text-slate-400 mb-1'>Carian</label>
                             <div className='relative'>
@@ -226,7 +350,7 @@ function LaporanTransaksi() {
                             value={filters.dateFrom && filters.dateTo ? [filters.dateFrom, filters.dateTo] : []}
                             className='form-control py-2'
                             placeholder='Semua tarikh'
-                            options={{ mode: 'range', dateFormat: 'Y-m-d', altInput: true, altFormat: 'd M Y' }}
+                            options={{ mode: 'range', dateFormat: 'Y-m-d', altInput: true, altFormat: 'd M Y', altInputClass: 'form-control py-2 !bg-white cursor-pointer dark:!bg-slate-900' }}
                             onChange={dates => {
                                 if(dates.length === 2) {
                                     set_page(1)
@@ -252,85 +376,13 @@ function LaporanTransaksi() {
                             <FilterSelect label='Channel Pembayaran' value={filters.channel} options={CHANNEL_OPTIONS} onChange={v => updateFilter('channel', v)} />
                         </div>
                     </div>
-                    <div className='mt-4 flex flex-col gap-3 border-t border-slate-100 pt-4 dark:border-slate-700 md:flex-row md:items-center md:justify-between'>
-                        <p className='text-sm text-slate-500 dark:text-slate-400'>
-                            Tempoh: <span className='font-medium text-slate-700 dark:text-slate-200'>{tempoh}</span>
-                            <span className='mx-2 text-slate-300'>|</span>
-                            Fail Excel akan mengikut penapis di atas.
-                        </p>
-                        <div className='flex items-center gap-2'>
-                            {isFiltered && (
-                                <button
-                                type='button'
-                                onClick={resetFilters}
-                                className='btn btn-sm inline-flex items-center gap-1.5 border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200'
-                                >
-                                    <Icons icon='heroicons:arrow-path' />
-                                    Set Semula
-                                </button>
-                            )}
-                            <button
-                            type='button'
-                            onClick={getExcel}
-                            disabled={downloading || metadata.total === 0}
-                            className='btn btn-sm inline-flex items-center gap-1.5 bg-green-600 text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-60'
-                            >
-                                <Icons icon={downloading ? 'svg-spinners:180-ring' : 'heroicons:arrow-down-tray'} />
-                                {downloading ? 'Menjana Excel...' : 'Muat Turun Excel'}
-                            </button>
-                        </div>
-                    </div>
-                </Card>
-            </section>
-
-            {/* Rumusan */}
-            <section className='mt-6'>
-                <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5'>
-                    <StatCard
-                    icon='heroicons:banknotes'
-                    iconClass='bg-blue-50 text-blue-600 dark:bg-blue-500/10'
-                    label='Jumlah Kutipan'
-                    value={toMYR(rumusan.JUMLAH_KESELURUHAN_INFAQ)}
-                    caption={`${Number(rumusan.JUMLAH_TRANSAKSI_BERJAYA || 0).toLocaleString('ms-MY')} transaksi berjaya`}
-                    />
-                    <StatCard
-                    icon='heroicons:building-office-2'
-                    iconClass='bg-yellow-50 text-yellow-600 dark:bg-yellow-500/10'
-                    label='Komisen DagangTEK'
-                    value={toMYR(rumusan.JUMLAH_KOMISEN_DAGANGTEK)}
-                    caption='7% (≤ RM10,000) / 5%'
-                    />
-                    <StatCard
-                    icon='heroicons:building-library'
-                    iconClass='bg-violet-50 text-violet-600 dark:bg-violet-500/10'
-                    label='Komisen YIDE'
-                    value={toMYR(rumusan.JUMLAH_KOMISEN_INFAQYIDE)}
-                    caption='7% (≤ RM20) / 5%'
-                    />
-                    <StatCard
-                    icon='heroicons:credit-card'
-                    iconClass='bg-slate-100 text-slate-600 dark:bg-slate-500/10'
-                    label='Caj Payment Gateway'
-                    value={toMYR(rumusan.JUMLAH_CAJ_GATEWAY)}
-                    caption='RM1.00 setiap transaksi FPX'
-                    />
-                    <StatCard
-                    icon='heroicons:hand-raised'
-                    iconClass='bg-emerald-50 text-emerald-600 dark:bg-emerald-500/10'
-                    label='Agihan Kepada Institusi'
-                    value={toMYR(rumusan.JUMLAH_AGIHAN_KEPADA_INSTITUSI)}
-                    caption='Jumlah bersih untuk diagihkan'
-                    />
                 </div>
-                <p className='mt-2 text-xs text-slate-500 dark:text-slate-400'>
-                    Rumusan dikira daripada transaksi berjaya mengikut penapis semasa.
-                </p>
             </section>
 
             {/* Senarai */}
             <section className='mt-6'>
-                <Card bodyClass='p-0'>
-                    <div className='flex flex-col gap-3 border-b border-slate-100 px-5 py-4 dark:border-slate-700 md:flex-row md:items-center md:justify-between'>
+                <div className='overflow-hidden rounded-2xl border border-slate-100 bg-white shadow-sm dark:border-slate-700 dark:bg-slate-800'>
+                    <div className='flex flex-col gap-3 border-b border-slate-100 px-6 py-4 dark:border-slate-700 md:flex-row md:items-center md:justify-between'>
                         <div>
                             <h4 className='text-base font-semibold text-slate-900 dark:text-white'>Senarai Transaksi Sumbangan Infaq</h4>
                             <p className='text-sm text-slate-500 dark:text-slate-400'>
@@ -444,7 +496,7 @@ function LaporanTransaksi() {
                             />
                         </div>
                     )}
-                </Card>
+                </div>
             </section>
         </div>
     );
