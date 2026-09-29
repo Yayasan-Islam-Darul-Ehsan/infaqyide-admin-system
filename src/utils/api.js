@@ -113,6 +113,14 @@ export const API = async (name = "", body = null, method = "POST", auth = true )
 
 }
 
+// URL penuh & header auth untuk panggilan sysadmin di luar SYSADMIN_API (cth. muat naik fail, muat turun blob)
+export const SYSADMIN_URL = (name = "") => GET__ENV2() + name
+
+export const SYSADMIN_HEADERS = () => {
+    let token = sessionStorage.getItem("token")
+    return { "Authorization": "Bearer " + token, "token": token }
+}
+
 // Muat turun fail (cth. PDF) daripada API sysadmin. Pulangkan { blob, fileName } atau throw Error(message)
 export const SYSADMIN_API_FILE = async (name = "", fallbackFileName = "fail") => {
     let token = sessionStorage.getItem("token")

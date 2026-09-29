@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Link, useLocation } from 'react-router-dom';
 import HomeBredCurbs from '@/pages/dashboard/HomeBredCurbs';
 import Card from '@/components/ui/Card';
-import { SYSADMIN_API } from '@/utils/api';
+import {SYSADMIN_API, SYSADMIN_URL, SYSADMIN_HEADERS } from '@/utils/api';
 import { toast } from 'react-toastify';
 import { debounce } from 'lodash';
 import { FileUploader, Pagination, Pane, Spinner, Table } from 'evergreen-ui';
@@ -60,34 +60,16 @@ function MaklumatPengeluaranTerperinci(props) {
         }
     }
 
-    const getURL = () => {
-        let env = process.env.NODE_ENV
-        if(env === "development") {
-            return `http://localhost:31100/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
-        } else if(env === "staging") {
-            return `https://beta-admin.infaqyide.com.my/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
-        } else if(env === "production") {
-            return `https://admin.infaqyide.com.my/sysadmin/disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`
-        } 
-    }
+    const getURL = () => SYSADMIN_URL(`disbursement/fail-pengeluaran/settlement?batch_id=${state.disburse_id}`)
 
-    const getURL2 = () => {
-        let env = process.env.NODE_ENV
-        if(env === "development") {
-            return `http://localhost:31100/sysadmin/disbursement/fail-pengeluaran-excel/settlement-excel?batch_id=${state.disburse_id}`
-        } else if(env === "staging") {
-            return `https://beta-admin.infaqyide.com.my/sysadmin/disbursement/fail-pengeluaran-excel/settlement-excel?batch_id=${state.disburse_id}`
-        } else if(env === "production") {
-            return `https://admin.infaqyide.com.my/sysadmin/disbursement/fail-pengeluaran-excel/settlement-excel?batch_id=${state.disburse_id}`
-        } 
-    }
+    const getURL2 = () => SYSADMIN_URL(`disbursement/fail-pengeluaran-excel/settlement-excel?batch_id=${state.disburse_id}`)
 
     const downloadSettlement = async () => {
     try {
 
         set_loading(true)
 
-        const res   = await axios.get(getURL(), { responseType: "blob" });
+        const res   = await axios.get(getURL(), { responseType: "blob", headers: SYSADMIN_HEADERS() });
         const blob  = new Blob([res.data], { type: "text/plain" });
         const url   = window.URL.createObjectURL(blob);
 
@@ -110,7 +92,7 @@ function MaklumatPengeluaranTerperinci(props) {
 
         set_loading(true)
 
-        const res   = await axios.get(getURL2());
+        const res   = await axios.get(getURL2(), { headers: SYSADMIN_HEADERS() });
         const link  = document.createElement("a");
         link.href   = res.data.data
 
@@ -151,11 +133,11 @@ function MaklumatPengeluaranTerperinci(props) {
 
             const requestOptions = {
                 method: "POST",
+                headers: SYSADMIN_HEADERS(),
                 body: formdata
             };
 
-            let url_local   = "http://localhost:31100/sysadmin/disbursement/upload-eft-settlement"
-            let url         = process.env.NODE_ENV == "production" ? "https://admin.infaqyide.com.my/sysadmin/disbursement/upload-eft-settlement" : "https://admin-stg.infaqyide.com.my/sysadmin/disbursement/upload-eft-settlement"
+            let url         = SYSADMIN_URL("disbursement/upload-eft-settlement")
 
             await fetch(url, requestOptions)
             .then((response) => response.json())
